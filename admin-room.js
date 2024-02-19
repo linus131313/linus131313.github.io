@@ -203,8 +203,8 @@ onAuthStateChanged(auth, (user) => {
     getDocs(adminsRef).then((querySnapshot) => {
       querySnapshot.forEach((docx) => {
         if (docx.data().email === user.email) {
-          // document.getElementById("user_name").innerHTML = docx.data().surname;
-          document.getElementById("user_name").innerHTML = "LOL";
+           document.getElementById("user_name").innerHTML = docx.data().surname;
+        
           document.getElementById("user_email").innerHTML = docx.data().email;
           companyName = docx.data().company;
           document.getElementById("firma").innerHTML = docx.data().company;
