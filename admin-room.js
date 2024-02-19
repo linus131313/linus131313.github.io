@@ -41,8 +41,12 @@ let signOutButton = document.getElementById("signout-button");
 
 if (typeof signOutButton !== null) {
   signOutButton.addEventListener("click", handleSignOut);
-} else {
-}
+} 
+
+document.getElementById("datenschutz_link").addEventListener("click", function() {
+  window.location.href = "/datenschutz-impressum";
+});
+
 
 async function getFirstFileNameInFolder(folderPath) {
   try {
