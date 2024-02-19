@@ -208,11 +208,11 @@ onAuthStateChanged(auth, (user) => {
           document.getElementById("user_email").innerHTML = docx.data().email;
           companyName = docx.data().company;
           document.getElementById("firma").innerHTML = docx.data().company;
-          document.getElementById("vornameProfil").innerHTML =
-            docx.data().surname;
-          document.getElementById("nachnameProfil").innerHTML =
-            docx.data().name;
-          document.getElementById("emailProfil").innerHTML = docx.data().email;
+          // document.getElementById("vornameProfil").innerHTML =
+          //   docx.data().surname;
+          // document.getElementById("nachnameProfil").innerHTML =
+          //   docx.data().name;
+          // document.getElementById("emailProfil").innerHTML = docx.data().email;
 
           const companiesRef = collection(db, "Companies");
           const companyDoc = doc(companiesRef, docx.data().company);
