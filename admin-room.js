@@ -43,9 +43,25 @@ if (typeof signOutButton !== null) {
   signOutButton.addEventListener("click", handleSignOut);
 } 
 
+//datenschutz link
 document.getElementById("datenschutz_link").addEventListener("click", function() {
   window.location.href = "/datenschutz-impressum";
 });
+
+
+//today text
+
+var today = new Date();
+
+var day = ('0' + today.getDate()).slice(-2);
+var month = ('0' + (today.getMonth() + 1)).slice(-2);
+var year = today.getFullYear();
+var formattedDate = day + '.' + month + '.' + year;
+document.getElementById("day").innerHTML = formattedDate;
+
+
+
+
 
 
 async function getFirstFileNameInFolder(folderPath) {
@@ -217,6 +233,12 @@ onAuthStateChanged(auth, (user) => {
           // document.getElementById("nachnameProfil").innerHTML =
           //   docx.data().name;
           // document.getElementById("emailProfil").innerHTML = docx.data().email;
+
+
+          document.getElementById("n1").innerHTML =
+            docx.data().surname[0];
+          document.getElementById("n2").innerHTML =
+            docx.data().name[1];
 
           const companiesRef = collection(db, "Companies");
           const companyDoc = doc(companiesRef, docx.data().company);
