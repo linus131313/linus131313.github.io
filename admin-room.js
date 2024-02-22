@@ -235,7 +235,14 @@ onAuthStateChanged(auth, (user) => {
         
           document.getElementById("user_email").innerHTML = docx.data().email;
           companyName = docx.data().company;
-          document.getElementById("firma").innerHTML = docx.data().company;
+          // document.getElementById("firma").innerHTML = docx.data().company;
+
+          const firmaElements = document.querySelectorAll("#firma");
+          const newData = docx.data().company;
+          firmaElements.forEach(function(element) {
+            element.innerHTML = newData;
+          });
+
           // document.getElementById("vornameProfil").innerHTML =
           //   docx.data().surname;
           // document.getElementById("nachnameProfil").innerHTML =
