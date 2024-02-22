@@ -61,7 +61,15 @@ document.getElementById("day").innerHTML = formattedDate;
 
 
 
-
+//tab links 
+window.onload = function () {		
+  const urlParams = new URLSearchParams(window.location.search);		
+  const tab = urlParams.get('tab');		
+  if (tab) {
+    const tabButton = document.getElementById(tab)
+    tabButton.click();		
+  }
+}
 
 
 async function getFirstFileNameInFolder(folderPath) {
@@ -238,7 +246,7 @@ onAuthStateChanged(auth, (user) => {
           document.getElementById("n1").innerHTML =
             docx.data().surname[0];
           document.getElementById("n2").innerHTML =
-            docx.data().name[1];
+            docx.data().name[0];
 
           const companiesRef = collection(db, "Companies");
           const companyDoc = doc(companiesRef, docx.data().company);
