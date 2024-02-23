@@ -104,6 +104,89 @@ function handleSignOut() {
 let GForm = document.getElementById("geb_form");
 let AForm = document.getElementById("task_form");
 
+
+//disable/enable buttons
+const taskForm = document.getElementById('task_form');
+const inputFieldsTasks = taskForm.querySelectorAll('input');
+const submitButtonTasks = taskForm.querySelector('#submit-task');
+const timeEndInput = document.getElementById('time_end');
+
+submitButtonTasks.setAttribute('disabled', true);
+submitButtonTasks.style.backgroundColor = 'rgba(17, 18, 19, 0.15)';
+
+inputFieldsTasks.forEach(input => {
+    input.addEventListener('input', toggleButtonStateTasks);
+});
+
+function toggleButtonStateTasks() {
+    let allFieldsFilled = true;
+    
+    const frequencyValue = document.querySelector('input[name="frequency"]:checked').value;
+
+
+    inputFieldsTasks.forEach(input => {
+     if(!(input.id === 'time_end' && frequencyValue === 'einmalig')){
+        if (input.value.trim() === '') {
+            allFieldsFilled = false;
+        }
+        }
+    });
+
+
+
+if (allFieldsFilled ) {
+        submitButtonTasks.removeAttribute('disabled');
+        submitButtonTasks.style.backgroundColor = 'black';
+    } else {
+        submitButtonTasks.setAttribute('disabled', true);
+        submitButtonTasks.style.backgroundColor = 'rgba(17, 18, 19, 0.15)';
+    }
+    
+
+}
+
+
+    const GebForm = document.getElementById('geb_form');
+const inputFieldsGeb = GebForm.querySelectorAll('input');
+const submitButtonGeb = GebForm.querySelector('#submit_geb');
+
+
+submitButtonGeb.setAttribute('disabled', true);
+submitButtonGeb.style.backgroundColor = 'rgba(17, 18, 19, 0.15)';
+
+inputFieldsGeb.forEach(input => {
+    input.addEventListener('input', toggleButtonStateGeb);
+});
+
+
+ function toggleButtonStateGeb() {
+    let allFieldsFilled = true;
+    
+
+
+
+    inputFieldsGeb.forEach(input => {
+ 
+        if (input.value.trim() === '') {
+            allFieldsFilled = false;
+        
+        }
+    });
+
+
+
+if (allFieldsFilled ) {
+        submitButtonGeb.removeAttribute('disabled');
+        submitButtonGeb.style.backgroundColor = 'black';
+    } else {
+        submitButtonGeb.setAttribute('disabled', true);
+        submitButtonGeb.style.backgroundColor = 'rgba(17, 18, 19, 0.15)';
+    }
+    
+
+}
+//end disable/enable buttons
+
 var companyName;
 
 var mitarbeiter_Calender_Select = document.getElementById("worker_cal_select");
