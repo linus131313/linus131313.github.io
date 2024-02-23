@@ -981,15 +981,17 @@ function getRandomColor(worker) {
 
 
 
-function addDeleteTaskButtonListeners() {
-  const deleteTaskButtons = document.querySelectorAll(".deleteTaskButton");
-  deleteTaskButtons.forEach(button => {
-    console.log("Listener ready btn");
-      button.addEventListener("click", function() {
-          console.log("Button ID:", button.id);
-          // Hier können Sie den Code für das Löschen der Aufgabe aus Firebase einfügen
+document.addEventListener("DOMContentLoaded", function() {
+  function addDeleteTaskButtonListeners() {
+      const deleteTaskButtons = document.querySelectorAll(".deleteTaskButton");
+      deleteTaskButtons.forEach(button => {
+          console.log("Listener ready btn");
+          button.addEventListener("click", function() {
+              console.log("Button ID:", button.id);
+              // Hier können Sie den Code für das Löschen der Aufgabe aus Firebase einfügen
+          });
       });
-  });
-}
+  }
 
-addDeleteTaskButtonListeners()
+  addDeleteTaskButtonListeners();
+});
