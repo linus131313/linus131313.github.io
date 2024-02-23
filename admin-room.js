@@ -35,42 +35,40 @@ const db = getFirestore(app);
 const storage = getStorage(app);
 
 var newEvents = {};
-var workerColors={};
+var workerColors = {};
 
 let signOutButton = document.getElementById("signout-button");
 
 if (typeof signOutButton !== null) {
   signOutButton.addEventListener("click", handleSignOut);
-} 
+}
 
 //datenschutz link
-document.getElementById("datenschutz_link").addEventListener("click", function() {
-  window.location.href = "/datenschutz-impressum";
-});
-
+document
+  .getElementById("datenschutz_link")
+  .addEventListener("click", function () {
+    window.location.href = "/datenschutz-impressum";
+  });
 
 //today text
 
 var today = new Date();
 
-var day = ('0' + today.getDate()).slice(-2);
-var month = ('0' + (today.getMonth() + 1)).slice(-2);
+var day = ("0" + today.getDate()).slice(-2);
+var month = ("0" + (today.getMonth() + 1)).slice(-2);
 var year = today.getFullYear();
-var formattedDate = day + '.' + month + '.' + year;
+var formattedDate = day + "." + month + "." + year;
 document.getElementById("day").innerHTML = formattedDate;
 
-
-
-//tab links 
-window.onload = function () {		
-  const urlParams = new URLSearchParams(window.location.search);		
-  const tab = urlParams.get('tab');		
+//tab links
+window.onload = function () {
+  const urlParams = new URLSearchParams(window.location.search);
+  const tab = urlParams.get("tab");
   if (tab) {
-    const tabButton = document.getElementById(tab)
-    tabButton.click();		
+    const tabButton = document.getElementById(tab);
+    tabButton.click();
   }
-}
-
+};
 
 async function getFirstFileNameInFolder(folderPath) {
   try {
@@ -104,86 +102,70 @@ function handleSignOut() {
 let GForm = document.getElementById("geb_form");
 let AForm = document.getElementById("task_form");
 
-
 //disable/enable buttons
-const taskForm = document.getElementById('task_form');
-const inputFieldsTasks = taskForm.querySelectorAll('input');
-const submitButtonTasks = taskForm.querySelector('#submit-task');
-const timeEndInput = document.getElementById('time_end');
+const taskForm = document.getElementById("task_form");
+const inputFieldsTasks = taskForm.querySelectorAll("input");
+const submitButtonTasks = taskForm.querySelector("#submit-task");
+const timeEndInput = document.getElementById("time_end");
 
-submitButtonTasks.setAttribute('disabled', true);
-submitButtonTasks.style.backgroundColor = 'rgba(17, 18, 19, 0.15)';
+submitButtonTasks.setAttribute("disabled", true);
+submitButtonTasks.style.backgroundColor = "rgba(17, 18, 19, 0.15)";
 
-inputFieldsTasks.forEach(input => {
-    input.addEventListener('input', toggleButtonStateTasks);
+inputFieldsTasks.forEach((input) => {
+  input.addEventListener("input", toggleButtonStateTasks);
 });
 
 function toggleButtonStateTasks() {
-    let allFieldsFilled = true;
-    
-    const frequencyValue = document.querySelector('input[name="frequency"]:checked').value;
+  let allFieldsFilled = true;
 
+  const frequencyValue = document.querySelector(
+    'input[name="frequency"]:checked'
+  ).value;
 
-    inputFieldsTasks.forEach(input => {
-     if(!(input.id === 'time_end' && frequencyValue === 'einmalig')){
-        if (input.value.trim() === '') {
-            allFieldsFilled = false;
-        }
-        }
-    });
-
-
-
-if (allFieldsFilled ) {
-        submitButtonTasks.removeAttribute('disabled');
-        submitButtonTasks.style.backgroundColor = 'black';
-    } else {
-        submitButtonTasks.setAttribute('disabled', true);
-        submitButtonTasks.style.backgroundColor = 'rgba(17, 18, 19, 0.15)';
+  inputFieldsTasks.forEach((input) => {
+    if (!(input.id === "time_end" && frequencyValue === "einmalig")) {
+      if (input.value.trim() === "") {
+        allFieldsFilled = false;
+      }
     }
-    
+  });
 
+  if (allFieldsFilled) {
+    submitButtonTasks.removeAttribute("disabled");
+    submitButtonTasks.style.backgroundColor = "black";
+  } else {
+    submitButtonTasks.setAttribute("disabled", true);
+    submitButtonTasks.style.backgroundColor = "rgba(17, 18, 19, 0.15)";
+  }
 }
 
+const GebForm = document.getElementById("geb_form");
+const inputFieldsGeb = GebForm.querySelectorAll("input");
+const submitButtonGeb = GebForm.querySelector("#submit_geb");
 
-    const GebForm = document.getElementById('geb_form');
-const inputFieldsGeb = GebForm.querySelectorAll('input');
-const submitButtonGeb = GebForm.querySelector('#submit_geb');
+submitButtonGeb.setAttribute("disabled", true);
+submitButtonGeb.style.backgroundColor = "rgba(17, 18, 19, 0.15)";
 
-
-submitButtonGeb.setAttribute('disabled', true);
-submitButtonGeb.style.backgroundColor = 'rgba(17, 18, 19, 0.15)';
-
-inputFieldsGeb.forEach(input => {
-    input.addEventListener('input', toggleButtonStateGeb);
+inputFieldsGeb.forEach((input) => {
+  input.addEventListener("input", toggleButtonStateGeb);
 });
 
+function toggleButtonStateGeb() {
+  let allFieldsFilled = true;
 
- function toggleButtonStateGeb() {
-    let allFieldsFilled = true;
-    
-
-
-
-    inputFieldsGeb.forEach(input => {
- 
-        if (input.value.trim() === '') {
-            allFieldsFilled = false;
-        
-        }
-    });
-
-
-
-if (allFieldsFilled ) {
-        submitButtonGeb.removeAttribute('disabled');
-        submitButtonGeb.style.backgroundColor = 'black';
-    } else {
-        submitButtonGeb.setAttribute('disabled', true);
-        submitButtonGeb.style.backgroundColor = 'rgba(17, 18, 19, 0.15)';
+  inputFieldsGeb.forEach((input) => {
+    if (input.value.trim() === "") {
+      allFieldsFilled = false;
     }
-    
+  });
 
+  if (allFieldsFilled) {
+    submitButtonGeb.removeAttribute("disabled");
+    submitButtonGeb.style.backgroundColor = "black";
+  } else {
+    submitButtonGeb.setAttribute("disabled", true);
+    submitButtonGeb.style.backgroundColor = "rgba(17, 18, 19, 0.15)";
+  }
 }
 //end disable/enable buttons
 
@@ -314,15 +296,15 @@ onAuthStateChanged(auth, (user) => {
     getDocs(adminsRef).then((querySnapshot) => {
       querySnapshot.forEach((docx) => {
         if (docx.data().email === user.email) {
-           document.getElementById("user_name").innerHTML = docx.data().surname;
-        
+          document.getElementById("user_name").innerHTML = docx.data().surname;
+
           document.getElementById("user_email").innerHTML = docx.data().email;
           companyName = docx.data().company;
           // document.getElementById("firma").innerHTML = docx.data().company;
 
           const firmaElements = document.querySelectorAll("#firma");
           const newData = docx.data().company;
-          firmaElements.forEach(function(element) {
+          firmaElements.forEach(function (element) {
             element.innerHTML = newData;
           });
 
@@ -332,23 +314,34 @@ onAuthStateChanged(auth, (user) => {
           //   docx.data().name;
           // document.getElementById("emailProfil").innerHTML = docx.data().email;
 
-
-          document.getElementById("n1").innerHTML =
-            docx.data().surname[0];
-          document.getElementById("n2").innerHTML =
-            docx.data().name[0];
+          document.getElementById("n1").innerHTML = docx.data().surname[0];
+          document.getElementById("n2").innerHTML = docx.data().name[0];
 
           const companiesRef = collection(db, "Companies");
           const companyDoc = doc(companiesRef, docx.data().company);
           const userCollections = collection(companyDoc, "Users");
           const facilityCollections = collection(companyDoc, "Buildings");
 
+          //iteriere durch jede task
           const taskCollection = collection(companyDoc, "Tasks");
           getDocs(taskCollection).then((querySnapshot) => {
             if (!querySnapshot.empty) {
               querySnapshot.forEach((taskdoc) => {
-                
-const { bgColor, textColor } = getRandomColor(taskdoc.data().assignee);
+               
+                const time = taskdoc.data().issued;
+
+if (new Date(time).toDateString() === new Date().toDateString()) {
+
+    console.log(taskdoc.data().issued);
+    console.log(taskdoc.data().assignee);
+} else {
+    console.log("Nein");
+}
+
+                //random color for calendar
+                const { bgColor, textColor } = getRandomColor(
+                  taskdoc.data().assignee
+                );
 
                 newEvents[taskdoc.id] = {
                   worker: taskdoc.data().assignee,
@@ -361,7 +354,7 @@ const { bgColor, textColor } = getRandomColor(taskdoc.data().assignee);
                   building: taskdoc.data().building,
                   buildingID: taskdoc.data().buildingID,
                   backgroudColor: bgColor,
-                  textColor:  textColor,
+                  textColor: textColor,
                 };
               });
 
@@ -493,7 +486,7 @@ const { bgColor, textColor } = getRandomColor(taskdoc.data().assignee);
                       var opt2 = document.createElement("option");
                       opt2.text = docUsers.data().email;
                       var opt3 = document.createElement("option");
-                      opt3.text = docUsers.data().email;                   
+                      opt3.text = docUsers.data().email;
 
                       mitarbeiter_Calender_Select.appendChild(opt2);
                       mitarbeiter_List.appendChild(opt3);
@@ -582,8 +575,8 @@ const { bgColor, textColor } = getRandomColor(taskdoc.data().assignee);
               // const listItem = document.createElement("li");
               // listItem.textContent = docw.data().name;
               // userList.appendChild(listItem);
-// var active=false;
-const active = Math.random() < 0.5;
+              // var active=false;
+              const active = Math.random() < 0.5;
 
               const htmlCodeOffline = `
 <div class="columns-14 w-row">
@@ -602,7 +595,7 @@ const active = Math.random() < 0.5;
     </div>
 </div>`;
 
-const htmlCodeOnline = `
+              const htmlCodeOnline = `
 <div class="columns-14 w-row">
     <div class="column-23 w-col w-col-5">
         <div class="text-block-19-copy-copy">${docw.data().name}</div>
@@ -611,7 +604,7 @@ const htmlCodeOnline = `
         <div id="tasks_done_counter" class="text-block-19-copy">0/0</div>
     </div>
     <div class="column-24 w-col w-col-3">
-        <div class="div-block-red">
+        <div class="div-block-green">
             <div class="text-block-19-copy">
                 <strong class="bold-text-green">aktiv</strong>
             </div>
@@ -619,18 +612,14 @@ const htmlCodeOnline = `
     </div>
 </div>`;
 
+              const workerListDash =
+                document.getElementById("worker_list_dash");
 
-
-const workerListDash = document.getElementById('worker_list_dash');
-
-if(active){
-workerListDash.innerHTML += htmlCodeOnline;
-}else{workerListDash.innerHTML += htmlCodeOffline;}
-
-
-
-        
-
+              if (active) {
+                workerListDash.innerHTML += htmlCodeOnline;
+              } else {
+                workerListDash.innerHTML += htmlCodeOffline;
+              }
             });
           });
         }
@@ -654,24 +643,19 @@ workerListDash.innerHTML += htmlCodeOnline;
   }
 });
 
-
-document.getElementById('calendar-tab').addEventListener('click', function () {
+document.getElementById("calendar-tab").addEventListener("click", function () {
   console.log("Klick");
   setTimeout(function () {
     renderCalendar(newEvents);
   }, 500);
-
 });
 
-document.getElementById('aufgaben-tab').addEventListener('click', function () {
+document.getElementById("aufgaben-tab").addEventListener("click", function () {
   console.log("Klick");
   setTimeout(function () {
     renderCalendar(newEvents);
   }, 500);
-
 });
-
-
 
 function renderCalendar(events) {
   let eventList = [];
@@ -680,7 +664,7 @@ function renderCalendar(events) {
     eventList.push({
       title: events[id]["title"],
       id: id,
-      
+
       backgroundColor: events[id]["backgroudColor"],
       borderColor: "white",
       textColor: events[id]["textColor"],
@@ -768,18 +752,15 @@ document.getElementById("close_popup").addEventListener("click", function () {
 mitarbeiter_Calender_Select.addEventListener("change", function () {
   const selectedValue = mitarbeiter_Calender_Select.value;
   if (selectedValue == "cal_all") {
-
     renderCalendar(newEvents);
   } else {
     let workerList = {};
-
-
 
     for (const key in newEvents) {
       const item = newEvents[key];
       if (item.worker === selectedValue) {
         const { bgColor, textColor } = getRandomColor(item.worker);
-  
+
         workerList[key] = {
           backgroundColor: bgColor,
           textColor: textColor,
@@ -799,20 +780,18 @@ mitarbeiter_Calender_Select.addEventListener("change", function () {
   }
 });
 
-
 function getRandomColor(worker) {
   if (workerColors.hasOwnProperty(worker)) {
     return workerColors[worker];
   }
 
-  const randomHue = Math.floor(Math.random() * 360); 
-  const saturation = 70 + Math.random() * 10; 
-  const lightness = 50 + Math.random() * 10; 
+  const randomHue = Math.floor(Math.random() * 360);
+  const saturation = 70 + Math.random() * 10;
+  const lightness = 50 + Math.random() * 10;
   const bgColor = `hsl(${randomHue}, ${saturation}%, ${lightness}%)`;
   const textColor = lightness > 60 ? "#000000" : "#ffffff";
 
-  workerColors[worker]={bgColor,textColor};
+  workerColors[worker] = { bgColor, textColor };
 
   return { bgColor, textColor };
-  
 }
