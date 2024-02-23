@@ -368,9 +368,27 @@ const january1st2010 = new Date("2010-01-01T00:00:00Z");
 </div>`;
 
     }else{
+      if((new Date() - taskIssued) / (1000 * 60 * 60) > 0){ //wenn aufgabe nach einer stunde immernoch nicht bearbeitet wurde
+        taskListDash.innerHTML += `
+<div class="columns-14 w-row">
+    <div class="column-23 w-col w-col-6">
+        <div class="text-block-19-copy-copy-copy">${taskdoc.data().title}</div>
+        <div class="text-block-19-copy-copy">${taskdoc.data().building}</div>
+    </div>
+    <div class="w-col w-col-3">
+        <div id="tasks_done_counter" class="text-block-19-copy">${formattedTime}</div>
+    </div>
+    <div class="column-24 w-col w-col-3">
+        <div class="div-block-red">
+            <div class="text-block-19-copy">
+                <strong class="bold-text-red">verpasst</strong>
+            </div>
+        </div>
+    </div>
+</div>`;
 
-
-taskListDash.innerHTML += `
+      }else{
+        taskListDash.innerHTML += `
 <div class="columns-14 w-row">
     <div class="column-23 w-col w-col-6">
         <div class="text-block-19-copy-copy-copy">${taskdoc.data().title}</div>
@@ -387,6 +405,11 @@ taskListDash.innerHTML += `
         </div>
     </div>
 </div>`;
+
+      }
+
+
+
     }
 
 
