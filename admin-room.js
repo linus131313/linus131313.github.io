@@ -582,6 +582,12 @@ const { bgColor, textColor } = getRandomColor(taskdoc.data().assignee);
               const listItem = document.createElement("li");
               listItem.textContent = docw.data().name;
               userList.appendChild(listItem);
+
+
+              const workerListDash = document.getElementById('worker_list_dash');
+const newText = document.createTextNode('Hallo');
+workerListDash.appendChild(newText);
+
             });
           });
         }
