@@ -982,6 +982,7 @@ function getRandomColor(worker) {
 
 
 document.addEventListener("DOMContentLoaded", function() {
+  console.log("Ausf.");
   function addDeleteTaskButtonListeners() {
       const deleteTaskButtons = document.querySelectorAll(".deleteTaskButton");
       deleteTaskButtons.forEach(button => {
