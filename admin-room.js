@@ -329,7 +329,7 @@ onAuthStateChanged(auth, (user) => {
               querySnapshot.forEach((taskdoc) => {
                
                 const time = taskdoc.data().issued;
-
+console.log(time);
 if (new Date(time).toDateString() === new Date().toDateString()) {
 
     console.log(taskdoc.data().issued);
