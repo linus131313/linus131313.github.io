@@ -329,9 +329,14 @@ onAuthStateChanged(auth, (user) => {
               querySnapshot.forEach((taskdoc) => {
                
                 const time = taskdoc.data().issued;
-console.log(time);
-if (new Date(time).toDateString() === new Date().toDateString()) {
+                const dateFromTimestamp = new Date(timestamp.seconds * 1000); 
 
+                const today = new Date(); 
+                today.setHours(0, 0, 0, 0); 
+                
+                if (dateFromTimestamp.toDateString() === today.toDateString()) {
+                    console.log("Ja");
+                
     console.log(taskdoc.data().issued);
     console.log(taskdoc.data().assignee);
 } else {
