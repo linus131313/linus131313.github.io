@@ -582,11 +582,13 @@ const { bgColor, textColor } = getRandomColor(taskdoc.data().assignee);
               // const listItem = document.createElement("li");
               // listItem.textContent = docw.data().name;
               // userList.appendChild(listItem);
+// var active=false;
+const active = Math.random() < 0.5;
 
-              const htmlCode = `
+              const htmlCodeOffline = `
 <div class="columns-14 w-row">
     <div class="column-23 w-col w-col-5">
-        <div class="text-block-19-copy-copy">Vorname Nachname</div>
+        <div class="text-block-19-copy-copy">${docw.data().name}</div>
     </div>
     <div class="w-col w-col-4">
         <div id="tasks_done_counter" class="text-block-19-copy">0/0</div>
@@ -600,9 +602,30 @@ const { bgColor, textColor } = getRandomColor(taskdoc.data().assignee);
     </div>
 </div>`;
 
+const htmlCodeOnline = `
+<div class="columns-14 w-row">
+    <div class="column-23 w-col w-col-5">
+        <div class="text-block-19-copy-copy">${docw.data().name}</div>
+    </div>
+    <div class="w-col w-col-4">
+        <div id="tasks_done_counter" class="text-block-19-copy">0/0</div>
+    </div>
+    <div class="column-24 w-col w-col-3">
+        <div class="div-block-red">
+            <div class="text-block-19-copy">
+                <strong class="bold-text-green">aktiv</strong>
+            </div>
+        </div>
+    </div>
+</div>`;
+
+
+
 const workerListDash = document.getElementById('worker_list_dash');
 
-workerListDash.innerHTML += htmlCode;
+if(active){
+workerListDash.innerHTML += htmlCodeOnline;
+}else{workerListDash.innerHTML += htmlCodeOffline;}
 
 
 
