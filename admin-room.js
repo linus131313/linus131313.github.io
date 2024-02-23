@@ -339,13 +339,14 @@ onAuthStateChanged(auth, (user) => {
                  
 
 const taskListDash = document.getElementById('task_list_dash');
+const taskIssued = new Date(taskdoc.data().issued.seconds * 1000);
+
+const formattedTime = `${taskIssued.getHours().toString().padStart(2, '0')}:${taskIssued.getMinutes().toString().padStart(2, '0')}`;
+
 
 const taskDone = new Date(taskdoc.data().done.seconds * 1000);
 const january1st2010 = new Date("2010-01-01T00:00:00Z");
-const resultDone =
-  taskDone > january1st2010
-    ? true
-    : false;
+
 
     if(taskDone > january1st2010){
       taskListDash.innerHTML +=  `
@@ -355,7 +356,7 @@ const resultDone =
         <div class="text-block-19-copy-copy">${taskdoc.data().building}</div>
     </div>
     <div class="w-col w-col-3">
-        <div class="text-block-19-copy">00:00</div>
+        <div class="text-block-19-copy">${formattedTime}</div>
     </div>
     <div class="column-24 w-col w-col-3">
         <div class="div-block-green">
@@ -376,7 +377,7 @@ taskListDash.innerHTML += `
         <div class="text-block-19-copy-copy">${taskdoc.data().building}</div>
     </div>
     <div class="w-col w-col-3">
-        <div id="tasks_done_counter" class="text-block-19-copy">00:00</div>
+        <div id="tasks_done_counter" class="text-block-19-copy">${formattedTime}</div>
     </div>
     <div class="column-24 w-col w-col-3">
         <div class="div-block-orange">
