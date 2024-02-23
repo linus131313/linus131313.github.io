@@ -579,14 +579,12 @@ const { bgColor, textColor } = getRandomColor(taskdoc.data().assignee);
           getDocs(userCollections).then((querySnapshot) => {
             const userList = document.querySelector("#userList");
             querySnapshot.forEach((docw) => {
-              const listItem = document.createElement("li");
-              listItem.textContent = docw.data().name;
-              userList.appendChild(listItem);
+              const column = document.createElement("div");
+              column.classList.add("Columns 14");
+              column.textContent = docw.data().name;
+              userList.appendChild(column);
 
-
-              const workerListDash = document.getElementById('worker_list_dash');
-const newText = document.createTextNode('Hallo');
-workerListDash.appendChild(newText);
+        
 
             });
           });
