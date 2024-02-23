@@ -327,29 +327,123 @@ onAuthStateChanged(auth, (user) => {
           getDocs(taskCollection).then((querySnapshot) => {
             if (!querySnapshot.empty) {
               querySnapshot.forEach((taskdoc) => {
-               
                 const time = taskdoc.data().issued;
-                const dateFromTimestamp = new Date(time.seconds * 1000); 
+                const dateFromTimestamp = new Date(time.seconds * 1000);
 
-                const today = new Date(); 
-                today.setHours(0, 0, 0, 0); 
-                
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+
+                const taskListDash = document.getElementById("task_list_dash");
+                const taskIssued = new Date(
+                  taskdoc.data().issued.seconds * 1000
+                );
+
+                const formattedDate = `${taskIssued.getDate().toString().padStart(2, "0")}.${(taskIssued.getMonth() + 1).toString().padStart(2, "0")}`;
+
+
+                const formattedTime = `${taskIssued
+                  .getHours()
+                  .toString()
+                  .padStart(2, "0")}:${taskIssued
+                  .getMinutes()
+                  .toString()
+                  .padStart(2, "0")}`;
+
+                const taskDone = new Date(taskdoc.data().done.seconds * 1000);
+                const january1st2010 = new Date("2010-01-01T00:00:00Z");
+
+                //aufgaben tab übersicht
+                const taskListTab = document.getElementById("task_list_tab");
+                if (taskDone > january1st2010) {
+                  taskListDash.innerHTML += `
+                  <div class="columns-14 w-row">
+                      <div class="column-23 w-col w-col-2">
+                          <div class="text-block-19-copy-copy-copy">${taskdoc.data().title}</div>
+                          <div class="text-block-19-copy-copy">${taskdoc.data().building}</div>
+                      </div>
+                      <div class="w-col w-col-3">
+                          <div class="text-block-19-desc">${taskdoc.data().description}</div>
+                      </div>
+                      <div class="column-24 w-col w-col-2">
+                          <div class="text-block-19-copy-copy">${taskdoc.data().assignee}</div>
+                      </div>
+                      <div class="column-27 w-col w-col-1">
+                          <div class="text-block-19-copy-copy">${taskdoc.data().repeat}</div>
+                      </div>
+                      <div class="column-29 w-col w-col-2">
+                          <div class="text-block-19-copy-copy">${formattedDate},<br>${formattedTime}</div>
+                      </div>
+                      <div class="column-28 w-col w-col-2">
+                          <div class="div-block-green">
+                              <div class="text-block-19-copy">
+                                  <strong class="bold-text-green">fertig</strong>
+                              </div>
+                          </div>
+                          <img loading="lazy" src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" alt="" class="image-8">
+                      </div>
+                  </div>`;
+                  
+                } else {
+                  if ((new Date() - taskIssued) / (1000 * 60 * 60) > 1) {
+                    //wenn aufgabe nach einer stunde immernoch nicht bearbeitet wurde
+                    taskListDash.innerHTML += `
+                    <div class="columns-14 w-row">
+                        <div class="column-23 w-col w-col-2">
+                            <div class="text-block-19-copy-copy-copy">${taskdoc.data().title}</div>
+                            <div class="text-block-19-copy-copy">${taskdoc.data().building}</div>
+                        </div>
+                        <div class="w-col w-col-3">
+                            <div class="text-block-19-desc">${taskdoc.data().description}</div>
+                        </div>
+                        <div class="column-24 w-col w-col-2">
+                            <div class="text-block-19-copy-copy">${taskdoc.data().assignee}</div>
+                        </div>
+                        <div class="column-27 w-col w-col-1">
+                            <div class="text-block-19-copy-copy">${taskdoc.data().repeat}</div>
+                        </div>
+                        <div class="column-29 w-col w-col-2">
+                            <div class="text-block-19-copy-copy">${formattedDate},<br>${formattedTime}</div>
+                        </div>
+                        <div class="column-28 w-col w-col-2">
+                            <div class="div-block-red">
+                                <div class="text-block-19-copy">
+                                    <strong class="bold-text-red">verpasst</strong>
+                                </div>
+                            </div>
+                            <img loading="lazy" src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" alt="" class="image-8">
+                        </div>
+                    </div>`;
+                    
+                  } else {
+                    taskListDash.innerHTML += `
+                    <div class="columns-14 w-row">
+                    <div class="column-23 w-col w-col-2">
+                    <div class="text-block-19-copy-copy-copy">${taskdoc.data().title}</div>
+                    <div class="text-block-19-copy-copy">${taskdoc.data().building}</div>
+                    </div>
+                    <div class="w-col w-col-3">
+                    <div class="text-block-19-desc">${taskdoc.data().description}</div>
+                    </div>
+                    <div class="column-24 w-col w-col-2">
+                    <div class="text-block-19-copy-copy">${taskdoc.data().assignee}</div>
+                    </div><div class="column-27 w-col w-col-1">
+                    <div class="text-block-19-copy-copy">${taskdoc.data().repeat}</div>
+                    </div>
+                    <div class="column-29 w-col w-col-2">
+                    <div class="text-block-19-copy-copy">${formattedDate},<br>${formattedTime}</div>
+                    </div>
+                    <div class="column-28 w-col w-col-2"><div class="div-block-orange">
+                    <div class="text-block-19-copy">
+                    <strong class="bold-text-orange">offen</strong></div>
+                    </div><img loading="lazy" src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" alt="" class="image-8"></div>
+                    </div>`;
+                  }
+                }
+
+                //wenn task heute ist zu dahboard hinzufügen
                 if (dateFromTimestamp.toDateString() === today.toDateString()) {
-               
-                 
-
-const taskListDash = document.getElementById('task_list_dash');
-const taskIssued = new Date(taskdoc.data().issued.seconds * 1000);
-
-const formattedTime = `${taskIssued.getHours().toString().padStart(2, '0')}:${taskIssued.getMinutes().toString().padStart(2, '0')}`;
-
-
-const taskDone = new Date(taskdoc.data().done.seconds * 1000);
-const january1st2010 = new Date("2010-01-01T00:00:00Z");
-
-
-    if(taskDone > january1st2010){
-      taskListDash.innerHTML +=  `
+                  if (taskDone > january1st2010) {
+                    taskListDash.innerHTML += `
 <div class="columns-14 w-row">
     <div class="column-23 w-col w-col-6">
         <div class="text-block-19-copy-copy-copy">${taskdoc.data().title}</div>
@@ -366,10 +460,10 @@ const january1st2010 = new Date("2010-01-01T00:00:00Z");
         </div>
     </div>
 </div>`;
-
-    }else{
-      if((new Date() - taskIssued) / (1000 * 60 * 60) > 0){ //wenn aufgabe nach einer stunde immernoch nicht bearbeitet wurde
-        taskListDash.innerHTML += `
+                  } else {
+                    if ((new Date() - taskIssued) / (1000 * 60 * 60) > 1) {
+                      //wenn aufgabe nach einer stunde immernoch nicht bearbeitet wurde
+                      taskListDash.innerHTML += `
 <div class="columns-14 w-row">
     <div class="column-23 w-col w-col-6">
         <div class="text-block-19-copy-copy-copy">${taskdoc.data().title}</div>
@@ -386,9 +480,8 @@ const january1st2010 = new Date("2010-01-01T00:00:00Z");
         </div>
     </div>
 </div>`;
-
-      }else{
-        taskListDash.innerHTML += `
+                    } else {
+                      taskListDash.innerHTML += `
 <div class="columns-14 w-row">
     <div class="column-23 w-col w-col-6">
         <div class="text-block-19-copy-copy-copy">${taskdoc.data().title}</div>
@@ -405,15 +498,9 @@ const january1st2010 = new Date("2010-01-01T00:00:00Z");
         </div>
     </div>
 </div>`;
-
-      }
-
-
-
-    }
-
-
-} 
+                    }
+                  }
+                }
 
                 //random color for calendar
                 const { bgColor, textColor } = getRandomColor(
