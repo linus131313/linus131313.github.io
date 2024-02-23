@@ -534,16 +534,13 @@ onAuthStateChanged(auth, (user) => {
                 };
               });
 
-              //add event listeners to delete buttons
-              const deleteTaskButtons = document.querySelectorAll(".deleteTaskButton");
-              deleteTaskButtons.forEach(button => {
-                  button.addEventListener("click", function() {
-                      console.log("Button ID:", button.id);
-                      // Hier können Sie den Code für das Löschen der Aufgabe aus Firebase einfügen
-                  });
-              });
-
+              
               // renderCalendar(newEvents);
+
+
+        
+
+
             }
           });
 
@@ -981,3 +978,18 @@ function getRandomColor(worker) {
 
   return { bgColor, textColor };
 }
+
+
+
+function addDeleteTaskButtonListeners() {
+  const deleteTaskButtons = document.querySelectorAll(".deleteTaskButton");
+  deleteTaskButtons.forEach(button => {
+    console.log("Listener ready btn");
+      button.addEventListener("click", function() {
+          console.log("Button ID:", button.id);
+          // Hier können Sie den Code für das Löschen der Aufgabe aus Firebase einfügen
+      });
+  });
+}
+
+addDeleteTaskButtonListeners()
