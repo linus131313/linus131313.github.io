@@ -355,7 +355,7 @@ onAuthStateChanged(auth, (user) => {
                 //aufgaben tab übersicht
                 const taskListTab = document.getElementById("task_list_tab");
                 if (taskDone > january1st2010) {
-                  taskListDash.innerHTML += `
+                  taskListTab.innerHTML += `
                   <div class="columns-14 w-row">
                       <div class="column-23 w-col w-col-2">
                           <div class="text-block-19-copy-copy-copy">${taskdoc.data().title}</div>
@@ -386,7 +386,7 @@ onAuthStateChanged(auth, (user) => {
                 } else {
                   if ((new Date() - taskIssued) / (1000 * 60 * 60) > 1) {
                     //wenn aufgabe nach einer stunde immernoch nicht bearbeitet wurde
-                    taskListDash.innerHTML += `
+                    taskListTab.innerHTML += `
                     <div class="columns-14 w-row">
                         <div class="column-23 w-col w-col-2">
                             <div class="text-block-19-copy-copy-copy">${taskdoc.data().title}</div>
@@ -415,7 +415,7 @@ onAuthStateChanged(auth, (user) => {
                     </div>`;
                     
                   } else {
-                    taskListDash.innerHTML += `
+                    taskListTab.innerHTML += `
                     <div class="columns-14 w-row">
                     <div class="column-23 w-col w-col-2">
                     <div class="text-block-19-copy-copy-copy">${taskdoc.data().title}</div>
