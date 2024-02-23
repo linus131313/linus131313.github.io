@@ -388,8 +388,8 @@ onAuthStateChanged(auth, (user) => {
                                   <strong class="bold-text-green">fertig</strong>
                               </div>
                           </div>
-                          <button onclick="if (confirm('Möchten Sie diese Aufgabe wirklich löschen?')) { console.log('Aufgabe wird gelöscht...'); } else { console.log('Löschung abgebrochen.'); }" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; background: transparent;"></button>                          <img loading="lazy" src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" alt="" class="image-8">
-                      </div>
+                          <button id="${taskdoc.id} class"deleteTaskButton" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; background: transparent;"></button>                    <img loading="lazy" src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" alt="" class="image-8">
+                          </div>
                   </div><br>`;
                   
                 } else {
@@ -419,8 +419,8 @@ onAuthStateChanged(auth, (user) => {
                                     <strong class="bold-text-red">verpasst</strong>
                                 </div>
                             </div>
-                            <button onclick="if (confirm('Möchten Sie diese Aufgabe wirklich löschen?')) { console.log('Aufgabe wird gelöscht...'); } else { console.log('Löschung abgebrochen.'); }" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; background: transparent;"></button>                            <img loading="lazy" src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" alt="" class="image-8">
-                        </div>
+                            <button id="${taskdoc.id} class"deleteTaskButton" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; background: transparent;"></button>                    <img loading="lazy" src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" alt="" class="image-8">
+                            </div>
                     </div><br>`;
                     
                   } else {
@@ -445,7 +445,7 @@ onAuthStateChanged(auth, (user) => {
                     <div class="text-block-19-copy">
                     <strong class="bold-text-orange">offen</strong></div>
                     </div>
-                    <button onclick="if (confirm('Möchten Sie diese Aufgabe wirklich löschen?')) { console.log('Aufgabe wird gelöscht...'); } else { console.log('Löschung abgebrochen.'); }" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; background: transparent;"></button>                    <img loading="lazy" src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" alt="" class="image-8">
+                    <button id="${taskdoc.id} class"deleteTaskButton" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; background: transparent;"></button>                    <img loading="lazy" src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" alt="" class="image-8">
                     
                     </div>
                     </div><br>`;
@@ -532,6 +532,15 @@ onAuthStateChanged(auth, (user) => {
                   backgroudColor: bgColor,
                   textColor: textColor,
                 };
+              });
+
+              //add event listeners to delete buttons
+              const deleteTaskButtons = document.querySelectorAll(".deleteTaskButton");
+              deleteTaskButtons.forEach(button => {
+                  button.addEventListener("click", function() {
+                      console.log("Button ID:", button.id);
+                      // Hier können Sie den Code für das Löschen der Aufgabe aus Firebase einfügen
+                  });
               });
 
               // renderCalendar(newEvents);
