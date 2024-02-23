@@ -379,9 +379,10 @@ onAuthStateChanged(auth, (user) => {
                                   <strong class="bold-text-green">fertig</strong>
                               </div>
                           </div>
+                          <button onclick="console.log('Hey')" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; background: transparent;"></button>
                           <img loading="lazy" src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" alt="" class="image-8">
                       </div>
-                  </div>`;
+                  </div><br>`;
                   
                 } else {
                   if ((new Date() - taskIssued) / (1000 * 60 * 60) > 1) {
@@ -410,9 +411,10 @@ onAuthStateChanged(auth, (user) => {
                                     <strong class="bold-text-red">verpasst</strong>
                                 </div>
                             </div>
+                            <button onclick="console.log('Hey')" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; background: transparent;"></button>
                             <img loading="lazy" src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" alt="" class="image-8">
                         </div>
-                    </div>`;
+                    </div><br>`;
                     
                   } else {
                     taskListTab.innerHTML += `
@@ -435,8 +437,12 @@ onAuthStateChanged(auth, (user) => {
                     <div class="column-28 w-col w-col-2"><div class="div-block-orange">
                     <div class="text-block-19-copy">
                     <strong class="bold-text-orange">offen</strong></div>
-                    </div><img loading="lazy" src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" alt="" class="image-8"></div>
-                    </div>`;
+                    </div>
+                    <button onclick="console.log('Hey')" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; background: transparent;"></button>
+                    <img loading="lazy" src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" alt="" class="image-8">
+                    
+                    </div>
+                    </div><br>`;
                   }
                 }
 
