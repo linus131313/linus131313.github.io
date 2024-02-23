@@ -335,13 +335,61 @@ onAuthStateChanged(auth, (user) => {
                 today.setHours(0, 0, 0, 0); 
                 
                 if (dateFromTimestamp.toDateString() === today.toDateString()) {
-                    console.log("Ja");
-                
-    console.log(taskdoc.data().issued);
-    console.log(taskdoc.data().assignee);
-} else {
-    console.log("Nein");
-}
+               
+                 
+
+const taskListDash = document.getElementById('task_list_dash');
+
+const taskDone = new Date(taskdoc.data().done.seconds * 1000);
+const january1st2010 = new Date("2010-01-01T00:00:00Z");
+const resultDone =
+  taskDone > january1st2010
+    ? true
+    : false;
+
+    if(taskDone > january1st2010){
+      taskListDash.innerHTML +=  `
+<div class="columns-14 w-row">
+    <div class="column-23 w-col w-col-6">
+        <div class="text-block-19-copy-copy-copy">${taskdoc.data().title}</div>
+        <div class="text-block-19-copy-copy">${taskdoc.data().building}</div>
+    </div>
+    <div class="w-col w-col-3">
+        <div class="text-block-19-copy">00:00</div>
+    </div>
+    <div class="column-24 w-col w-col-3">
+        <div class="div-block-green">
+            <div class="text-block-19-copy">
+                <strong class="bold-text-green">fertig</strong>
+            </div>
+        </div>
+    </div>
+</div>`;
+
+    }else{
+
+
+taskListDash.innerHTML += `
+<div class="columns-14 w-row">
+    <div class="column-23 w-col w-col-6">
+        <div class="text-block-19-copy-copy-copy">${taskdoc.data().title}</div>
+        <div class="text-block-19-copy-copy">${taskdoc.data().building}</div>
+    </div>
+    <div class="w-col w-col-3">
+        <div id="tasks_done_counter" class="text-block-19-copy">00:00</div>
+    </div>
+    <div class="column-24 w-col w-col-3">
+        <div class="div-block-orange">
+            <div class="text-block-19-copy">
+                <strong class="bold-text-orange">offen</strong>
+            </div>
+        </div>
+    </div>
+</div>`;
+    }
+
+
+} 
 
                 //random color for calendar
                 const { bgColor, textColor } = getRandomColor(
@@ -722,6 +770,7 @@ function renderCalendar(events) {
       const taskWorker = events[idC].worker;
       const taskBuilding = events[idC].building;
       const taskRepeat = events[idC].repeat;
+      ////
       const taskDone = new Date(events[idC].done.seconds * 1000);
       const january1st2010 = new Date("2010-01-01T00:00:00Z");
       const resultDone =
