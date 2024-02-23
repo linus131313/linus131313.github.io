@@ -329,7 +329,7 @@ onAuthStateChanged(auth, (user) => {
               querySnapshot.forEach((taskdoc) => {
                
                 const time = taskdoc.data().issued;
-                const dateFromTimestamp = new Date(timestamp.seconds * 1000); 
+                const dateFromTimestamp = new Date(time.seconds * 1000); 
 
                 const today = new Date(); 
                 today.setHours(0, 0, 0, 0); 
