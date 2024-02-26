@@ -823,8 +823,50 @@ onAuthStateChanged(auth, (user) => {
             const userList = document.querySelector("#userList");
             const currentDateString = new Date().toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\./g, ''); // Aktuelles Datum als String im Format DDMMYYYY
 
+            const workerListDash =
+            document.getElementById("worker_list_dash");
+
+                            
             querySnapshot.forEach((docw) => {
-              var active=false;
+
+              
+            
+            const htmlCodeOffline = `
+            <div class="columns-14 w-row">
+                <div class="column-23 w-col w-col-5">
+                    <div class="text-block-19-copy-copy">${docw.data().name}</div>
+                </div>
+                <div class="w-col w-col-4">
+                    <div id="tasks_done_counter" class="text-block-19-copy">0/0</div>
+                </div>
+                <div class="column-24 w-col w-col-3">
+                    <div class="div-block-red">
+                        <div class="text-block-19-copy">
+                            <strong class="bold-text-red">inaktiv</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+            
+                          const htmlCodeOnline = `
+            <div class="columns-14 w-row">
+                <div class="column-23 w-col w-col-5">
+                    <div class="text-block-19-copy-copy">${docw.data().name}</div>
+                </div>
+                <div class="w-col w-col-4">
+                    <div id="tasks_done_counter" class="text-block-19-copy">0/0</div>
+                </div>
+                <div class="column-24 w-col w-col-3">
+                    <div class="div-block-green">
+                        <div class="text-block-19-copy">
+                            <strong class="bold-text-green">aktiv</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+            
+                         
+          
 
               const timestampsCollectionRef = collection(docw.ref, "Timestamps");
               getDocs(timestampsCollectionRef).then((timestampsQuerySnapshot) => {
@@ -838,8 +880,10 @@ onAuthStateChanged(auth, (user) => {
                         console.log(docw.data().name);
                         if(timestampDoc.data().Start.length > timestampDoc.data().End.length){
                           console.log("Working");
-                          active=true;
+                          workerListDash.innerHTML += htmlCodeOnline;
                           
+                        }else{
+                          workerListDash.innerHTML += htmlCodeOffline;
                         }
                       }
                   });
@@ -851,48 +895,7 @@ onAuthStateChanged(auth, (user) => {
                   
         
 
-              const htmlCodeOffline = `
-<div class="columns-14 w-row">
-    <div class="column-23 w-col w-col-5">
-        <div class="text-block-19-copy-copy">${docw.data().name}</div>
-    </div>
-    <div class="w-col w-col-4">
-        <div id="tasks_done_counter" class="text-block-19-copy">0/0</div>
-    </div>
-    <div class="column-24 w-col w-col-3">
-        <div class="div-block-red">
-            <div class="text-block-19-copy">
-                <strong class="bold-text-red">inaktiv</strong>
-            </div>
-        </div>
-    </div>
-</div>`;
-
-              const htmlCodeOnline = `
-<div class="columns-14 w-row">
-    <div class="column-23 w-col w-col-5">
-        <div class="text-block-19-copy-copy">${docw.data().name}</div>
-    </div>
-    <div class="w-col w-col-4">
-        <div id="tasks_done_counter" class="text-block-19-copy">0/0</div>
-    </div>
-    <div class="column-24 w-col w-col-3">
-        <div class="div-block-green">
-            <div class="text-block-19-copy">
-                <strong class="bold-text-green">aktiv</strong>
-            </div>
-        </div>
-    </div>
-</div>`;
-
-              const workerListDash =
-                document.getElementById("worker_list_dash");
-
-              if (active) {
-                workerListDash.innerHTML += htmlCodeOnline;
-              } else {
-                workerListDash.innerHTML += htmlCodeOffline;
-              }
+            
             });
           });
         }
