@@ -331,7 +331,7 @@ onAuthStateChanged(auth, (user) => {
 
           //iteriere durch jede task
           const taskCollection = collection(companyDoc, "Tasks");
-          getDocs(taskCollection).then((querySnapshot) => {
+          getDocs(query(taskCollection, orderBy("issued"))).then((querySnapshot) => {
             if (!querySnapshot.empty) {
               querySnapshot.forEach((taskdoc) => {
                 const time = taskdoc.data().issued;
@@ -1028,31 +1028,12 @@ function getRandomColor(worker) {
   return { bgColor, textColor };
 }
 
-// document.addEventListener("DOMContentLoaded", function () {
-//   console.log("Ausf.");
-
-//   setTimeout(function () {
-//       const deleteTaskButtons = document.querySelectorAll(".deleteTaskButton");
-//       console.log(deleteTaskButtons);
-//       console.log("zahs it");
-
-//       deleteTaskButtons.forEach((button) => {
-//           console.log("Listener ready btn");
-//           button.addEventListener("click", function () {
-//               console.log("Button ID:", button.id);
-//               // Hier können Sie den Code für das Löschen der Aufgabe aus Firebase einfügen
-//           });
-//       });
-//   }, 500); // Verzögerung von 500 Millisekunden
-// });
-
-
-
 async function deleteDocumentFromFirestore(documentId, taskCollection) {
   const taskRef = doc(taskCollection, documentId);
   try {
       await deleteDoc(taskRef);
       console.log("Dokument erfolgreich gelöscht");
+      location.reload();
   } catch (error) {
       console.error("Fehler beim Löschen des Dokuments:", error);
   }
