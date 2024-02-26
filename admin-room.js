@@ -211,6 +211,8 @@ function handleGForm(e) {
   };
   const newSubcollectionRef = collection(companiesDocRef, "Buildings");
   addDoc(newSubcollectionRef, newDocumentData2);
+  alert(`Gebäude erfolgreich hinzugefügt!`);
+
 }
 
 function handleAForm(e) {
@@ -240,6 +242,8 @@ function handleAForm(e) {
       repeat: checked,
     };
     addDoc(newSubcollectionRef, newDocumentData);
+    alert(`Einmalige Aufgabe erfolgreich hinzugefügt!`);
+
   }
   if (checked == "täglich") {
     var currentDate = new Date(time_task);
@@ -258,6 +262,8 @@ function handleAForm(e) {
       addDoc(newSubcollectionRef, newDocumentData);
       currentDate.setDate(currentDate.getDate() + 1);
     }
+    alert(`ägliche Aufgaben erfolgreich hinzugefügt!`);
+
   }
   if (checked == "wöchentlich") {
     var currentDate = new Date(time_task);
@@ -276,6 +282,8 @@ function handleAForm(e) {
       addDoc(newSubcollectionRef, newDocumentData);
       currentDate.setDate(currentDate.getDate() + 7);
     }
+    alert(`Wöchentliche Aufgaben erfolgreich hinzugefügt!`);
+
   }
   if (checked == "monatlich") {
     var currentDate = new Date(time_task);
@@ -294,6 +302,9 @@ function handleAForm(e) {
       addDoc(newSubcollectionRef, newDocumentData);
       currentDate.setMonth(currentDate.getMonth() + 1);
     }
+    alert(`Monatliche Aufgaben erfolgreich hinzugefügt!`);
+
+
   }
 }
 
@@ -346,14 +357,13 @@ onAuthStateChanged(auth, (user) => {
                 const taskIssued = new Date(
                   taskdoc.data().issued.seconds * 1000
                 );
-
                 const formattedDate = `${taskIssued
                   .getDate()
                   .toString()
                   .padStart(2, "0")}.${(taskIssued.getMonth() + 1)
                   .toString()
-                  .padStart(2, "0")}`;
-
+                  .padStart(2, "0")}.${taskIssued.getFullYear()}`;
+              
                 const formattedTime = `${taskIssued
                   .getHours()
                   .toString()
