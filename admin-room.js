@@ -613,6 +613,7 @@ onAuthStateChanged(auth, (user) => {
               });
               console.log(taskDoneCounter);
 
+
               const deleteTaskButtons = document.querySelectorAll(".deleteTaskButton");
               deleteTaskButtons.forEach((button) => {
                   button.addEventListener("click", function () {
@@ -861,7 +862,7 @@ onAuthStateChanged(auth, (user) => {
                     <div class="text-block-19-copy-copy">${docw.data().name}</div>
                 </div>
                 <div class="w-col w-col-4">
-                    <div id="tasks_done_counter" class="text-block-19-copy">0/0</div>
+                    <div id="tasks_done_counter" class="text-block-19-copy">${taskDoneCounter[docw.data().email]}</div>
                 </div>
                 <div class="column-24 w-col w-col-3">
                     <div class="div-block-red">
@@ -878,7 +879,7 @@ onAuthStateChanged(auth, (user) => {
                     <div class="text-block-19-copy-copy">${docw.data().name}</div>
                 </div>
                 <div class="w-col w-col-4">
-                    <div id="tasks_done_counter" class="text-block-19-copy">0/0</div>
+                    <div id="tasks_done_counter" class="text-block-19-copy">${taskDoneCounter[docw.data().email]}</div>
                 </div>
                 <div class="column-24 w-col w-col-3">
                     <div class="div-block-green">
