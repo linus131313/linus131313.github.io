@@ -570,14 +570,23 @@ onAuthStateChanged(auth, (user) => {
               });
 
               const deleteTaskButtons = document.querySelectorAll(".deleteTaskButton");
-              console.log(deleteTaskButtons);
-              console.log("task buttons");
-deleteTaskButtons.forEach((button) => {
-    button.addEventListener("click", function () {
-        console.log("Button ID:", button.id);
-        // Hier können Sie den Code für das Löschen der Aufgabe aus Firebase einfügen
-    });
-});
+              deleteTaskButtons.forEach((button) => {
+                  button.addEventListener("click", function () {
+                      const taskId = button.id;
+                      console.log("Button ID:", taskId);
+                      
+                      // Bestätigungsdialog anzeigen
+                      const confirmDelete = confirm("Möchten Sie diese Aufgabe wirklich löschen?");
+                      
+                      // Wenn der Benutzer bestätigt, das Dokument zu löschen
+                      if (confirmDelete) {
+                          // Dokument mit der ID aus Firestore löschen
+                          deleteDocumentFromFirestore(taskId, taskCollection);
+                      } else {
+                          console.log("Löschvorgang abgebrochen.");
+                      }
+                  });
+              });
 
               // renderCalendar(newEvents);
             }
@@ -1035,3 +1044,15 @@ function getRandomColor(worker) {
 //       });
 //   }, 500); // Verzögerung von 500 Millisekunden
 // });
+
+
+
+async function deleteDocumentFromFirestore(documentId, taskCollection) {
+  const taskRef = doc(taskCollection, documentId);
+  try {
+      await deleteDoc(taskRef);
+      console.log("Dokument erfolgreich gelöscht");
+  } catch (error) {
+      console.error("Fehler beim Löschen des Dokuments:", error);
+  }
+}
