@@ -40,6 +40,9 @@ const storage = getStorage(app);
 var newEvents = {};
 var workerColors = {};
 
+//task done counter map for dahboard
+var taskDoneCounter={};
+
 let signOutButton = document.getElementById("signout-button");
 
 if (typeof signOutButton !== null) {
@@ -347,9 +350,10 @@ onAuthStateChanged(auth, (user) => {
           const userCollections = collection(companyDoc, "Users");
           const facilityCollections = collection(companyDoc, "Buildings");
 
-          //iteriere durch jede task
+          //iteriere durch jede task sortiert nach datum
           const taskCollection = collection(companyDoc, "Tasks");
           getDocs(query(taskCollection, orderBy("issued"))).then((querySnapshot) => {
+
             if (!querySnapshot.empty) {
               querySnapshot.forEach((taskdoc) => {
                 const time = taskdoc.data().issued;
@@ -509,7 +513,18 @@ onAuthStateChanged(auth, (user) => {
 
                 //wenn task heute ist zu dahboard hinzufügen
                 if (dateFromTimestamp.toDateString() === today.toDateString()) {
+                  
+                 
                   if (taskDone > january1st2010) {
+                    ///task done count dashboard
+                  if (taskDoneCounter.has(taskdoc.data().assignee)) {
+                    taskDoneCounter[taskdoc.data().assignee][0]+=1;
+                    taskDoneCounter[taskdoc.data().assignee][1]+=1;
+
+                  }else{
+                    taskDoneCounter[taskdoc.data().assignee]=[1,1];
+                  }
+
                     taskListDash.innerHTML += `
 <div class="columns-14 w-row">
     <div class="column-23 w-col w-col-6">
@@ -528,6 +543,14 @@ onAuthStateChanged(auth, (user) => {
     </div>
 </div>`;
                   } else {
+                    ///task done count dashboard
+                  if (taskDoneCounter.has(taskdoc.data().assignee)) {
+                    taskDoneCounter[taskdoc.data().assignee][0]+=0;
+                    taskDoneCounter[taskdoc.data().assignee][1]+=1;
+
+                  }else{
+                    taskDoneCounter[taskdoc.data().assignee]=[0,1];
+                  }
                     if ((new Date() - taskIssued) / (1000 * 60 * 60) > 1) {
                       //wenn aufgabe nach einer stunde immernoch nicht bearbeitet wurde
                       taskListDash.innerHTML += `
@@ -588,6 +611,7 @@ onAuthStateChanged(auth, (user) => {
                   textColor: textColor,
                 };
               });
+              console.log(taskDoneCounter);
 
               const deleteTaskButtons = document.querySelectorAll(".deleteTaskButton");
               deleteTaskButtons.forEach((button) => {
