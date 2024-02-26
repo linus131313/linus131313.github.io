@@ -870,23 +870,25 @@ onAuthStateChanged(auth, (user) => {
 
               const timestampsCollectionRef = collection(docw.ref, "Timestamps");
               getDocs(timestampsCollectionRef).then((timestampsQuerySnapshot) => {
+                if (timestampsQuerySnapshot.empty) {
+          
+                  workerListDash.innerHTML += htmlCodeOffline;
+              } else {
                   timestampsQuerySnapshot.forEach((timestampDoc) => {
-                      // Hier kannst du die Arbeit mit dem Dokument in der Sammlung "Timestamps" fortsetzen
-                      // console.log("Timestamp Document ID:", timestampDoc.id);
-                      // console.log("Timestamp Data:", timestampDoc.data());
-
-                      if(timestampDoc.id === currentDateString){
-                        console.log("Timestamp Data:", timestampDoc.data());
-                        console.log(docw.data().name);
-                        if(timestampDoc.data().Start.length > timestampDoc.data().End.length){
-                          console.log("Working");
-                          workerListDash.innerHTML += htmlCodeOnline;
-                          
-                        }else{
-                          workerListDash.innerHTML += htmlCodeOffline;
-                        }
+               
+          
+                      if (timestampDoc.id === currentDateString) {
+                          console.log("Timestamp Data:", timestampDoc.data());
+                          console.log(docw.data().name);
+                          if (timestampDoc.data().Start.length > timestampDoc.data().End.length) {
+                              console.log("Working");
+                              workerListDash.innerHTML += htmlCodeOnline;
+                          } else {
+                              workerListDash.innerHTML += htmlCodeOffline;
+                          }
                       }
                   });
+              }
               }).catch((error) => {
                   console.error("Error getting timestamps documents: ", error);
               });
