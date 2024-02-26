@@ -506,20 +506,20 @@ onAuthStateChanged(auth, (user) => {
 
                 if (taskDone > january1st2010) {
                   taskListTab.innerHTML += htmlGreen;
-                  if (((new Date() - taskIssued) < 0) || ((new Date() - taskIssued) > (7 * 24 * 60 * 60 * 1000))) {
+                  if (Math.abs(new Date() - taskIssued) <= (7 * 24 * 60 * 60 * 1000)) {
                     taskListTabWeek.innerHTML += htmlGreen;
                 }
                 } else {
                   if ((new Date() - taskIssued) / (1000 * 60 * 60) > 1) {
                     //wenn aufgabe nach einer stunde immernoch nicht bearbeitet wurde
                     taskListTab.innerHTML += htmlRed;
-                    if (((new Date() - taskIssued) < 0) || ((new Date() - taskIssued) > (7 * 24 * 60 * 60 * 1000))) {
+                    if (Math.abs(new Date() - taskIssued) <= (7 * 24 * 60 * 60 * 1000)) {
                       taskListTabWeek.innerHTML += htmlRed;
                   }
                   
                   } else {
                     taskListTab.innerHTML += htmlOrange;
-                    if (((new Date() - taskIssued) < 0) || ((new Date() - taskIssued) > (7 * 24 * 60 * 60 * 1000))) {
+                    if (Math.abs(new Date() - taskIssued) <= (7 * 24 * 60 * 60 * 1000)) {
                       taskListTabWeek.innerHTML += htmlOrange;
                   }
                   }
