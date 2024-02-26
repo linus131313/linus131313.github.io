@@ -1011,6 +1011,9 @@ function getRandomColor(worker) {
 document.addEventListener("DOMContentLoaded", function () {
   console.log("Ausf.");
   const deleteTaskButtons = document.querySelectorAll(".deleteTaskButton");
+  console.log(deleteTaskButtons);
+  console.log("zahs it");
+  
   deleteTaskButtons.forEach((button) => {
     console.log("Listener ready btn");
     button.addEventListener("click", function () {
