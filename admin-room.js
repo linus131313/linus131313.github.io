@@ -854,6 +854,7 @@ onAuthStateChanged(auth, (user) => {
                             
             querySnapshot.forEach((docw) => {
 
+
               
             
             const htmlCodeOffline = `
@@ -862,7 +863,7 @@ onAuthStateChanged(auth, (user) => {
                     <div class="text-block-19-copy-copy">${docw.data().name}</div>
                 </div>
                 <div class="w-col w-col-4">
-                    <div id="tasks_done_counter" class="text-block-19-copy">${taskDoneCounter[docw.data().email][0]} von ${taskDoneCounter[docw.data().email][1]}</div>
+                    <div id="tasks_done_counter" class="text-block-19-copy">${taskDoneCounter.has(docw.data().email) ? taskDoneCounter.get(docw.data().email)[0] : 0} von ${taskDoneCounter.has(docw.data().email) ? taskDoneCounter.get(docw.data().email)[1] : 0}</div>
                 </div>
                 <div class="column-24 w-col w-col-3">
                     <div class="div-block-red">
@@ -879,7 +880,7 @@ onAuthStateChanged(auth, (user) => {
                     <div class="text-block-19-copy-copy">${docw.data().name}</div>
                 </div>
                 <div class="w-col w-col-4">
-                    <div id="tasks_done_counter" class="text-block-19-copy">${taskDoneCounter[docw.data().email][0]} von ${taskDoneCounter[docw.data().email][1]}</div>
+                    <div id="tasks_done_counter" class="text-block-19-copy">${taskDoneCounter.has(docw.data().email) ? taskDoneCounter.get(docw.data().email)[0] : 0} von ${taskDoneCounter.has(docw.data().email) ? taskDoneCounter.get(docw.data().email)[1] : 0}</div>
                 </div>
                 <div class="column-24 w-col w-col-3">
                     <div class="div-block-green">
