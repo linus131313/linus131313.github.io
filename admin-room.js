@@ -212,7 +212,7 @@ function handleGForm(e) {
   const newSubcollectionRef = collection(companiesDocRef, "Buildings");
   addDoc(newSubcollectionRef, newDocumentData2);
   alert(`Gebäude erfolgreich hinzugefügt!`);
-  location.reload();
+  window.location.href = "/adminroom?tab=gebaude-tab";
 
 }
 
@@ -244,7 +244,7 @@ function handleAForm(e) {
     };
     addDoc(newSubcollectionRef, newDocumentData);
     alert(`Einmalige Aufgabe erfolgreich hinzugefügt!`);
-    location.reload();
+    window.location.href = "/adminroom?tab=aufgaben-tab";
 
   }
   if (checked == "täglich") {
@@ -265,7 +265,7 @@ function handleAForm(e) {
       currentDate.setDate(currentDate.getDate() + 1);
     }
     alert(`Tägliche Aufgaben erfolgreich hinzugefügt!`);
-    location.reload();
+    window.location.href = "/adminroom?tab=aufgaben-tab";
 
   }
   if (checked == "wöchentlich") {
@@ -286,7 +286,7 @@ function handleAForm(e) {
       currentDate.setDate(currentDate.getDate() + 7);
     }
     alert(`Wöchentliche Aufgaben erfolgreich hinzugefügt!`);
-    location.reload();
+    window.location.href = "/adminroom?tab=aufgaben-tab";
 
   }
   if (checked == "monatlich") {
@@ -307,7 +307,7 @@ function handleAForm(e) {
       currentDate.setMonth(currentDate.getMonth() + 1);
     }
     alert(`Monatliche Aufgaben erfolgreich hinzugefügt!`);
-    location.reload();
+    window.location.href = "/adminroom?tab=aufgaben-tab";
 
 
   }
@@ -417,12 +417,10 @@ onAuthStateChanged(auth, (user) => {
                                   <strong class="bold-text-green">fertig</strong>
                               </div>
                           </div>
-                          <div style="position: relative;"> 
-                          <button id="${
-                              taskdoc.id
-                          }" class="deleteTaskButton" style="position: absolute; top: 0; right: 0; border: none; background: transparent; z-index: 1;"></button> <!-- Ändern Sie die Position des Buttons auf absolute und positionieren Sie ihn relativ zur Spalte -->
-                          <img loading="lazy" src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" alt="" class="image-8" style="position: relative; z-index: 0;"> <!-- Ändern Sie die Position des Bildes auf relative -->
-                      </div>
+                          <img loading="lazy" src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" alt="" class="image-8" style="position: absolute; top: 0; right: 0; width: 20px; height: 20px;"> <!-- Hinzufügen von width und height auf 20px -->
+            <button id="${
+                taskdoc.id
+            }" class="deleteTaskButton" style="position: absolute; top: 0; right: 0; width: 20px; height: 20px; border: none; background: transparent;"></button>
                           </div>
                   </div><br>`;
                 } else {
@@ -462,12 +460,10 @@ onAuthStateChanged(auth, (user) => {
                                     <strong class="bold-text-red">verpasst</strong>
                                 </div>
                             </div>
-                            <div style="position: relative;"> 
-                            <button id="${
-                                taskdoc.id
-                            }" class="deleteTaskButton" style="position: absolute; top: 0; right: 0; border: none; background: transparent; z-index: 1;"></button> <!-- Ändern Sie die Position des Buttons auf absolute und positionieren Sie ihn relativ zur Spalte -->
-                            <img loading="lazy" src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" alt="" class="image-8" style="position: relative; z-index: 0;"> <!-- Ändern Sie die Position des Bildes auf relative -->
-                        </div>
+                            <img loading="lazy" src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" alt="" class="image-8" style="position: absolute; top: 0; right: 0; width: 20px; height: 20px;"> <!-- Hinzufügen von width und height auf 20px -->
+            <button id="${
+                taskdoc.id
+            }" class="deleteTaskButton" style="position: absolute; top: 0; right: 0; width: 20px; height: 20px; border: none; background: transparent;"></button>
                             </div>
                     </div><br>`;
                   } else {
@@ -502,12 +498,10 @@ onAuthStateChanged(auth, (user) => {
                     <div class="text-block-19-copy">
                     <strong class="bold-text-orange">offen</strong></div>
                     </div>
-                    <div style="position: relative;">
+                    <img loading="lazy" src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" alt="" class="image-8" style="position: absolute; top: 0; right: 0; width: 20px; height: 20px;"> <!-- Hinzufügen von width und height auf 20px -->
                     <button id="${
                         taskdoc.id
-                    }" class="deleteTaskButton" style="position: absolute; top: 0; right: 0; border: none; background: transparent; z-index: 1;"></button> <!-- Ändern Sie die Position des Buttons auf absolute und positionieren Sie ihn relativ zur Spalte -->
-                    <img loading="lazy" src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" alt="" class="image-8" style="position: relative; z-index: 0;"> <!-- Ändern Sie die Position des Bildes auf relative -->
-                </div>
+                    }" class="deleteTaskButton" style="position: absolute; top: 0; right: 0; width: 20px; height: 20px; border: none; background: transparent;"></button>
                     </div>
                     </div><br>`;
                   }
