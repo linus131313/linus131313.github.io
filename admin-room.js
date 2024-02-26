@@ -108,11 +108,7 @@ function handleSignOut() {
 let GForm = document.getElementById("geb_form");
 let AForm = document.getElementById("task_form");
 
-//modal popup to delete tasks
 
-function confirmDelete() {
-  console.log("Confiirm");
-}
 
 //disable/enable buttons
 const taskForm = document.getElementById("task_form");
@@ -386,128 +382,146 @@ onAuthStateChanged(auth, (user) => {
 
                 //aufgaben tab übersicht
                 const taskListTab = document.getElementById("task_list_tab");
+                const taskListTabWeek = document.getElementById("task_list_tab_week");
+
+                const htmlGreen=`
+                <div class="columns-14 w-row">
+                    <div class="column-23 w-col w-col-2">
+                        <div class="text-block-19-copy-copy-copy">${
+                          taskdoc.data().title
+                        }</div>
+                        <div class="text-block-19-copy-copy">${
+                          taskdoc.data().building
+                        }</div>
+                    </div>
+                    <div class="w-col w-col-3">
+                        <div class="text-block-19-desc">${
+                          taskdoc.data().description
+                        }</div>
+                    </div>
+                    <div class="column-24 w-col w-col-2">
+                        <div class="text-block-19-copy-copy">${
+                          taskdoc.data().assignee
+                        }</div>
+                    </div>
+                    <div class="column-27 w-col w-col-1">
+                        <div class="text-block-19-copy-copy">${
+                          taskdoc.data().repeat
+                        }</div>
+                    </div>
+                    <div class="column-29 w-col w-col-2">
+                        <div class="text-block-19-copy-copy">${formattedDate},<br>${formattedTime}</div>
+                    </div>
+                    <div class="column-28 w-col w-col-2">
+                        <div class="div-block-green">
+                            <div class="text-block-19-copy">
+                                <strong class="bold-text-green">fertig</strong>
+                            </div>
+                        </div>
+                        <img loading="lazy" src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" alt="" class="image-8" style="position: absolute; top: 0; right: 0; width: 20px; height: 20px;"> <!-- Hinzufügen von width und height auf 20px -->
+          <button id="${
+              taskdoc.id
+          }" class="deleteTaskButton" style="position: absolute; top: 0; right: 0; width: 20px; height: 20px; border: none; background: transparent;"></button>
+                        </div>
+                </div><br>`;
+
+                const htmlOrange=`
+                <div class="columns-14 w-row">
+                <div class="column-23 w-col w-col-2">
+                <div class="text-block-19-copy-copy-copy">${
+                  taskdoc.data().title
+                }</div>
+                <div class="text-block-19-copy-copy">${
+                  taskdoc.data().building
+                }</div>
+                </div>
+                <div class="w-col w-col-3">
+                <div class="text-block-19-desc">${
+                  taskdoc.data().description
+                }</div>
+                </div>
+                <div class="column-24 w-col w-col-2">
+                <div class="text-block-19-copy-copy">${
+                  taskdoc.data().assignee
+                }</div>
+                </div><div class="column-27 w-col w-col-1">
+                <div class="text-block-19-copy-copy">${
+                  taskdoc.data().repeat
+                }</div>
+                </div>
+                <div class="column-29 w-col w-col-2">
+                <div class="text-block-19-copy-copy">${formattedDate},<br>${formattedTime}</div>
+                </div>
+                <div class="column-28 w-col w-col-2"><div class="div-block-orange">
+                <div class="text-block-19-copy">
+                <strong class="bold-text-orange">offen</strong></div>
+                </div>
+                <img loading="lazy" src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" alt="" class="image-8" style="position: absolute; top: 0; right: 0; width: 20px; height: 20px;"> <!-- Hinzufügen von width und height auf 20px -->
+                <button id="${
+                    taskdoc.id
+                }" class="deleteTaskButton" style="position: absolute; top: 0; right: 0; width: 20px; height: 20px; border: none; background: transparent;"></button>
+                </div>
+                </div><br>`;
+
+                const htmlRed=`
+                <div class="columns-14 w-row">
+                    <div class="column-23 w-col w-col-2">
+                        <div class="text-block-19-copy-copy-copy">${
+                          taskdoc.data().title
+                        }</div>
+                        <div class="text-block-19-copy-copy">${
+                          taskdoc.data().building
+                        }</div>
+                    </div>
+                    <div class="w-col w-col-3">
+                        <div class="text-block-19-desc">${
+                          taskdoc.data().description
+                        }</div>
+                    </div>
+                    <div class="column-24 w-col w-col-2">
+                        <div class="text-block-19-copy-copy">${
+                          taskdoc.data().assignee
+                        }</div>
+                    </div>
+                    <div class="column-27 w-col w-col-1">
+                        <div class="text-block-19-copy-copy">${
+                          taskdoc.data().repeat
+                        }</div>
+                    </div>
+                    <div class="column-29 w-col w-col-2">
+                        <div class="text-block-19-copy-copy">${formattedDate},<br>${formattedTime}</div>
+                    </div>
+                    <div class="column-28 w-col w-col-2">
+                        <div class="div-block-red">
+                            <div class="text-block-19-copy">
+                                <strong class="bold-text-red">verpasst</strong>
+                            </div>
+                        </div>
+                        <img loading="lazy" src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" alt="" class="image-8" style="position: absolute; top: 0; right: 0; width: 20px; height: 20px;"> <!-- Hinzufügen von width und height auf 20px -->
+        <button id="${
+            taskdoc.id
+        }" class="deleteTaskButton" style="position: absolute; top: 0; right: 0; width: 20px; height: 20px; border: none; background: transparent;"></button>
+                        </div>
+                </div><br>`;
+
                 if (taskDone > january1st2010) {
-                  taskListTab.innerHTML += `
-                  <div class="columns-14 w-row">
-                      <div class="column-23 w-col w-col-2">
-                          <div class="text-block-19-copy-copy-copy">${
-                            taskdoc.data().title
-                          }</div>
-                          <div class="text-block-19-copy-copy">${
-                            taskdoc.data().building
-                          }</div>
-                      </div>
-                      <div class="w-col w-col-3">
-                          <div class="text-block-19-desc">${
-                            taskdoc.data().description
-                          }</div>
-                      </div>
-                      <div class="column-24 w-col w-col-2">
-                          <div class="text-block-19-copy-copy">${
-                            taskdoc.data().assignee
-                          }</div>
-                      </div>
-                      <div class="column-27 w-col w-col-1">
-                          <div class="text-block-19-copy-copy">${
-                            taskdoc.data().repeat
-                          }</div>
-                      </div>
-                      <div class="column-29 w-col w-col-2">
-                          <div class="text-block-19-copy-copy">${formattedDate},<br>${formattedTime}</div>
-                      </div>
-                      <div class="column-28 w-col w-col-2">
-                          <div class="div-block-green">
-                              <div class="text-block-19-copy">
-                                  <strong class="bold-text-green">fertig</strong>
-                              </div>
-                          </div>
-                          <img loading="lazy" src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" alt="" class="image-8" style="position: absolute; top: 0; right: 0; width: 20px; height: 20px;"> <!-- Hinzufügen von width und height auf 20px -->
-            <button id="${
-                taskdoc.id
-            }" class="deleteTaskButton" style="position: absolute; top: 0; right: 0; width: 20px; height: 20px; border: none; background: transparent;"></button>
-                          </div>
-                  </div><br>`;
+                  taskListTab.innerHTML += htmlGreen;
+                  if (((new Date() - taskIssued) < 0) || ((new Date() - taskIssued) > (7 * 24 * 60 * 60 * 1000))) {
+                    taskListTabWeek.innerHTML += htmlGreen;
+                }
                 } else {
                   if ((new Date() - taskIssued) / (1000 * 60 * 60) > 1) {
                     //wenn aufgabe nach einer stunde immernoch nicht bearbeitet wurde
-                    taskListTab.innerHTML += `
-                    <div class="columns-14 w-row">
-                        <div class="column-23 w-col w-col-2">
-                            <div class="text-block-19-copy-copy-copy">${
-                              taskdoc.data().title
-                            }</div>
-                            <div class="text-block-19-copy-copy">${
-                              taskdoc.data().building
-                            }</div>
-                        </div>
-                        <div class="w-col w-col-3">
-                            <div class="text-block-19-desc">${
-                              taskdoc.data().description
-                            }</div>
-                        </div>
-                        <div class="column-24 w-col w-col-2">
-                            <div class="text-block-19-copy-copy">${
-                              taskdoc.data().assignee
-                            }</div>
-                        </div>
-                        <div class="column-27 w-col w-col-1">
-                            <div class="text-block-19-copy-copy">${
-                              taskdoc.data().repeat
-                            }</div>
-                        </div>
-                        <div class="column-29 w-col w-col-2">
-                            <div class="text-block-19-copy-copy">${formattedDate},<br>${formattedTime}</div>
-                        </div>
-                        <div class="column-28 w-col w-col-2">
-                            <div class="div-block-red">
-                                <div class="text-block-19-copy">
-                                    <strong class="bold-text-red">verpasst</strong>
-                                </div>
-                            </div>
-                            <img loading="lazy" src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" alt="" class="image-8" style="position: absolute; top: 0; right: 0; width: 20px; height: 20px;"> <!-- Hinzufügen von width und height auf 20px -->
-            <button id="${
-                taskdoc.id
-            }" class="deleteTaskButton" style="position: absolute; top: 0; right: 0; width: 20px; height: 20px; border: none; background: transparent;"></button>
-                            </div>
-                    </div><br>`;
+                    taskListTab.innerHTML += htmlRed;
+                    if (((new Date() - taskIssued) < 0) || ((new Date() - taskIssued) > (7 * 24 * 60 * 60 * 1000))) {
+                      taskListTabWeek.innerHTML += htmlRed;
+                  }
+                  
                   } else {
-                    taskListTab.innerHTML += `
-                    <div class="columns-14 w-row">
-                    <div class="column-23 w-col w-col-2">
-                    <div class="text-block-19-copy-copy-copy">${
-                      taskdoc.data().title
-                    }</div>
-                    <div class="text-block-19-copy-copy">${
-                      taskdoc.data().building
-                    }</div>
-                    </div>
-                    <div class="w-col w-col-3">
-                    <div class="text-block-19-desc">${
-                      taskdoc.data().description
-                    }</div>
-                    </div>
-                    <div class="column-24 w-col w-col-2">
-                    <div class="text-block-19-copy-copy">${
-                      taskdoc.data().assignee
-                    }</div>
-                    </div><div class="column-27 w-col w-col-1">
-                    <div class="text-block-19-copy-copy">${
-                      taskdoc.data().repeat
-                    }</div>
-                    </div>
-                    <div class="column-29 w-col w-col-2">
-                    <div class="text-block-19-copy-copy">${formattedDate},<br>${formattedTime}</div>
-                    </div>
-                    <div class="column-28 w-col w-col-2"><div class="div-block-orange">
-                    <div class="text-block-19-copy">
-                    <strong class="bold-text-orange">offen</strong></div>
-                    </div>
-                    <img loading="lazy" src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" alt="" class="image-8" style="position: absolute; top: 0; right: 0; width: 20px; height: 20px;"> <!-- Hinzufügen von width und height auf 20px -->
-                    <button id="${
-                        taskdoc.id
-                    }" class="deleteTaskButton" style="position: absolute; top: 0; right: 0; width: 20px; height: 20px; border: none; background: transparent;"></button>
-                    </div>
-                    </div><br>`;
+                    taskListTab.innerHTML += htmlOrange;
+                    if (((new Date() - taskIssued) < 0) || ((new Date() - taskIssued) > (7 * 24 * 60 * 60 * 1000))) {
+                      taskListTabWeek.innerHTML += htmlOrange;
+                  }
                   }
                 }
 
@@ -611,25 +625,21 @@ onAuthStateChanged(auth, (user) => {
                   textColor: textColor,
                 };
               });
-              console.log(taskDoneCounter);
+    
 
 
               const deleteTaskButtons = document.querySelectorAll(".deleteTaskButton");
               deleteTaskButtons.forEach((button) => {
                   button.addEventListener("click", function () {
                       const taskId = button.id;
-                      console.log("Button ID:", taskId);
+           
                       
-                      // Bestätigungsdialog anzeigen
                       const confirmDelete = confirm("Möchten Sie diese Aufgabe wirklich löschen?");
                       
-                      // Wenn der Benutzer bestätigt, das Dokument zu löschen
                       if (confirmDelete) {
-                          // Dokument mit der ID aus Firestore löschen
+               
                           deleteDocumentFromFirestore(taskId, taskCollection);
-                      } else {
-                          console.log("Löschvorgang abgebrochen.");
-                      }
+                      } 
                   });
               });
 
@@ -904,10 +914,9 @@ onAuthStateChanged(auth, (user) => {
                
           
                       if (timestampDoc.id === currentDateString) {
-                          console.log("Timestamp Data:", timestampDoc.data());
-                          console.log(docw.data().name);
+                      
                           if (timestampDoc.data().Start.length > timestampDoc.data().End.length) {
-                              console.log("Working");
+                          
                               workerListDash.innerHTML += htmlCodeOnline;
                           } else {
                               workerListDash.innerHTML += htmlCodeOffline;
@@ -948,14 +957,15 @@ onAuthStateChanged(auth, (user) => {
 });
 
 document.getElementById("calendar-tab").addEventListener("click", function () {
-  console.log("Klick");
+  // console.log("Render Calendar");
+
   setTimeout(function () {
     renderCalendar(newEvents);
   }, 500);
 });
 
 document.getElementById("aufgaben-tab").addEventListener("click", function () {
-  console.log("Klick");
+  // console.log("Render Calendar");
   setTimeout(function () {
     renderCalendar(newEvents);
   }, 500);
@@ -1105,7 +1115,6 @@ async function deleteDocumentFromFirestore(documentId, taskCollection) {
   const taskRef = doc(taskCollection, documentId);
   try {
       await deleteDoc(taskRef);
-      console.log("Dokument erfolgreich gelöscht");
       location.reload();
   } catch (error) {
       console.error("Fehler beim Löschen des Dokuments:", error);
