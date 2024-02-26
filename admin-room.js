@@ -517,7 +517,7 @@ onAuthStateChanged(auth, (user) => {
                  
                   if (taskDone > january1st2010) {
                     ///task done count dashboard
-                  if (taskDoneCounter.has(taskdoc.data().assignee)) {
+                  if (taskDoneCounter[taskdoc.data().assignee]) {
                     taskDoneCounter[taskdoc.data().assignee][0]+=1;
                     taskDoneCounter[taskdoc.data().assignee][1]+=1;
 
@@ -544,7 +544,7 @@ onAuthStateChanged(auth, (user) => {
 </div>`;
                   } else {
                     ///task done count dashboard
-                  if (taskDoneCounter.has(taskdoc.data().assignee)) {
+                  if (taskDoneCounter[taskdoc.data().assignee]) {
                     taskDoneCounter[taskdoc.data().assignee][0]+=0;
                     taskDoneCounter[taskdoc.data().assignee][1]+=1;
 
