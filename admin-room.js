@@ -821,6 +821,8 @@ onAuthStateChanged(auth, (user) => {
           });
           getDocs(userCollections).then((querySnapshot) => {
             const userList = document.querySelector("#userList");
+            const currentDateString = new Date().toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\./g, ''); // Aktuelles Datum als String im Format DDMMYYYY
+
             querySnapshot.forEach((docw) => {
 
               const timestampsCollectionRef = collection(docw.ref, "Timestamps");
@@ -829,12 +831,16 @@ onAuthStateChanged(auth, (user) => {
                       // Hier kannst du die Arbeit mit dem Dokument in der Sammlung "Timestamps" fortsetzen
                       console.log("Timestamp Document ID:", timestampDoc.id);
                       console.log("Timestamp Data:", timestampDoc.data());
+
+                      if(timestampDoc.id === currentDateString){
+                        console.log("Heutttee");
+                      }
                   });
               }).catch((error) => {
                   console.error("Error getting timestamps documents: ", error);
               });
 
-              
+
               // const listItem = document.createElement("li");
               // listItem.textContent = docw.data().name;
               // userList.appendChild(listItem);
