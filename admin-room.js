@@ -822,6 +822,19 @@ onAuthStateChanged(auth, (user) => {
           getDocs(userCollections).then((querySnapshot) => {
             const userList = document.querySelector("#userList");
             querySnapshot.forEach((docw) => {
+
+              const timestampsCollectionRef = collection(docw.ref, "Timestamps");
+              getDocs(timestampsCollectionRef).then((timestampsQuerySnapshot) => {
+                  timestampsQuerySnapshot.forEach((timestampDoc) => {
+                      // Hier kannst du die Arbeit mit dem Dokument in der Sammlung "Timestamps" fortsetzen
+                      console.log("Timestamp Document ID:", timestampDoc.id);
+                      console.log("Timestamp Data:", timestampDoc.data());
+                  });
+              }).catch((error) => {
+                  console.error("Error getting timestamps documents: ", error);
+              });
+
+              
               // const listItem = document.createElement("li");
               // listItem.textContent = docw.data().name;
               // userList.appendChild(listItem);
