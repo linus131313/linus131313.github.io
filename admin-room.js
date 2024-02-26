@@ -824,6 +824,7 @@ onAuthStateChanged(auth, (user) => {
             const currentDateString = new Date().toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\./g, ''); // Aktuelles Datum als String im Format DDMMYYYY
 
             querySnapshot.forEach((docw) => {
+              var active=false;
 
               const timestampsCollectionRef = collection(docw.ref, "Timestamps");
               getDocs(timestampsCollectionRef).then((timestampsQuerySnapshot) => {
@@ -837,6 +838,8 @@ onAuthStateChanged(auth, (user) => {
                         console.log(docw.data().name);
                         if(timestampDoc.data().Start.length > timestampDoc.data().End.length){
                           console.log("Working");
+                          active=true;
+                          
                         }
                       }
                   });
@@ -845,11 +848,8 @@ onAuthStateChanged(auth, (user) => {
               });
 
 
-              // const listItem = document.createElement("li");
-              // listItem.textContent = docw.data().name;
-              // userList.appendChild(listItem);
-              // var active=false;
-              const active = Math.random() < 0.5;
+                  
+        
 
               const htmlCodeOffline = `
 <div class="columns-14 w-row">
