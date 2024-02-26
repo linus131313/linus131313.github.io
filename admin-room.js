@@ -212,6 +212,7 @@ function handleGForm(e) {
   const newSubcollectionRef = collection(companiesDocRef, "Buildings");
   addDoc(newSubcollectionRef, newDocumentData2);
   alert(`Gebäude erfolgreich hinzugefügt!`);
+  location.reload();
 
 }
 
@@ -243,6 +244,7 @@ function handleAForm(e) {
     };
     addDoc(newSubcollectionRef, newDocumentData);
     alert(`Einmalige Aufgabe erfolgreich hinzugefügt!`);
+    location.reload();
 
   }
   if (checked == "täglich") {
@@ -262,7 +264,8 @@ function handleAForm(e) {
       addDoc(newSubcollectionRef, newDocumentData);
       currentDate.setDate(currentDate.getDate() + 1);
     }
-    alert(`ägliche Aufgaben erfolgreich hinzugefügt!`);
+    alert(`Tägliche Aufgaben erfolgreich hinzugefügt!`);
+    location.reload();
 
   }
   if (checked == "wöchentlich") {
@@ -283,6 +286,7 @@ function handleAForm(e) {
       currentDate.setDate(currentDate.getDate() + 7);
     }
     alert(`Wöchentliche Aufgaben erfolgreich hinzugefügt!`);
+    location.reload();
 
   }
   if (checked == "monatlich") {
@@ -303,6 +307,7 @@ function handleAForm(e) {
       currentDate.setMonth(currentDate.getMonth() + 1);
     }
     alert(`Monatliche Aufgaben erfolgreich hinzugefügt!`);
+    location.reload();
 
 
   }
