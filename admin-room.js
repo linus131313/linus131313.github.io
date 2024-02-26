@@ -829,11 +829,15 @@ onAuthStateChanged(auth, (user) => {
               getDocs(timestampsCollectionRef).then((timestampsQuerySnapshot) => {
                   timestampsQuerySnapshot.forEach((timestampDoc) => {
                       // Hier kannst du die Arbeit mit dem Dokument in der Sammlung "Timestamps" fortsetzen
-                      console.log("Timestamp Document ID:", timestampDoc.id);
-                      console.log("Timestamp Data:", timestampDoc.data());
+                      // console.log("Timestamp Document ID:", timestampDoc.id);
+                      // console.log("Timestamp Data:", timestampDoc.data());
 
                       if(timestampDoc.id === currentDateString){
-                        console.log("Heutttee");
+                        console.log("Timestamp Data:", timestampDoc.data());
+                        console.log(docw.data().name);
+                        if(timestampDoc.data().Start.length > timestampDoc.data().End.length){
+                          console.log("Working");
+                        }
                       }
                   });
               }).catch((error) => {
