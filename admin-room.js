@@ -11,6 +11,7 @@ import {
   getDocs,
   updateDoc,
   addDoc,
+  deleteDoc,
 } from "https://www.gstatic.com/firebasejs/9.4.1/firebase-firestore.js";
 import {
   getStorage,
