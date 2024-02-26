@@ -102,14 +102,11 @@ function handleSignOut() {
 let GForm = document.getElementById("geb_form");
 let AForm = document.getElementById("task_form");
 
-
 //modal popup to delete tasks
 
 function confirmDelete() {
-
   console.log("Confiirm");
 }
-
 
 //disable/enable buttons
 const taskForm = document.getElementById("task_form");
@@ -347,8 +344,12 @@ onAuthStateChanged(auth, (user) => {
                   taskdoc.data().issued.seconds * 1000
                 );
 
-                const formattedDate = `${taskIssued.getDate().toString().padStart(2, "0")}.${(taskIssued.getMonth() + 1).toString().padStart(2, "0")}`;
-
+                const formattedDate = `${taskIssued
+                  .getDate()
+                  .toString()
+                  .padStart(2, "0")}.${(taskIssued.getMonth() + 1)
+                  .toString()
+                  .padStart(2, "0")}`;
 
                 const formattedTime = `${taskIssued
                   .getHours()
@@ -367,17 +368,27 @@ onAuthStateChanged(auth, (user) => {
                   taskListTab.innerHTML += `
                   <div class="columns-14 w-row">
                       <div class="column-23 w-col w-col-2">
-                          <div class="text-block-19-copy-copy-copy">${taskdoc.data().title}</div>
-                          <div class="text-block-19-copy-copy">${taskdoc.data().building}</div>
+                          <div class="text-block-19-copy-copy-copy">${
+                            taskdoc.data().title
+                          }</div>
+                          <div class="text-block-19-copy-copy">${
+                            taskdoc.data().building
+                          }</div>
                       </div>
                       <div class="w-col w-col-3">
-                          <div class="text-block-19-desc">${taskdoc.data().description}</div>
+                          <div class="text-block-19-desc">${
+                            taskdoc.data().description
+                          }</div>
                       </div>
                       <div class="column-24 w-col w-col-2">
-                          <div class="text-block-19-copy-copy">${taskdoc.data().assignee}</div>
+                          <div class="text-block-19-copy-copy">${
+                            taskdoc.data().assignee
+                          }</div>
                       </div>
                       <div class="column-27 w-col w-col-1">
-                          <div class="text-block-19-copy-copy">${taskdoc.data().repeat}</div>
+                          <div class="text-block-19-copy-copy">${
+                            taskdoc.data().repeat
+                          }</div>
                       </div>
                       <div class="column-29 w-col w-col-2">
                           <div class="text-block-19-copy-copy">${formattedDate},<br>${formattedTime}</div>
@@ -388,27 +399,38 @@ onAuthStateChanged(auth, (user) => {
                                   <strong class="bold-text-green">fertig</strong>
                               </div>
                           </div>
-                          <button id="${taskdoc.id}" class="deleteTaskButton" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; background: transparent;"></button>                    <img loading="lazy" src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" alt="" class="image-8">
+                          <button id="${
+                            taskdoc.id
+                          }" class="deleteTaskButton" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; background: transparent;"></button>                    <img loading="lazy" src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" alt="" class="image-8">
                           </div>
                   </div><br>`;
-                  
                 } else {
                   if ((new Date() - taskIssued) / (1000 * 60 * 60) > 1) {
                     //wenn aufgabe nach einer stunde immernoch nicht bearbeitet wurde
                     taskListTab.innerHTML += `
                     <div class="columns-14 w-row">
                         <div class="column-23 w-col w-col-2">
-                            <div class="text-block-19-copy-copy-copy">${taskdoc.data().title}</div>
-                            <div class="text-block-19-copy-copy">${taskdoc.data().building}</div>
+                            <div class="text-block-19-copy-copy-copy">${
+                              taskdoc.data().title
+                            }</div>
+                            <div class="text-block-19-copy-copy">${
+                              taskdoc.data().building
+                            }</div>
                         </div>
                         <div class="w-col w-col-3">
-                            <div class="text-block-19-desc">${taskdoc.data().description}</div>
+                            <div class="text-block-19-desc">${
+                              taskdoc.data().description
+                            }</div>
                         </div>
                         <div class="column-24 w-col w-col-2">
-                            <div class="text-block-19-copy-copy">${taskdoc.data().assignee}</div>
+                            <div class="text-block-19-copy-copy">${
+                              taskdoc.data().assignee
+                            }</div>
                         </div>
                         <div class="column-27 w-col w-col-1">
-                            <div class="text-block-19-copy-copy">${taskdoc.data().repeat}</div>
+                            <div class="text-block-19-copy-copy">${
+                              taskdoc.data().repeat
+                            }</div>
                         </div>
                         <div class="column-29 w-col w-col-2">
                             <div class="text-block-19-copy-copy">${formattedDate},<br>${formattedTime}</div>
@@ -419,24 +441,35 @@ onAuthStateChanged(auth, (user) => {
                                     <strong class="bold-text-red">verpasst</strong>
                                 </div>
                             </div>
-                            <button id="${taskdoc.id}" class="deleteTaskButton" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; background: transparent;"></button>                    <img loading="lazy" src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" alt="" class="image-8">
+                            <button id="${
+                              taskdoc.id
+                            }" class="deleteTaskButton" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; background: transparent;"></button>                    <img loading="lazy" src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" alt="" class="image-8">
                             </div>
                     </div><br>`;
-                    
                   } else {
                     taskListTab.innerHTML += `
                     <div class="columns-14 w-row">
                     <div class="column-23 w-col w-col-2">
-                    <div class="text-block-19-copy-copy-copy">${taskdoc.data().title}</div>
-                    <div class="text-block-19-copy-copy">${taskdoc.data().building}</div>
+                    <div class="text-block-19-copy-copy-copy">${
+                      taskdoc.data().title
+                    }</div>
+                    <div class="text-block-19-copy-copy">${
+                      taskdoc.data().building
+                    }</div>
                     </div>
                     <div class="w-col w-col-3">
-                    <div class="text-block-19-desc">${taskdoc.data().description}</div>
+                    <div class="text-block-19-desc">${
+                      taskdoc.data().description
+                    }</div>
                     </div>
                     <div class="column-24 w-col w-col-2">
-                    <div class="text-block-19-copy-copy">${taskdoc.data().assignee}</div>
+                    <div class="text-block-19-copy-copy">${
+                      taskdoc.data().assignee
+                    }</div>
                     </div><div class="column-27 w-col w-col-1">
-                    <div class="text-block-19-copy-copy">${taskdoc.data().repeat}</div>
+                    <div class="text-block-19-copy-copy">${
+                      taskdoc.data().repeat
+                    }</div>
                     </div>
                     <div class="column-29 w-col w-col-2">
                     <div class="text-block-19-copy-copy">${formattedDate},<br>${formattedTime}</div>
@@ -445,7 +478,9 @@ onAuthStateChanged(auth, (user) => {
                     <div class="text-block-19-copy">
                     <strong class="bold-text-orange">offen</strong></div>
                     </div>
-                    <button id="${taskdoc.id}" class="deleteTaskButton" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; background: transparent;"></button>                    <img loading="lazy" src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" alt="" class="image-8">
+                    <button id="${
+                      taskdoc.id
+                    }" class="deleteTaskButton" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; background: transparent;"></button>                    <img loading="lazy" src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" alt="" class="image-8">
                     
                     </div>
                     </div><br>`;
@@ -534,13 +569,7 @@ onAuthStateChanged(auth, (user) => {
                 };
               });
 
-              
               // renderCalendar(newEvents);
-
-
-        
-
-
             }
           });
 
@@ -979,20 +1008,14 @@ function getRandomColor(worker) {
   return { bgColor, textColor };
 }
 
-
-
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
   console.log("Ausf.");
-  function addDeleteTaskButtonListeners() {
-      const deleteTaskButtons = document.querySelectorAll(".deleteTaskButton");
-      deleteTaskButtons.forEach(button => {
-          console.log("Listener ready btn");
-          button.addEventListener("click", function() {
-              console.log("Button ID:", button.id);
-              // Hier können Sie den Code für das Löschen der Aufgabe aus Firebase einfügen
-          });
-      });
-  }
-
-  addDeleteTaskButtonListeners();
+  const deleteTaskButtons = document.querySelectorAll(".deleteTaskButton");
+  deleteTaskButtons.forEach((button) => {
+    console.log("Listener ready btn");
+    button.addEventListener("click", function () {
+      console.log("Button ID:", button.id);
+      // Hier können Sie den Code für das Löschen der Aufgabe aus Firebase einfügen
+    });
+  });
 });
