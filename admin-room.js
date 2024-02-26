@@ -198,11 +198,11 @@ function handleGForm(e) {
   e.stopPropagation();
   const street = document.getElementById("str_geb").value;
   const plz = document.getElementById("plz_geb").value;
-  const location = document.getElementById("standort_geb").value;
+  const locationV = document.getElementById("standort_geb").value;
   const companiesDocRef = doc(collection(db, "Companies"), companyName);
   const newDocumentData2 = {
     address: street,
-    city: location,
+    city: locationV,
     zipcode: plz,
     counterelectricity: "0",
     countergas: "0",
@@ -417,9 +417,12 @@ onAuthStateChanged(auth, (user) => {
                                   <strong class="bold-text-green">fertig</strong>
                               </div>
                           </div>
+                          <div style="position: relative;"> 
                           <button id="${
-                            taskdoc.id
-                          }" class="deleteTaskButton" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; background: transparent;"></button>                    <img loading="lazy" src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" alt="" class="image-8">
+                              taskdoc.id
+                          }" class="deleteTaskButton" style="position: absolute; top: 0; right: 0; border: none; background: transparent; z-index: 1;"></button> <!-- Ändern Sie die Position des Buttons auf absolute und positionieren Sie ihn relativ zur Spalte -->
+                          <img loading="lazy" src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" alt="" class="image-8" style="position: relative; z-index: 0;"> <!-- Ändern Sie die Position des Bildes auf relative -->
+                      </div>
                           </div>
                   </div><br>`;
                 } else {
@@ -459,9 +462,12 @@ onAuthStateChanged(auth, (user) => {
                                     <strong class="bold-text-red">verpasst</strong>
                                 </div>
                             </div>
+                            <div style="position: relative;"> 
                             <button id="${
-                              taskdoc.id
-                            }" class="deleteTaskButton" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; background: transparent;"></button>                    <img loading="lazy" src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" alt="" class="image-8">
+                                taskdoc.id
+                            }" class="deleteTaskButton" style="position: absolute; top: 0; right: 0; border: none; background: transparent; z-index: 1;"></button> <!-- Ändern Sie die Position des Buttons auf absolute und positionieren Sie ihn relativ zur Spalte -->
+                            <img loading="lazy" src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" alt="" class="image-8" style="position: relative; z-index: 0;"> <!-- Ändern Sie die Position des Bildes auf relative -->
+                        </div>
                             </div>
                     </div><br>`;
                   } else {
@@ -496,10 +502,12 @@ onAuthStateChanged(auth, (user) => {
                     <div class="text-block-19-copy">
                     <strong class="bold-text-orange">offen</strong></div>
                     </div>
+                    <div style="position: relative;">
                     <button id="${
-                      taskdoc.id
-                    }" class="deleteTaskButton" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; background: transparent;"></button>                    <img loading="lazy" src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" alt="" class="image-8">
-                    
+                        taskdoc.id
+                    }" class="deleteTaskButton" style="position: absolute; top: 0; right: 0; border: none; background: transparent; z-index: 1;"></button> <!-- Ändern Sie die Position des Buttons auf absolute und positionieren Sie ihn relativ zur Spalte -->
+                    <img loading="lazy" src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" alt="" class="image-8" style="position: relative; z-index: 0;"> <!-- Ändern Sie die Position des Bildes auf relative -->
+                </div>
                     </div>
                     </div><br>`;
                   }
