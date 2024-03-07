@@ -910,15 +910,17 @@ onAuthStateChanged(auth, (user) => {
           
                   workerListDash.innerHTML += htmlCodeOffline;
               } else {
+                console.log("Here");
                   timestampsQuerySnapshot.forEach((timestampDoc) => {
-               
+                    console.log("Here2");
           
                       if (timestampDoc.id === currentDateString) {
-                      
+                        console.log("Here3");
                           if (timestampDoc.data().Start.length > timestampDoc.data().End.length) {
-                          
+                            console.log("Here4");
                               workerListDash.innerHTML += htmlCodeOnline;
                           } else {
+                            console.log("Here5");
                               workerListDash.innerHTML += htmlCodeOffline;
                           }
                       }
