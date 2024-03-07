@@ -913,6 +913,8 @@ onAuthStateChanged(auth, (user) => {
                 console.log("Here");
                   timestampsQuerySnapshot.forEach((timestampDoc) => {
                     console.log("Here2");
+                    console.log(currentDateString);
+                    console.log(timestampDoc.id);
           
                       if (timestampDoc.id === currentDateString) {
                         console.log("Here3");
