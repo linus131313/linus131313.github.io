@@ -906,17 +906,20 @@ onAuthStateChanged(auth, (user) => {
 
               const timestampsCollectionRef = collection(docw.ref, "Timestamps");
               getDocs(timestampsCollectionRef).then((timestampsQuerySnapshot) => {
+              
                 if (timestampsQuerySnapshot.empty) {
           
                   workerListDash.innerHTML += htmlCodeOffline;
               } else {
-                console.log("Here");
+                var active_today=false;
+                // console.log("Here");
                   timestampsQuerySnapshot.forEach((timestampDoc) => {
-                    console.log("Here2");
-                    console.log(currentDateString);
-                    console.log(timestampDoc.id);
+                    // console.log("Here2");
+                    // console.log(currentDateString);
+                    // console.log(timestampDoc.id);
           
                       if (timestampDoc.id === currentDateString) {
+                        active_today=true;
                         console.log("Here3");
                           if (timestampDoc.data().Start.length > timestampDoc.data().End.length) {
                             console.log("Here4");
@@ -927,7 +930,11 @@ onAuthStateChanged(auth, (user) => {
                           }
                       }
                   });
+                  if(!active_today){
+                    workerListDash.innerHTML += htmlCodeOffline;
+                  }
               }
+             
               }).catch((error) => {
                   console.error("Error getting timestamps documents: ", error);
               });
