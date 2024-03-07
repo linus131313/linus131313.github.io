@@ -912,12 +912,9 @@ onAuthStateChanged(auth, (user) => {
                   workerListDash.innerHTML += htmlCodeOffline;
               } else {
                 var active_today=false;
-                // console.log("Here");
+              
                   timestampsQuerySnapshot.forEach((timestampDoc) => {
-                    // console.log("Here2");
-                    // console.log(currentDateString);
-                    // console.log(timestampDoc.id);
-          
+                  
                       if (timestampDoc.id === currentDateString) {
                         active_today=true;
                         console.log("Here3");
