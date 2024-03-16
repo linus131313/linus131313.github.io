@@ -912,24 +912,32 @@ onAuthStateChanged(auth, (user) => {
 
               const timestampsCollectionRef = collection(docw.ref, "Timestamps");
               getDocs(timestampsCollectionRef).then((timestampsQuerySnapshot) => {
+              
                 if (timestampsQuerySnapshot.empty) {
           
                   workerListDash.innerHTML += htmlCodeOffline;
               } else {
+                var active_today=false;
+              
                   timestampsQuerySnapshot.forEach((timestampDoc) => {
-               
-          
+                  
                       if (timestampDoc.id === currentDateString) {
-                      
+                        active_today=true;
+                        console.log("Here3");
                           if (timestampDoc.data().Start.length > timestampDoc.data().End.length) {
-                          
+                            console.log("Here4");
                               workerListDash.innerHTML += htmlCodeOnline;
                           } else {
+                            console.log("Here5");
                               workerListDash.innerHTML += htmlCodeOffline;
                           }
                       }
                   });
+                  if(!active_today){
+                    workerListDash.innerHTML += htmlCodeOffline;
+                  }
               }
+             
               }).catch((error) => {
                   console.error("Error getting timestamps documents: ", error);
               });
