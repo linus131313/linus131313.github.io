@@ -858,6 +858,8 @@ onAuthStateChanged(auth, (user) => {
               const date = new Date(timestamp_purchased.seconds * 1000);
               const dateString = date.toLocaleDateString();
               document.getElementById("date").innerHTML = dateString;
+              // abo page
+              document.getElementById("date2").innerHTML = dateString;
             });
           });
           getDocs(userCollections).then((querySnapshot) => {
