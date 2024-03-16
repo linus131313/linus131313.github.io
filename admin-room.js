@@ -827,8 +827,14 @@ onAuthStateChanged(auth, (user) => {
               if (dte instanceof Date && !isNaN(dte)) {
                 status = "Gekündigt bis zum " + dte.toLocaleString("de-DE");
               }
+              // dash
               document.getElementById("status").innerHTML = status;
+              // for abo page
+              document.getElementById("status2").innerHTML = status;
+              // dash
               document.getElementById("abo").innerHTML = docy.data().aboName;
+              // for abo page
+              document.getElementById("abo2").innerHTML = docy.data().aboName;
 
               if (docy.data().aboName == "Testpaket") {
                 document.getElementById("aboButton").innerHTML = "Upgrade";
