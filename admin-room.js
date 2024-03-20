@@ -13,7 +13,7 @@ import {
   addDoc,
   deleteDoc,
   query,
-   orderBy,
+  orderBy,
 } from "https://www.gstatic.com/firebasejs/9.4.1/firebase-firestore.js";
 import {
   getStorage,
@@ -41,7 +41,7 @@ var newEvents = {};
 var workerColors = {};
 
 //task done counter map for dahboard
-var taskDoneCounter={};
+var taskDoneCounter = {};
 
 let signOutButton = document.getElementById("signout-button");
 
@@ -107,8 +107,6 @@ function handleSignOut() {
 
 let GForm = document.getElementById("geb_form");
 let AForm = document.getElementById("task_form");
-
-
 
 //disable/enable buttons
 const taskForm = document.getElementById("task_form");
@@ -212,7 +210,6 @@ function handleGForm(e) {
   addDoc(newSubcollectionRef, newDocumentData2);
   alert(`Gebäude erfolgreich hinzugefügt!`);
   window.location.href = "/adminroom?tab=gebaude-tab";
-
 }
 
 function handleAForm(e) {
@@ -244,7 +241,6 @@ function handleAForm(e) {
     addDoc(newSubcollectionRef, newDocumentData);
     alert(`Einmalige Aufgabe erfolgreich hinzugefügt!`);
     window.location.href = "/adminroom?tab=aufgaben-tab";
-
   }
   if (checked == "täglich") {
     var currentDate = new Date(time_task);
@@ -265,7 +261,6 @@ function handleAForm(e) {
     }
     alert(`Tägliche Aufgaben erfolgreich hinzugefügt!`);
     window.location.href = "/adminroom?tab=aufgaben-tab";
-
   }
   if (checked == "wöchentlich") {
     var currentDate = new Date(time_task);
@@ -286,7 +281,6 @@ function handleAForm(e) {
     }
     alert(`Wöchentliche Aufgaben erfolgreich hinzugefügt!`);
     window.location.href = "/adminroom?tab=aufgaben-tab";
-
   }
   if (checked == "monatlich") {
     var currentDate = new Date(time_task);
@@ -307,8 +301,6 @@ function handleAForm(e) {
     }
     alert(`Monatliche Aufgaben erfolgreich hinzugefügt!`);
     window.location.href = "/adminroom?tab=aufgaben-tab";
-
-
   }
 }
 
@@ -348,43 +340,45 @@ onAuthStateChanged(auth, (user) => {
 
           //iteriere durch jede task sortiert nach datum
           const taskCollection = collection(companyDoc, "Tasks");
-          getDocs(query(taskCollection, orderBy("issued"))).then((querySnapshot) => {
+          getDocs(query(taskCollection, orderBy("issued"))).then(
+            (querySnapshot) => {
+              if (!querySnapshot.empty) {
+                querySnapshot.forEach((taskdoc) => {
+                  const time = taskdoc.data().issued;
+                  const dateFromTimestamp = new Date(time.seconds * 1000);
 
-            if (!querySnapshot.empty) {
-              querySnapshot.forEach((taskdoc) => {
-                const time = taskdoc.data().issued;
-                const dateFromTimestamp = new Date(time.seconds * 1000);
+                  const today = new Date();
+                  today.setHours(0, 0, 0, 0);
 
-                const today = new Date();
-                today.setHours(0, 0, 0, 0);
+                  const taskListDash =
+                    document.getElementById("task_list_dash");
+                  const taskIssued = new Date(
+                    taskdoc.data().issued.seconds * 1000
+                  );
+                  const formattedDate = `${taskIssued
+                    .getDate()
+                    .toString()
+                    .padStart(2, "0")}.${(taskIssued.getMonth() + 1)
+                    .toString()
+                    .padStart(2, "0")}.${taskIssued.getFullYear()}`;
 
-                const taskListDash = document.getElementById("task_list_dash");
-                const taskIssued = new Date(
-                  taskdoc.data().issued.seconds * 1000
-                );
-                const formattedDate = `${taskIssued
-                  .getDate()
-                  .toString()
-                  .padStart(2, "0")}.${(taskIssued.getMonth() + 1)
-                  .toString()
-                  .padStart(2, "0")}.${taskIssued.getFullYear()}`;
-              
-                const formattedTime = `${taskIssued
-                  .getHours()
-                  .toString()
-                  .padStart(2, "0")}:${taskIssued
-                  .getMinutes()
-                  .toString()
-                  .padStart(2, "0")}`;
+                  const formattedTime = `${taskIssued
+                    .getHours()
+                    .toString()
+                    .padStart(2, "0")}:${taskIssued
+                    .getMinutes()
+                    .toString()
+                    .padStart(2, "0")}`;
 
-                const taskDone = new Date(taskdoc.data().done.seconds * 1000);
-                const january1st2010 = new Date("2010-01-01T00:00:00Z");
+                  const taskDone = new Date(taskdoc.data().done.seconds * 1000);
+                  const january1st2010 = new Date("2010-01-01T00:00:00Z");
 
-                //aufgaben tab übersicht
-                const taskListTab = document.getElementById("task_list_tab");
-                const taskListTabWeek = document.getElementById("task_list_tab_week");
+                  //aufgaben tab übersicht
+                  const taskListTab = document.getElementById("task_list_tab");
+                  const taskListTabWeek =
+                    document.getElementById("task_list_tab_week");
 
-                const htmlGreen=`
+                  const htmlGreen = `
                 <div class="columns-14 w-row">
                     <div class="column-23 w-col w-col-2">
                         <div class="text-block-19-copy-copy-copy">${
@@ -420,12 +414,12 @@ onAuthStateChanged(auth, (user) => {
                         </div>
                         <img loading="lazy" src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" alt="" class="image-8" style="position: absolute; top: 0; right: 0; width: 20px; height: 20px;"> <!-- Hinzufügen von width und height auf 20px -->
           <button id="${
-              taskdoc.id
+            taskdoc.id
           }" class="deleteTaskButton" style="position: absolute; top: 0; right: 0; width: 20px; height: 20px; border: none; background: transparent;"></button>
                         </div>
                 </div><br>`;
 
-                const htmlOrange=`
+                  const htmlOrange = `
                 <div class="columns-14 w-row">
                 <div class="column-23 w-col w-col-2">
                 <div class="text-block-19-copy-copy-copy">${
@@ -458,12 +452,12 @@ onAuthStateChanged(auth, (user) => {
                 </div>
                 <img loading="lazy" src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" alt="" class="image-8" style="position: absolute; top: 0; right: 0; width: 20px; height: 20px;"> <!-- Hinzufügen von width und height auf 20px -->
                 <button id="${
-                    taskdoc.id
+                  taskdoc.id
                 }" class="deleteTaskButton" style="position: absolute; top: 0; right: 0; width: 20px; height: 20px; border: none; background: transparent;"></button>
                 </div>
                 </div><br>`;
 
-                const htmlRed=`
+                  const htmlRed = `
                 <div class="columns-14 w-row">
                     <div class="column-23 w-col w-col-2">
                         <div class="text-block-19-copy-copy-copy">${
@@ -499,47 +493,54 @@ onAuthStateChanged(auth, (user) => {
                         </div>
                         <img loading="lazy" src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" alt="" class="image-8" style="position: absolute; top: 0; right: 0; width: 20px; height: 20px;"> <!-- Hinzufügen von width und height auf 20px -->
         <button id="${
-            taskdoc.id
+          taskdoc.id
         }" class="deleteTaskButton" style="position: absolute; top: 0; right: 0; width: 20px; height: 20px; border: none; background: transparent;"></button>
                         </div>
                 </div><br>`;
 
-                if (taskDone > january1st2010) {
-                  taskListTab.innerHTML += htmlGreen;
-                  if (Math.abs(new Date() - taskIssued) <= (7 * 24 * 60 * 60 * 1000)) {
-                    taskListTabWeek.innerHTML += htmlGreen;
-                }
-                } else {
-                  if ((new Date() - taskIssued) / (1000 * 60 * 60) > 1) {
-                    //wenn aufgabe nach einer stunde immernoch nicht bearbeitet wurde
-                    taskListTab.innerHTML += htmlRed;
-                    if (Math.abs(new Date() - taskIssued) <= (7 * 24 * 60 * 60 * 1000)) {
-                      taskListTabWeek.innerHTML += htmlRed;
-                  }
-                  
-                  } else {
-                    taskListTab.innerHTML += htmlOrange;
-                    if (Math.abs(new Date() - taskIssued) <= (7 * 24 * 60 * 60 * 1000)) {
-                      taskListTabWeek.innerHTML += htmlOrange;
-                  }
-                  }
-                }
-
-                //wenn task heute ist zu dahboard hinzufügen
-                if (dateFromTimestamp.toDateString() === today.toDateString()) {
-                  
-                 
                   if (taskDone > january1st2010) {
-                    ///task done count dashboard
-                  if (taskDoneCounter[taskdoc.data().assignee]) {
-                    taskDoneCounter[taskdoc.data().assignee][0]+=1;
-                    taskDoneCounter[taskdoc.data().assignee][1]+=1;
-
-                  }else{
-                    taskDoneCounter[taskdoc.data().assignee]=[1,1];
+                    taskListTab.innerHTML += htmlGreen;
+                    if (
+                      Math.abs(new Date() - taskIssued) <=
+                      7 * 24 * 60 * 60 * 1000
+                    ) {
+                      taskListTabWeek.innerHTML += htmlGreen;
+                    }
+                  } else {
+                    if ((new Date() - taskIssued) / (1000 * 60 * 60) > 1) {
+                      //wenn aufgabe nach einer stunde immernoch nicht bearbeitet wurde
+                      taskListTab.innerHTML += htmlRed;
+                      if (
+                        Math.abs(new Date() - taskIssued) <=
+                        7 * 24 * 60 * 60 * 1000
+                      ) {
+                        taskListTabWeek.innerHTML += htmlRed;
+                      }
+                    } else {
+                      taskListTab.innerHTML += htmlOrange;
+                      if (
+                        Math.abs(new Date() - taskIssued) <=
+                        7 * 24 * 60 * 60 * 1000
+                      ) {
+                        taskListTabWeek.innerHTML += htmlOrange;
+                      }
+                    }
                   }
 
-                    taskListDash.innerHTML += `
+                  //wenn task heute ist zu dahboard hinzufügen
+                  if (
+                    dateFromTimestamp.toDateString() === today.toDateString()
+                  ) {
+                    if (taskDone > january1st2010) {
+                      ///task done count dashboard
+                      if (taskDoneCounter[taskdoc.data().assignee]) {
+                        taskDoneCounter[taskdoc.data().assignee][0] += 1;
+                        taskDoneCounter[taskdoc.data().assignee][1] += 1;
+                      } else {
+                        taskDoneCounter[taskdoc.data().assignee] = [1, 1];
+                      }
+
+                      taskListDash.innerHTML += `
 <div class="columns-14 w-row">
     <div class="column-23 w-col w-col-6">
         <div class="text-block-19-copy-copy-copy">${taskdoc.data().title}</div>
@@ -556,18 +557,17 @@ onAuthStateChanged(auth, (user) => {
         </div>
     </div>
 </div>`;
-                  } else {
-                    ///task done count dashboard
-                  if (taskDoneCounter[taskdoc.data().assignee]) {
-                    taskDoneCounter[taskdoc.data().assignee][0]+=0;
-                    taskDoneCounter[taskdoc.data().assignee][1]+=1;
-
-                  }else{
-                    taskDoneCounter[taskdoc.data().assignee]=[0,1];
-                  }
-                    if ((new Date() - taskIssued) / (1000 * 60 * 60) > 1) {
-                      //wenn aufgabe nach einer stunde immernoch nicht bearbeitet wurde
-                      taskListDash.innerHTML += `
+                    } else {
+                      ///task done count dashboard
+                      if (taskDoneCounter[taskdoc.data().assignee]) {
+                        taskDoneCounter[taskdoc.data().assignee][0] += 0;
+                        taskDoneCounter[taskdoc.data().assignee][1] += 1;
+                      } else {
+                        taskDoneCounter[taskdoc.data().assignee] = [0, 1];
+                      }
+                      if ((new Date() - taskIssued) / (1000 * 60 * 60) > 1) {
+                        //wenn aufgabe nach einer stunde immernoch nicht bearbeitet wurde
+                        taskListDash.innerHTML += `
 <div class="columns-14 w-row">
     <div class="column-23 w-col w-col-6">
         <div class="text-block-19-copy-copy-copy">${taskdoc.data().title}</div>
@@ -584,8 +584,8 @@ onAuthStateChanged(auth, (user) => {
         </div>
     </div>
 </div>`;
-                    } else {
-                      taskListDash.innerHTML += `
+                      } else {
+                        taskListDash.innerHTML += `
 <div class="columns-14 w-row">
     <div class="column-23 w-col w-col-6">
         <div class="text-block-19-copy-copy-copy">${taskdoc.data().title}</div>
@@ -602,56 +602,63 @@ onAuthStateChanged(auth, (user) => {
         </div>
     </div>
 </div>`;
+                      }
                     }
                   }
-                }
 
-                //random color for calendar
-                const { bgColor, textColor } = getRandomColor(
-                  taskdoc.data().assignee
-                );
+                  //random color for calendar
+                  const { bgColor, textColor } = getRandomColor(
+                    taskdoc.data().assignee
+                  );
 
-                newEvents[taskdoc.id] = {
-                  worker: taskdoc.data().assignee,
-                  title: taskdoc.data().title,
-                  description: taskdoc.data().description,
-                  start: taskdoc.data().issued,
-                  end: taskdoc.data().issued,
-                  repeat: taskdoc.data().repeat,
-                  done: taskdoc.data().done,
-                  building: taskdoc.data().building,
-                  buildingID: taskdoc.data().buildingID,
-                  backgroudColor: bgColor,
-                  textColor: textColor,
-                };
-              });
-    
+                  newEvents[taskdoc.id] = {
+                    worker: taskdoc.data().assignee,
+                    title: taskdoc.data().title,
+                    description: taskdoc.data().description,
+                    start: taskdoc.data().issued,
+                    end: taskdoc.data().issued,
+                    repeat: taskdoc.data().repeat,
+                    done: taskdoc.data().done,
+                    building: taskdoc.data().building,
+                    buildingID: taskdoc.data().buildingID,
+                    backgroudColor: bgColor,
+                    textColor: textColor,
+                  };
+                });
 
-
-              const deleteTaskButtons = document.querySelectorAll(".deleteTaskButton");
-              deleteTaskButtons.forEach((button) => {
+                const deleteTaskButtons =
+                  document.querySelectorAll(".deleteTaskButton");
+                deleteTaskButtons.forEach((button) => {
                   button.addEventListener("click", function () {
-                      const taskId = button.id;
-           
-                      
-                      const confirmDelete = confirm("Möchten Sie diese Aufgabe wirklich löschen?");
-                      
-                      if (confirmDelete) {
-               
-                          deleteDocumentFromFirestore(taskId, taskCollection);
-                      } 
-                  });
-              });
+                    const taskId = button.id;
 
-              // renderCalendar(newEvents);
+                    const confirmDelete = confirm(
+                      "Möchten Sie diese Aufgabe wirklich löschen?"
+                    );
+
+                    if (confirmDelete) {
+                      deleteDocumentFromFirestore(taskId, taskCollection);
+                    }
+                  });
+                });
+
+                // renderCalendar(newEvents);
+              }
             }
-          });
+          );
 
           getDocs(facilityCollections).then((querySnapshot) => {
             const userList = document.querySelector("#facilityList");
             var once = true;
             var buttonContainer = document.getElementById("button-container");
+            var facility_dropdown =
+              document.getElementById("facility_dropdown");
             querySnapshot.forEach((docz) => {
+              //facillity list for dropdown
+              var dd_child = getFacilityChild();
+              facility_dropdown.innerHTML += dd_child;
+
+              //gebaude options vor a form
               var opt3 = document.createElement("option");
               const addressString =
                 docz.data().address +
@@ -818,7 +825,6 @@ onAuthStateChanged(auth, (user) => {
                 " " +
                 docz.data().city;
               userList.appendChild(listItem);
-           
             });
           });
           const companyCollections = collection(companyDoc, "Accesses");
@@ -866,24 +872,34 @@ onAuthStateChanged(auth, (user) => {
           });
           getDocs(userCollections).then((querySnapshot) => {
             const userList = document.querySelector("#userList");
-            const currentDateString = new Date().toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\./g, ''); // Aktuelles Datum als String im Format DDMMYYYY
+            const currentDateString = new Date()
+              .toLocaleDateString("de-DE", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+              })
+              .replace(/\./g, ""); // Aktuelles Datum als String im Format DDMMYYYY
 
-            const workerListDash =
-            document.getElementById("worker_list_dash");
+            const workerListDash = document.getElementById("worker_list_dash");
 
-                            
             querySnapshot.forEach((docw) => {
-              
-
-              
-            
-            const htmlCodeOffline = `
+              const htmlCodeOffline = `
             <div class="columns-14 w-row">
                 <div class="column-23 w-col w-col-5">
-                    <div class="text-block-19-copy-copy">${docw.data().name}</div>
+                    <div class="text-block-19-copy-copy">${
+                      docw.data().name
+                    }</div>
                 </div>
                 <div class="w-col w-col-4">
-                    <div id="tasks_done_counter" class="text-block-19-copy">${taskDoneCounter[docw.data().email] ? taskDoneCounter[docw.data().email][0] : 0} von ${taskDoneCounter[docw.data().email] ? taskDoneCounter[docw.data().email][1] : 0}</div>
+                    <div id="tasks_done_counter" class="text-block-19-copy">${
+                      taskDoneCounter[docw.data().email]
+                        ? taskDoneCounter[docw.data().email][0]
+                        : 0
+                    } von ${
+                taskDoneCounter[docw.data().email]
+                  ? taskDoneCounter[docw.data().email][1]
+                  : 0
+              }</div>
                 </div>
                 <div class="column-24 w-col w-col-3">
                     <div class="div-block-red">
@@ -893,14 +909,24 @@ onAuthStateChanged(auth, (user) => {
                     </div>
                 </div>
             </div>`;
-            
-                          const htmlCodeOnline = `
+
+              const htmlCodeOnline = `
             <div class="columns-14 w-row">
                 <div class="column-23 w-col w-col-5">
-                    <div class="text-block-19-copy-copy">${docw.data().name}</div>
+                    <div class="text-block-19-copy-copy">${
+                      docw.data().name
+                    }</div>
                 </div>
                 <div class="w-col w-col-4">
-                    <div id="tasks_done_counter" class="text-block-19-copy">${taskDoneCounter[docw.data().email] ? taskDoneCounter[docw.data().email][0] : 0} von ${taskDoneCounter[docw.data().email] ? taskDoneCounter[docw.data().email][1] : 0}</div>
+                    <div id="tasks_done_counter" class="text-block-19-copy">${
+                      taskDoneCounter[docw.data().email]
+                        ? taskDoneCounter[docw.data().email][0]
+                        : 0
+                    } von ${
+                taskDoneCounter[docw.data().email]
+                  ? taskDoneCounter[docw.data().email][1]
+                  : 0
+              }</div>
                 </div>
                 <div class="column-24 w-col w-col-3">
                     <div class="div-block-green">
@@ -910,57 +936,44 @@ onAuthStateChanged(auth, (user) => {
                     </div>
                 </div>
             </div>`;
-            
-                         
-          
 
-              const timestampsCollectionRef = collection(docw.ref, "Timestamps");
-              getDocs(timestampsCollectionRef).then((timestampsQuerySnapshot) => {
-              
-                if (timestampsQuerySnapshot.empty) {
-          
-                  workerListDash.innerHTML += htmlCodeOffline;
-              } else {
-                var active_today=false;
-              
-                  timestampsQuerySnapshot.forEach((timestampDoc) => {
-                  
-                      if (timestampDoc.id === currentDateString) {
-                        active_today=true;
-                        console.log("Here3");
-                          if (timestampDoc.data().Start.length > timestampDoc.data().End.length) {
-                            console.log("Here4");
-                              workerListDash.innerHTML += htmlCodeOnline;
-                          } else {
-                            console.log("Here5");
-                              workerListDash.innerHTML += htmlCodeOffline;
-                          }
-                      }
-                  });
-                  if(!active_today){
+              const timestampsCollectionRef = collection(
+                docw.ref,
+                "Timestamps"
+              );
+              getDocs(timestampsCollectionRef)
+                .then((timestampsQuerySnapshot) => {
+                  if (timestampsQuerySnapshot.empty) {
                     workerListDash.innerHTML += htmlCodeOffline;
+                  } else {
+                    var active_today = false;
+
+                    timestampsQuerySnapshot.forEach((timestampDoc) => {
+                      if (timestampDoc.id === currentDateString) {
+                        active_today = true;
+                        console.log("Here3");
+                        if (
+                          timestampDoc.data().Start.length >
+                          timestampDoc.data().End.length
+                        ) {
+                          console.log("Here4");
+                          workerListDash.innerHTML += htmlCodeOnline;
+                        } else {
+                          console.log("Here5");
+                          workerListDash.innerHTML += htmlCodeOffline;
+                        }
+                      }
+                    });
+                    if (!active_today) {
+                      workerListDash.innerHTML += htmlCodeOffline;
+                    }
                   }
-              }
-             
-              }).catch((error) => {
+                })
+                .catch((error) => {
                   console.error("Error getting timestamps documents: ", error);
-              });
-
-
-                  
-        
-
-            
+                });
             });
           });
-
-             //generate dropdown menu for gebäude tab
-             var kategorien = [
-              { name: "Hauptkategorie 1", unterkategorien: ["Unterkategorie 1.1", "Unterkategorie 1.2"] },
-              { name: "Hauptkategorie 2", unterkategorien: ["Unterkategorie 2.1", "Unterkategorie 2.2"] }
-          ];
-            var dropdownListe = generiereDropdown();
-            userList.appendChild(dropdownListe);
         }
       });
     });
@@ -1140,37 +1153,26 @@ function getRandomColor(worker) {
 async function deleteDocumentFromFirestore(documentId, taskCollection) {
   const taskRef = doc(taskCollection, documentId);
   try {
-      await deleteDoc(taskRef);
-      location.reload();
+    await deleteDoc(taskRef);
+    location.reload();
   } catch (error) {
-      console.error("Fehler beim Löschen des Dokuments:", error);
+    console.error("Fehler beim Löschen des Dokuments:", error);
   }
 }
 
+function getFacilityChild() {
+  var htmlCode = `
+      <div data-delay="0" data-hover="false" data-w-id="e2eb7a1b-ad50-7aa2-3bf6-36dac0aa43f7" style="z-index: 901;" class="faq-p w-dropdown">
+      <div class="dropdown-button w-dropdown-toggle w--open" id="w-dropdown-toggle-4" aria-controls="w-dropdown-list-4" aria-haspopup="menu" aria-expanded="true" role="button" tabindex="0">
+      <div id="city_dd_text" class="toggle-text">City</div><div data-is-ix2-target="1" class="faq-icon" data-w-id="e2eb7a1b-ad50-7aa2-3bf6-36dac0aa43fc" data-animation-type="lottie" data-src="https://assets-global.website-files.com/65faac70826648e71abd8923/65faac70826648e71abd8a91_plus-to-x-white.json" data-loop="0" data-direction="1" data-autoplay="0" data-renderer="svg" data-default-duration="1" data-duration="0" data-ix2-initial-state="0"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" width="24" height="24" preserveAspectRatio="xMidYMid meet" style="width: 100%; height: 100%; transform: translate3d(0px, 0px, 0px); content-visibility: visible;">
+      <defs><clipPath id="__lottie_element_2"><rect width="24" height="24" x="0" y="0"></rect></clipPath></defs><g clip-path="url(#__lottie_element_2)"><g transform="matrix(1,0,0,1,12,12)" opacity="1" style="display: block;"><g opacity="1" transform="matrix(0.7065752148628235,-0.7076379656791687,0.7076379656791687,0.7065752148628235,-16.970558166503906,0.01275334320962429)"><path stroke-linecap="round" stroke-linejoin="round" fill-opacity="0" stroke="rgb(255,255,255)" stroke-opacity="1" stroke-width="2" d=" M12,5 C12,5 12,19 12,19"></path></g><g opacity="1" transform="matrix(-0.7068758606910706,0.7073376178741455,-0.7073376178741455,-0.7068758606910706,16.970561981201172,-0.005541631951928139)"><path stroke-linecap="round" stroke-linejoin="round" fill-opacity="0" stroke="rgb(255,255,255)" stroke-opacity="1" stroke-width="2" d=" M5,12 C5,12 19,12 19,12"></path></g></g></g></svg></div></div>
+      <nav class="faq-body w-dropdown-list w--open" id="w-dropdown-list-4" aria-labelledby="w-dropdown-toggle-4">
+      <div class="faq-body-cont"><a id="gebaude_dd_link" href="#" class="link-block w-inline-block" tabindex="0"><div class="text-block-22">Gebäude</div><img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/65fab68e154ecc79d4788cfe_arrow%20right.png" loading="lazy" alt="" class="image-9"></a>
+      <a id="gebaude_dd_link" href="#" class="link-block w-inline-block" tabindex="0">
+      <div class="text-block-22">Gebäude</div>
+      <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/65fab68e154ecc79d4788cfe_arrow%20right.png" loading="lazy" alt="" class="image-9"></a>
+      </div></nav></div>
+  `;
 
-
-
-
-// Funktion zum Generieren der Dropdown-Liste
-function generiereDropdown(kategorien) {
-  var dropdown = document.createElement("select");
-
-  var defaultOption = document.createElement("option");
-  defaultOption.text = "Bitte wählen Sie eine Kategorie";
-  dropdown.add(defaultOption);
-
-  kategorien.forEach(function(kategorie) {
-      var optgroup = document.createElement("optgroup");
-      optgroup.label = kategorie.name;
-
-      kategorie.unterkategorien.forEach(function(unterkategorie) {
-          var option = document.createElement("option");
-          option.text = unterkategorie;
-          optgroup.add(option);
-      });
-
-      dropdown.add(optgroup);
-  });
-
-  return dropdown;
+  return htmlCode
 }
