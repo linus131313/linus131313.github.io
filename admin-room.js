@@ -655,21 +655,22 @@ onAuthStateChanged(auth, (user) => {
               document.getElementById("facility_dropdown");
             querySnapshot.forEach((docz) => {
               //facillity list for dropdown
-              // var dd_child = getFacilityChild();
-              // facility_dropdown.innerHTML += dd_child;
-              var dd_geb = document.getElementById("dropdown_geb").cloneNode(true);
-              facility_dropdown.appendChild(dd_geb);
+              
+              var dd_child = getFacilityChild(docz.data());
+              facility_dropdown.innerHTML += dd_child;
+             
 
               //gebaude options vor a form
               var opt3 = document.createElement("option");
+              
+              opt3.text = addressString;
+              gebaude_List.appendChild(opt3);
               const addressString =
                 docz.data().address +
                 ", " +
                 docz.data().zipcode +
                 " " +
                 docz.data().city;
-              opt3.text = addressString;
-              gebaude_List.appendChild(opt3);
 
               const subDictionary = {
                 address: docz.data().address,
@@ -1162,16 +1163,17 @@ async function deleteDocumentFromFirestore(documentId, taskCollection) {
   }
 }
 
-function getFacilityChild() {
+function getFacilityChild(data) {
+  const addressString =
+                data.address +
+                ", " +
+                data.zipcode +
+                " " +
+                data.city;
   var htmlCode = `
-  <div data-delay="0" data-hover="false" data-w-id="e2eb7a1b-ad50-7aa2-3bf6-36dac0aa43f7" style="height:50px" class="faq-p w-dropdown">
-   <div class="dropdown-button w-dropdown-toggle">
-    <div id="city_dd_text" class="toggle-text">City</div>
-     <div data-is-ix2-target="1" class="faq-icon" data-w-id="e2eb7a1b-ad50-7aa2-3bf6-36dac0aa43fc" data-animation-type="lottie" data-src="https://uploads-ssl.webflow.com/65faac70826648e71abd8923/65faac70826648e71abd8a91_plus-to-x-white.json" data-loop="0" data-direction="1" data-autoplay="0" data-renderer="svg" data-default-duration="1" data-duration="0" data-ix2-initial-state="0"></div> </div>
-      <nav class="faq-body w-dropdown-list"> <div class="faq-body-cont"> <a id="gebaude_dd_link" href="#" class="link-block w-inline-block">
-       <div class="text-block-22">Gebäude</div><img loading="lazy" src="images/arrow-right.png" alt="" class="image-9"> </a> 
-       <a id="gebaude_dd_link" href="#" class="link-block w-inline-block"> <div class="text-block-22">Gebäude</div><img loading="lazy" src="images/arrow-right.png" alt="" class="image-9"> </a> </div>
-        </nav> </div> </div>
+  <a id="gebaude_dd_link" href="#" class="link-block w-inline-block">
+  <div class="text-block-22">${addressString}</div>
+  <img loading="lazy" src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/65fab68e154ecc79d4788cfe_arrow%20right.png" alt="" class="image-9"></a>
   `;
 
   return htmlCode;
