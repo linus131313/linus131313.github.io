@@ -818,13 +818,7 @@ onAuthStateChanged(auth, (user) => {
                 " " +
                 docz.data().city;
               userList.appendChild(listItem);
-              //new dropdown list gebäude
-              var kategorien = [
-                { name: "Hauptkategorie 1", unterkategorien: ["Unterkategorie 1.1", "Unterkategorie 1.2"] },
-                { name: "Hauptkategorie 2", unterkategorien: ["Unterkategorie 2.1", "Unterkategorie 2.2"] }
-            ];
-              var dropdownListe = generiereDropdown();
-              document.body.appendChild(dropdownListe);
+           
             });
           });
           const companyCollections = collection(companyDoc, "Accesses");
@@ -959,6 +953,14 @@ onAuthStateChanged(auth, (user) => {
             
             });
           });
+
+             //generate dropdown menu for gebäude tab
+             var kategorien = [
+              { name: "Hauptkategorie 1", unterkategorien: ["Unterkategorie 1.1", "Unterkategorie 1.2"] },
+              { name: "Hauptkategorie 2", unterkategorien: ["Unterkategorie 2.1", "Unterkategorie 2.2"] }
+          ];
+            var dropdownListe = generiereDropdown();
+            userList.appendChild(dropdownListe);
         }
       });
     });
