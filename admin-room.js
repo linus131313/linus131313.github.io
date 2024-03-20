@@ -651,8 +651,8 @@ onAuthStateChanged(auth, (user) => {
             const userList = document.querySelector("#facilityList");
             var once = true;
             var buttonContainer = document.getElementById("button-container");
-            var facility_dropdown =
-              document.getElementById("facility_dropdown");
+            // var facility_dropdown =
+            //   document.getElementById("facility_dropdown");
             querySnapshot.forEach((docz) => {
               //facillity list for dropdown
               
@@ -1163,18 +1163,18 @@ async function deleteDocumentFromFirestore(documentId, taskCollection) {
   }
 }
 
-function getFacilityChild(data) {
-  const addressString =
-                data.address +
-                ", " +
-                data.zipcode +
-                " " +
-                data.city;
-  var htmlCode = `
-  <a id="gebaude_dd_link" href="#" class="link-block w-inline-block">
-  <div class="text-block-22">${addressString}</div>
-  <img loading="lazy" src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/65fab68e154ecc79d4788cfe_arrow%20right.png" alt="" class="image-9"></a>
-  `;
+// function getFacilityChild(data) {
+//   const addressString =
+//                 data.address +
+//                 ", " +
+//                 data.zipcode +
+//                 " " +
+//                 data.city;
+//   var htmlCode = `
+//   <a id="gebaude_dd_link" href="#" class="link-block w-inline-block">
+//   <div class="text-block-22">${addressString}</div>
+//   <img loading="lazy" src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/65fab68e154ecc79d4788cfe_arrow%20right.png" alt="" class="image-9"></a>
+//   `;
 
-  return htmlCode;
-}
+//   return htmlCode;
+// }
