@@ -655,8 +655,10 @@ onAuthStateChanged(auth, (user) => {
               document.getElementById("facility_dropdown");
             querySnapshot.forEach((docz) => {
               //facillity list for dropdown
-              var dd_child = getFacilityChild();
-              facility_dropdown.innerHTML += dd_child;
+              // var dd_child = getFacilityChild();
+              // facility_dropdown.innerHTML += dd_child;
+              var dd_geb = document.getElementById("dropdown_geb").cloneNode(true);
+              facility_dropdown.appendChild(dd_geb);
 
               //gebaude options vor a form
               var opt3 = document.createElement("option");
