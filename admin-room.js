@@ -1162,17 +1162,15 @@ async function deleteDocumentFromFirestore(documentId, taskCollection) {
 
 function getFacilityChild() {
   var htmlCode = `
-      <div data-delay="0" data-hover="false" data-w-id="e2eb7a1b-ad50-7aa2-3bf6-36dac0aa43f7" style="z-index: 901;" class="faq-p w-dropdown">
-      <div class="dropdown-button w-dropdown-toggle w--open" id="w-dropdown-toggle-4" aria-controls="w-dropdown-list-4" aria-haspopup="menu" aria-expanded="true" role="button" tabindex="0">
-      <div id="city_dd_text" class="toggle-text">City</div><div data-is-ix2-target="1" class="faq-icon" data-w-id="e2eb7a1b-ad50-7aa2-3bf6-36dac0aa43fc" data-animation-type="lottie" data-src="https://assets-global.website-files.com/65faac70826648e71abd8923/65faac70826648e71abd8a91_plus-to-x-white.json" data-loop="0" data-direction="1" data-autoplay="0" data-renderer="svg" data-default-duration="1" data-duration="0" data-ix2-initial-state="0"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" width="24" height="24" preserveAspectRatio="xMidYMid meet" style="width: 100%; height: 100%; transform: translate3d(0px, 0px, 0px); content-visibility: visible;">
-      <defs><clipPath id="__lottie_element_2"><rect width="24" height="24" x="0" y="0"></rect></clipPath></defs><g clip-path="url(#__lottie_element_2)"><g transform="matrix(1,0,0,1,12,12)" opacity="1" style="display: block;"><g opacity="1" transform="matrix(0.7065752148628235,-0.7076379656791687,0.7076379656791687,0.7065752148628235,-16.970558166503906,0.01275334320962429)"><path stroke-linecap="round" stroke-linejoin="round" fill-opacity="0" stroke="rgb(255,255,255)" stroke-opacity="1" stroke-width="2" d=" M12,5 C12,5 12,19 12,19"></path></g><g opacity="1" transform="matrix(-0.7068758606910706,0.7073376178741455,-0.7073376178741455,-0.7068758606910706,16.970561981201172,-0.005541631951928139)"><path stroke-linecap="round" stroke-linejoin="round" fill-opacity="0" stroke="rgb(255,255,255)" stroke-opacity="1" stroke-width="2" d=" M5,12 C5,12 19,12 19,12"></path></g></g></g></svg></div></div>
-      <nav class="faq-body w-dropdown-list w--open" id="w-dropdown-list-4" aria-labelledby="w-dropdown-toggle-4">
-      <div class="faq-body-cont"><a id="gebaude_dd_link" href="#" class="link-block w-inline-block" tabindex="0"><div class="text-block-22">Gebäude</div><img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/65fab68e154ecc79d4788cfe_arrow%20right.png" loading="lazy" alt="" class="image-9"></a>
-      <a id="gebaude_dd_link" href="#" class="link-block w-inline-block" tabindex="0">
-      <div class="text-block-22">Gebäude</div>
-      <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/65fab68e154ecc79d4788cfe_arrow%20right.png" loading="lazy" alt="" class="image-9"></a>
-      </div></nav></div>
+  <div data-delay="0" data-hover="false" data-w-id="e2eb7a1b-ad50-7aa2-3bf6-36dac0aa43f7" style="height:50px" class="faq-p w-dropdown">
+   <div class="dropdown-button w-dropdown-toggle">
+    <div id="city_dd_text" class="toggle-text">City</div>
+     <div data-is-ix2-target="1" class="faq-icon" data-w-id="e2eb7a1b-ad50-7aa2-3bf6-36dac0aa43fc" data-animation-type="lottie" data-src="https://uploads-ssl.webflow.com/65faac70826648e71abd8923/65faac70826648e71abd8a91_plus-to-x-white.json" data-loop="0" data-direction="1" data-autoplay="0" data-renderer="svg" data-default-duration="1" data-duration="0" data-ix2-initial-state="0"></div> </div>
+      <nav class="faq-body w-dropdown-list"> <div class="faq-body-cont"> <a id="gebaude_dd_link" href="#" class="link-block w-inline-block">
+       <div class="text-block-22">Gebäude</div><img loading="lazy" src="images/arrow-right.png" alt="" class="image-9"> </a> 
+       <a id="gebaude_dd_link" href="#" class="link-block w-inline-block"> <div class="text-block-22">Gebäude</div><img loading="lazy" src="images/arrow-right.png" alt="" class="image-9"> </a> </div>
+        </nav> </div> </div>
   `;
 
-  return htmlCode
+  return htmlCode;
 }
