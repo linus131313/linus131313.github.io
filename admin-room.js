@@ -656,8 +656,8 @@ onAuthStateChanged(auth, (user) => {
             querySnapshot.forEach((docz) => {
               //facillity list for dropdown
               
-              var dd_child = getFacilityChild(docz.data());
-              facility_dropdown.innerHTML += dd_child;
+              // var dd_child = getFacilityChild(docz.data());
+              // facility_dropdown.innerHTML += dd_child;
              
 
               //gebaude options vor a form
