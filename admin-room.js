@@ -1172,7 +1172,7 @@ function getFacilityChild(data) {
                 " " +
                 data.city;
   var htmlCode = `
-  <a id="gebaude_dd_link" onclick="document.getElementById('geb_layover').style.visibility = 'visible'; class="link-block w-inline-block">
+  <a id="gebaude_dd_link" href="" onclick="document.getElementById('geb_layover').style.visibility = 'visible'; class="link-block w-inline-block">
   <div class="text-block-22">${addressString}</div>
   <img loading="lazy" src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/65fab68e154ecc79d4788cfe_arrow%20right.png" alt="" class="image-9"></a>
   `;
