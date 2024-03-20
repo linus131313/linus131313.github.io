@@ -809,6 +809,7 @@ onAuthStateChanged(auth, (user) => {
               });
               button.appendChild(userInput);
               buttonContainer.appendChild(button);
+              // gebäude list item
               const listItem = document.createElement("li");
               listItem.textContent =
                 docz.data().address +
@@ -817,6 +818,13 @@ onAuthStateChanged(auth, (user) => {
                 " " +
                 docz.data().city;
               userList.appendChild(listItem);
+              //new dropdown list gebäude
+              var kategorien = [
+                { name: "Hauptkategorie 1", unterkategorien: ["Unterkategorie 1.1", "Unterkategorie 1.2"] },
+                { name: "Hauptkategorie 2", unterkategorien: ["Unterkategorie 2.1", "Unterkategorie 2.2"] }
+            ];
+              var dropdownListe = generiereDropdown();
+              document.body.appendChild(dropdownListe);
             });
           });
           const companyCollections = collection(companyDoc, "Accesses");
@@ -1135,4 +1143,32 @@ async function deleteDocumentFromFirestore(documentId, taskCollection) {
   } catch (error) {
       console.error("Fehler beim Löschen des Dokuments:", error);
   }
+}
+
+
+
+
+
+// Funktion zum Generieren der Dropdown-Liste
+function generiereDropdown(kategorien) {
+  var dropdown = document.createElement("select");
+
+  var defaultOption = document.createElement("option");
+  defaultOption.text = "Bitte wählen Sie eine Kategorie";
+  dropdown.add(defaultOption);
+
+  kategorien.forEach(function(kategorie) {
+      var optgroup = document.createElement("optgroup");
+      optgroup.label = kategorie.name;
+
+      kategorie.unterkategorien.forEach(function(unterkategorie) {
+          var option = document.createElement("option");
+          option.text = unterkategorie;
+          optgroup.add(option);
+      });
+
+      dropdown.add(optgroup);
+  });
+
+  return dropdown;
 }
