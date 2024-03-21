@@ -1170,7 +1170,7 @@ function getFacilityChild(doc) {
                 ", " +
                 doc.data().zipcode +
                 " " +
-                docdata().city;
+                doc.data().city;
   var htmlCode = `
   <a id="${doc.id}" href="#" class="link-block w-inline-block">
   <div class="text-block-22">${addressString}</div>
