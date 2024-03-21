@@ -656,7 +656,7 @@ onAuthStateChanged(auth, (user) => {
             querySnapshot.forEach((docz) => {
               //facillity list for dropdown
               
-              var dd_child = getFacilityChild(docz.data());
+              var dd_child = getFacilityChild(docz);
               facility_dropdown.innerHTML += dd_child;
              
 
@@ -1164,15 +1164,15 @@ async function deleteDocumentFromFirestore(documentId, taskCollection) {
   }
 }
 
-function getFacilityChild(data) {
+function getFacilityChild(doc) {
   const addressString =
-                data.address +
+                doc.data().address +
                 ", " +
-                data.zipcode +
+                doc.data().zipcode +
                 " " +
-                data.city;
+                docdata().city;
   var htmlCode = `
-  <a id="gebaude_dd_link" href="#" class="link-block w-inline-block">
+  <a id="${doc.id}" href="#" class="link-block w-inline-block">
   <div class="text-block-22">${addressString}</div>
   <img loading="lazy" src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/65fab68e154ecc79d4788cfe_arrow%20right.png" alt="" class="image-9"></a>
   `;
