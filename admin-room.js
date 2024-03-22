@@ -1187,7 +1187,7 @@ function getFacilityChild(doc) {
 
 
 // Finde alle Buttons mit der Klasse "link-block w-inline-block"
-var buttons_geblayover = document.querySelectorAll('.link-block.w-inline-block');
+var buttons_geblayover = document.querySelectorAll('.B_layover');
 
 // Iteriere über alle gefundenen Buttons und füge den Eventlistener hinzu
 buttons_geblayover.forEach(function(button) {
