@@ -1194,7 +1194,7 @@ buttons_geblayover.forEach(function(button) {
     button.addEventListener('click', function() {
         // Mache das Div mit der ID "geb_layover" sichtbar
         var gebLayover = document.getElementById('geb_layover');
-        gebLayover.style.display = 'block';
+        gebLayover.style.visibility="visible";
     });
 });
 
