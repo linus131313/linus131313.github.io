@@ -1195,18 +1195,10 @@ buttons_geblayover.forEach(function(button) {
         // Mache das Div mit der ID "geb_layover" sichtbar
         var gebLayover = document.getElementById('geb_layover');
         gebLayover.style.visibility="visible";
+        gebLayover.style.display = "flex";
     });
 });
 
-var buttons_geblayover2 = document.querySelectorAll('#B_layover');
-
-buttons_geblayover2.forEach(function(button) {
-  button.addEventListener('click', function() {
-      // Mache das Div mit der ID "geb_layover" sichtbar
-      var gebLayover = document.getElementById('geb_layover');
-      gebLayover.style.visibility="visible";
-  });
-});
 
 
 // onclick="document.getElementById('geb_layover').style.visibility = 'visible'; 
