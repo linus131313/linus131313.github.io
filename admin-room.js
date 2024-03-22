@@ -1191,7 +1191,7 @@ function getFacilityChild(doc) {
                 " " +
                 doc.data().city;
   var htmlCode = `
-  <a id="${doc.id}" href="#" class="link-block w-inline-block">
+  <a id="${doc.id}" class="link-block w-inline-block">
   <div class="text-block-22">${addressString}</div>
   <img loading="lazy" src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/65fab68e154ecc79d4788cfe_arrow%20right.png" alt="" class="image-9"></a>
   `;
