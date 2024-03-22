@@ -830,6 +830,20 @@ onAuthStateChanged(auth, (user) => {
                 docz.data().city;
               userList.appendChild(listItem);
             });
+
+            //add event listener to buttons
+            // Finde alle Buttons mit der Klasse "link-block w-inline-block"
+            var buttons_geblayover = document.querySelectorAll('.link-block.w-inline-block');
+
+            // Iteriere über alle gefundenen Buttons und füge den Eventlistener hinzu
+            buttons_geblayover.forEach(function(button) {
+                button.addEventListener('click', function() {
+                    // Mache das Div mit der ID "geb_layover" sichtbar
+                    var gebLayover = document.getElementById('geb_layover');
+                    gebLayover.style.visibility="visible";
+                    gebLayover.style.display = "flex";
+                });
+            });
           });
           const companyCollections = collection(companyDoc, "Accesses");
           getDocs(companyCollections).then((querySnapshot) => {
@@ -1186,18 +1200,7 @@ function getFacilityChild(doc) {
 }
 
 
-// Finde alle Buttons mit der Klasse "link-block w-inline-block"
-var buttons_geblayover = document.querySelectorAll('.B_layover');
 
-// Iteriere über alle gefundenen Buttons und füge den Eventlistener hinzu
-buttons_geblayover.forEach(function(button) {
-    button.addEventListener('click', function() {
-        // Mache das Div mit der ID "geb_layover" sichtbar
-        var gebLayover = document.getElementById('geb_layover');
-        gebLayover.style.visibility="visible";
-        gebLayover.style.display = "flex";
-    });
-});
 
 
 
