@@ -1107,6 +1107,11 @@ document.getElementById("close_popup").addEventListener("click", function () {
   popup.style.display = "none";
 });
 
+document.getElementById("geb_back").addEventListener("click", function () {
+  const popup = document.getElementById("geb_layover");
+  popup.style.display = "none";
+});
+
 mitarbeiter_Calender_Select.addEventListener("change", function () {
   const selectedValue = mitarbeiter_Calender_Select.value;
   if (selectedValue == "cal_all") {
@@ -1179,5 +1184,19 @@ function getFacilityChild(doc) {
 
   return htmlCode;
 }
+
+
+// Finde alle Buttons mit der Klasse "link-block w-inline-block"
+var buttons = document.querySelectorAll('.link-block.w-inline-block');
+
+// Iteriere über alle gefundenen Buttons und füge den Eventlistener hinzu
+buttons.forEach(function(button) {
+    button.addEventListener('click', function() {
+        // Mache das Div mit der ID "geb_layover" sichtbar
+        var gebLayover = document.getElementById('geb_layover');
+        gebLayover.style.display = 'block';
+    });
+});
+
 
 // onclick="document.getElementById('geb_layover').style.visibility = 'visible'; 
