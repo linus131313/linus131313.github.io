@@ -997,6 +997,20 @@ onAuthStateChanged(auth, (user) => {
                   console.error("Error getting timestamps documents: ", error);
                 });
             });
+
+            // Finde alle Buttons mit der Klasse "link-block w-inline-block"
+            var buttons_wlayover = document.querySelectorAll('.link-block.w-inline-block.worker');
+
+            // Iteriere über alle gefundenen Buttons und füge den Eventlistener hinzu
+            buttons_wlayover.forEach(function(button) {
+                button.addEventListener('click', function() {
+                    // Mache das Div mit der ID "geb_layover" sichtbar
+                    var wLayover = document.getElementById('worker_layover');
+                    
+                    wLayover.style.display = "flex";
+
+                });
+            });
           });
         }
       });
@@ -1132,6 +1146,11 @@ document.getElementById("geb_back").addEventListener("click", function () {
   popup.style.display = "none";
 });
 
+document.getElementById("worker_back").addEventListener("click", function () {
+  const popup = document.getElementById("worker_layover");
+  popup.style.display = "none";
+});
+
 mitarbeiter_Calender_Select.addEventListener("change", function () {
   const selectedValue = mitarbeiter_Calender_Select.value;
   if (selectedValue == "cal_all") {
@@ -1208,11 +1227,12 @@ function getFacilityChild(doc) {
 
 function getWorkerChild(doc){
   const name =doc.data().name;
-  const mail= doc.data().email;
+  const mail= doc.data().email
+  const m_string= name+" | "+mail;
 
   var htmlCode = `
-  <a id="${doc.id}" class="link-block w-inline-block" style="max-width:600px">
-  <div class="text-block-22">${name," | ",mail}</div>
+  <a id="${doc.id}" class="link-block w-inline-block worker" style="max-width:600px">
+  <div class="text-block-22">${m_string}</div>
   <img loading="lazy" src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/65fab68e154ecc79d4788cfe_arrow%20right.png" alt="" class="image-9"></a>
   `;
 
