@@ -194,12 +194,13 @@ function toggleButtonStateW() {
   let allFieldsFilled = true;
 
   var is_w_available;
+  var w_available;
 
   const companiesDocRef = doc(collection(db, "Companies"), companyName);
       const accessesRef= collection(companiesDocRef, "Accesses");
       getDocs(accessesRef).then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-          let w_available = parseInt(doc.data().userAvailable); 
+           w_available = parseInt(doc.data().userAvailable); 
           // console.log(w_available);
           if (w_available==0){
             console.log("change is_w_a");
@@ -216,6 +217,7 @@ function toggleButtonStateW() {
     }
   });
 console.log(is_w_available);
+console.log(w_available);
   if (allFieldsFilled && is_w_available) {
     submitButtonW.removeAttribute("disabled");
     submitButtonW.style.backgroundColor = "black";
