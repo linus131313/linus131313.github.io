@@ -648,7 +648,7 @@ onAuthStateChanged(auth, (user) => {
           );
 
           getDocs(facilityCollections).then((querySnapshot) => {
-            const userList = document.querySelector("#facilityList");
+            // const userList = document.querySelector("#facilityList");
             var once = true;
             var buttonContainer = document.getElementById("button-container");
             // var facility_dropdown =
@@ -821,14 +821,14 @@ onAuthStateChanged(auth, (user) => {
               button.appendChild(userInput);
               buttonContainer.appendChild(button);
               // gebäude list item
-              const listItem = document.createElement("li");
-              listItem.textContent =
-                docz.data().address +
-                ", " +
-                docz.data().zipcode +
-                " " +
-                docz.data().city;
-              userList.appendChild(listItem);
+              // const listItem = document.createElement("li");
+              // listItem.textContent =
+              //   docz.data().address +
+              //   ", " +
+              //   docz.data().zipcode +
+              //   " " +
+              //   docz.data().city;
+              // userList.appendChild(listItem);
             });
 
             //add event listener to buttons
@@ -840,8 +840,9 @@ onAuthStateChanged(auth, (user) => {
                 button.addEventListener('click', function() {
                     // Mache das Div mit der ID "geb_layover" sichtbar
                     var gebLayover = document.getElementById('geb_layover');
-                    gebLayover.style.visibility="visible";
+                    
                     gebLayover.style.display = "flex";
+
                 });
             });
           });
@@ -1191,7 +1192,7 @@ function getFacilityChild(doc) {
                 " " +
                 doc.data().city;
   var htmlCode = `
-  <a id="${doc.id}" class="link-block w-inline-block">
+  <a id="${doc.id}" class="link-block w-inline-block" style="max-width:600px">
   <div class="text-block-22">${addressString}</div>
   <img loading="lazy" src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/65fab68e154ecc79d4788cfe_arrow%20right.png" alt="" class="image-9"></a>
   `;
@@ -1199,6 +1200,11 @@ function getFacilityChild(doc) {
   return htmlCode;
 }
 
+
+function getWorkerChild(doc){
+  const name =0;
+
+}
 
 
 
