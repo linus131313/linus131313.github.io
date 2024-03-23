@@ -901,7 +901,12 @@ onAuthStateChanged(auth, (user) => {
 
             const workerListDash = document.getElementById("worker_list_dash");
 
+            const mitarbeiterList_main=document.getElementById("mitarbeiter_dropdown");
+
             querySnapshot.forEach((docw) => {
+              var dd_m_child=getWorkerChild(docw);
+              mitarbeiterList_main.innerHTML+=dd_m_child;
+
               const htmlCodeOffline = `
             <div class="columns-14 w-row">
                 <div class="column-23 w-col w-col-5">
@@ -1202,7 +1207,18 @@ function getFacilityChild(doc) {
 
 
 function getWorkerChild(doc){
-  const name =0;
+  const name =doc.data().name;
+  const mail= doc.data().email;
+
+  var htmlCode = `
+  <a id="${doc.id}" class="link-block w-inline-block" style="max-width:600px">
+  <div class="text-block-22">${name," | ",email}</div>
+  <img loading="lazy" src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/65fab68e154ecc79d4788cfe_arrow%20right.png" alt="" class="image-9"></a>
+  `;
+
+  return htmlCode;
+
+
 
 }
 
