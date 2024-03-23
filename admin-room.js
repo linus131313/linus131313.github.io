@@ -192,40 +192,40 @@ inputFieldsW.forEach((input) => {
 
 function toggleButtonStateW() {
   let allFieldsFilled = true;
-
-  var is_w_available;
-  var w_available;
+  let is_w_available = true; // Standardmäßig true setzen
+  let w_available;
 
   const companiesDocRef = doc(collection(db, "Companies"), companyName);
-      const accessesRef= collection(companiesDocRef, "Accesses");
-      getDocs(accessesRef).then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-           w_available = parseInt(doc.data().userAvailable); 
-          // console.log(w_available);
-          if (w_available==0){
-            console.log("change is_w_a");
-            is_w_available=false;
-          }else{
-            is_w_available=true;
-          }
+  const accessesRef = collection(companiesDocRef, "Accesses");
 
-        })});
+  getDocs(accessesRef).then((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+      w_available = parseInt(doc.data().userAvailable); 
+      if (w_available == 0) {
+        is_w_available = false;
+      }
+    });
 
-  inputFieldsW.forEach((input) => {
-    if (input.value.trim() === "") {
-      allFieldsFilled = false;
+    // Hier wird der Code ausgeführt, nachdem die Abfrage abgeschlossen wurde
+    console.log(is_w_available);
+    console.log(w_available);
+
+    inputFieldsW.forEach((input) => {
+      if (input.value.trim() === "") {
+        allFieldsFilled = false;
+      }
+    });
+
+    if (allFieldsFilled && is_w_available) {
+      submitButtonW.removeAttribute("disabled");
+      submitButtonW.style.backgroundColor = "black";
+    } else {
+      submitButtonW.setAttribute("disabled", true);
+      submitButtonW.style.backgroundColor = "rgba(17, 18, 19, 0.15)";
     }
   });
-console.log(is_w_available);
-console.log(w_available);
-  if (allFieldsFilled && is_w_available) {
-    submitButtonW.removeAttribute("disabled");
-    submitButtonW.style.backgroundColor = "black";
-  } else {
-    submitButtonW.setAttribute("disabled", true);
-    submitButtonW.style.backgroundColor = "rgba(17, 18, 19, 0.15)";
-  }
 }
+
 //end disable/enable buttons
 
 var companyName;
