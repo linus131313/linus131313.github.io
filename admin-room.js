@@ -193,7 +193,7 @@ inputFieldsW.forEach((input) => {
 function toggleButtonStateW() {
   let allFieldsFilled = true;
 
-  var is_w_available=true;
+  var is_w_available;
 
   const companiesDocRef = doc(collection(db, "Companies"), companyName);
       const accessesRef= collection(companiesDocRef, "Accesses");
@@ -204,6 +204,8 @@ function toggleButtonStateW() {
           if (w_available==0){
             console.log("change is_w_a");
             is_w_available=false;
+          }else{
+            is_w_available=true;
           }
 
         })});
