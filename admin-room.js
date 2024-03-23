@@ -193,11 +193,16 @@ inputFieldsW.forEach((input) => {
 function toggleButtonStateW() {
   let allFieldsFilled = true;
 
+  let is_w_available=true
+
   const companiesDocRef = doc(collection(db, "Companies"), companyName);
       const accessesRef= collection(companiesDocRef, "Accesses");
       getDocs(accessesRef).then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
           let w_available = parseInt(doc.data().userAvailable); 
+          if (w_available==0){
+            is_w_available=false;
+          }
 
         })});
 
@@ -207,7 +212,7 @@ function toggleButtonStateW() {
     }
   });
 
-  if (allFieldsFilled && w_available!=0) {
+  if (allFieldsFilled && is_w_available) {
     submitButtonW.removeAttribute("disabled");
     submitButtonW.style.backgroundColor = "black";
   } else {
