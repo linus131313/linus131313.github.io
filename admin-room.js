@@ -192,7 +192,7 @@ inputFieldsW.forEach((input) => {
 
 function toggleButtonStateW() {
   let allFieldsFilled = true;
-  let is_w_available = true; // Standardmäßig true setzen
+  let is_w_available = true;
   let w_available;
 
   const companiesDocRef = doc(collection(db, "Companies"), companyName);
@@ -206,9 +206,6 @@ function toggleButtonStateW() {
       }
     });
 
-    // Hier wird der Code ausgeführt, nachdem die Abfrage abgeschlossen wurde
-    console.log(is_w_available);
-    console.log(w_available);
 
     inputFieldsW.forEach((input) => {
       if (input.value.trim() === "") {
