@@ -193,13 +193,21 @@ inputFieldsW.forEach((input) => {
 function toggleButtonStateW() {
   let allFieldsFilled = true;
 
+  const companiesDocRef = doc(collection(db, "Companies"), companyName);
+      const accessesRef= collection(companiesDocRef, "Accesses");
+      getDocs(accessesRef).then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          let w_available = parseInt(doc.data().userAvailable); 
+
+        })});
+
   inputFieldsW.forEach((input) => {
     if (input.value.trim() === "") {
       allFieldsFilled = false;
     }
   });
 
-  if (allFieldsFilled) {
+  if (allFieldsFilled && w_available!=0) {
     submitButtonW.removeAttribute("disabled");
     submitButtonW.style.backgroundColor = "black";
   } else {
