@@ -193,14 +193,14 @@ inputFieldsW.forEach((input) => {
 function toggleButtonStateW() {
   let allFieldsFilled = true;
 
-  let is_w_available=true
+  let is_w_available=true;
 
   const companiesDocRef = doc(collection(db, "Companies"), companyName);
       const accessesRef= collection(companiesDocRef, "Accesses");
       getDocs(accessesRef).then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
           let w_available = parseInt(doc.data().userAvailable); 
-          console.log(w_available);
+          // console.log(w_available);
           if (w_available==0){
             is_w_available=false;
           }
