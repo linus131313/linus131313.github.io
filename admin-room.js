@@ -230,6 +230,7 @@ function handleWForm(e){
   e.stopPropagation();
   const nameW = document.getElementById("name_worker").value;
   const emailW = document.getElementById("email_worker").value;
+  const companiesDocRef = doc(collection(db, "Companies"), companyName);
   const newSubcollectionRef = collection(companiesDocRef, "Users");
   const newDocumentData2 = {
     name: nameW,
