@@ -40,6 +40,7 @@ const storage = getStorage(app);
 var newEvents = {};
 var workerColors = {};
 
+
 //task done counter map for dahboard
 var taskDoneCounter = {};
 
@@ -225,22 +226,75 @@ if (typeof WForm !== null) {
   WForm.addEventListener("submit", handleWForm, true);
 }
 
-function handleWForm(e){
+function handleWForm(e) {
   e.preventDefault();
   e.stopPropagation();
   const nameW = document.getElementById("name_worker").value;
   const emailW = document.getElementById("email_worker").value;
-  const companiesDocRef = doc(collection(db, "Companies"), companyName);
-  const newSubcollectionRef = collection(companiesDocRef, "Users");
-  const newDocumentData2 = {
-    name: nameW,
-    email: emailW,
-  
-  };
-  addDoc(newSubcollectionRef, newDocumentData2);
-  alert(`Mitarbeiter erfolgreich hinzugefügt!`);
-  window.location.href = "/adminroom?tab=mitarbeiter-tab";
+  const passwortW = document.getElementById("passwort_worker").value;
+
+  // Erstelle einen neuen Benutzer in Firebase Auth
+  createUserWithEmailAndPassword(auth, emailW, passwortW)
+    .then((userCredential) => {
+      // Benutzer erfolgreich erstellt
+      const user = userCredential.user;
+
+      const userRef= collection(db,"Users");
+      const doc_data1={
+        company:companyName,
+        email:emailW,
+      };
+      addDoc(userRef,doc_data1);
+
+      // Füge den neuen Benutzer zur Firestore-Datenbank hinzu
+
+      const companiesDocRef = doc(collection(db, "Companies"), companyName);
+      const newSubcollectionRef = collection(companiesDocRef, "Users");
+      const accessesRef= collection(companiesDocRef, "Accesses");
+      getDocs(accessesRef).then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          let w_available = parseInt(doc.data().userAvailable); // Konvertiere in Ganzzahl
+      
+          // Überprüfe, ob w_available eine gültige Zahl ist
+          if (!isNaN(w_available)) {
+            // Reduziere um 1 und stelle sicher, dass die Zahl nicht negativ wird
+            w_available = Math.max(w_available - 1, 0);
+      
+            // Aktualisiere das erste Dokument der "accesses"-Sammlung mit dem neuen Wert
+            updateDoc(doc.ref, { userAvailable: w_available.toString() })
+              .then(() => {
+                console.log("Anzahl verfügbarer Benutzer erfolgreich aktualisiert");
+              })
+              .catch((error) => {
+                console.error("Fehler beim Aktualisieren der Anzahl verfügbarer Benutzer:", error);
+              });
+            
+            // Break nach dem ersten Dokument, da wir nur das erste Dokument aktualisieren wollen
+            return;
+          } else {
+            console.error("Ungültiger Wert für w_available:", doc.data().userAvailable);
+          }
+        });
+      });
+      
+      const newDocumentData2 = {
+        name: nameW,
+        email: emailW,
+      };
+      addDoc(newSubcollectionRef, newDocumentData2);
+
+      alert(`Mitarbeiter erfolgreich hinzugefügt!`);
+      window.location.href = "/adminroom?tab=mitarbeiter-tab";
+    })
+    .catch((error) => {
+      // Fehler beim Erstellen des Benutzers
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.error(errorMessage);
+      alert(errorMessage);
+    });
 }
+
 
 
 function handleGForm(e) {
