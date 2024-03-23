@@ -200,6 +200,7 @@ function toggleButtonStateW() {
       getDocs(accessesRef).then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
           let w_available = parseInt(doc.data().userAvailable); 
+          console.log(w_available);
           if (w_available==0){
             is_w_available=false;
           }
