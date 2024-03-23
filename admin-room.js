@@ -108,6 +108,7 @@ function handleSignOut() {
 let GForm = document.getElementById("geb_form");
 let AForm = document.getElementById("task_form");
 
+
 //disable/enable buttons
 const taskForm = document.getElementById("task_form");
 const inputFieldsTasks = taskForm.querySelectorAll("input");
@@ -173,6 +174,36 @@ function toggleButtonStateGeb() {
     submitButtonGeb.style.backgroundColor = "rgba(17, 18, 19, 0.15)";
   }
 }
+
+//mitarbeiter hinzufügen:
+const WForm = document.getElementById("worker_form");
+const inputFieldsW = WForm.querySelectorAll("input");
+const submitButtonW = WForm.querySelector("#submit_worker");
+
+submitButtonW.setAttribute("disabled", true);
+submitButtonW.style.backgroundColor = "rgba(17, 18, 19, 0.15)";
+
+inputFieldsW.forEach((input) => {
+  input.addEventListener("input", toggleButtonStateW);
+});
+
+function toggleButtonStateW() {
+  let allFieldsFilled = true;
+
+  inputFieldsW.forEach((input) => {
+    if (input.value.trim() === "") {
+      allFieldsFilled = false;
+    }
+  });
+
+  if (allFieldsFilled) {
+    submitButtonW.removeAttribute("disabled");
+    submitButtonW.style.backgroundColor = "black";
+  } else {
+    submitButtonW.setAttribute("disabled", true);
+    submitButtonW.style.backgroundColor = "rgba(17, 18, 19, 0.15)";
+  }
+}
 //end disable/enable buttons
 
 var companyName;
@@ -189,6 +220,27 @@ if (typeof GForm !== null) {
 if (typeof AForm !== null) {
   AForm.addEventListener("submit", handleAForm, true);
 }
+
+if (typeof WForm !== null) {
+  WForm.addEventListener("submit", handleWForm, true);
+}
+
+function handleWForm(e){
+  e.preventDefault();
+  e.stopPropagation();
+  const nameW = document.getElementById("name_worker").value;
+  const emailW = document.getElementById("email_worker").value;
+  const newSubcollectionRef = collection(companiesDocRef, "Users");
+  const newDocumentData2 = {
+    name: nameW,
+    email: emailW,
+  
+  };
+  addDoc(newSubcollectionRef, newDocumentData2);
+  alert(`Mitarbeiter erfolgreich hinzugefügt!`);
+  window.location.href = "/adminroom?tab=mitarbeiter-tab";
+}
+
 
 function handleGForm(e) {
   e.preventDefault();
