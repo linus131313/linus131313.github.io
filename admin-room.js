@@ -1212,7 +1212,7 @@ function getWorkerChild(doc){
 
   var htmlCode = `
   <a id="${doc.id}" class="link-block w-inline-block" style="max-width:600px">
-  <div class="text-block-22">${name," | ",email}</div>
+  <div class="text-block-22">${name," | ",mail}</div>
   <img loading="lazy" src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/65fab68e154ecc79d4788cfe_arrow%20right.png" alt="" class="image-9"></a>
   `;
 
