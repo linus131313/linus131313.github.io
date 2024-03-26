@@ -825,6 +825,40 @@ onAuthStateChanged(auth, (user) => {
                 docz.data().zipcode +
                 ")/Calendar";
 
+
+                //images for gebäude layover
+                const filePathImages =
+                docx.data().company +
+                "/" +
+                docz.data().address +
+                ", (" +
+                docz.data().zipcode +
+                ")/Evidence";
+
+                var storageRef = storage.ref();
+
+                // Referenz zum Ordner im Storage
+                var imagesRef = storageRef.child(filePathImages);
+
+                var gebImagesDiv = document.getElementById("geb_images");
+
+                imagesRef.listAll().then(function(result) {
+                    result.items.forEach(function(imageRef) {
+                        // Bild-URL erhalten
+                        imageRef.getDownloadURL().then(function(url) {
+                            // Neues Bild-Element erstellen
+                            var img = document.createElement("img");
+                            img.src = url;
+                            // Bild dem DIV hinzufügen
+                            gebImagesDiv.appendChild(img);
+                        }).catch(function(error) {
+                            console.error("Fehler beim Abrufen der Bild-URL:", error);
+                        });
+                    });
+                }).catch(function(error) {
+                    console.error("Fehler beim Auflisten der Dateien im Storage:", error);
+                });
+
               var fileInput = document.createElement("input");
               fileInput.type = "file";
               fileInput.accept = ".ics";
