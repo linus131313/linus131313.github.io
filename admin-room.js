@@ -1368,20 +1368,24 @@ function getWorkerChild(doc){
 }
 
 document.getElementById("expand_worker_tasks").addEventListener("click", function() {
-  expand_widget("worker_tasks_box", ["worker_arbeitszeit", "worker_stundenzettel"]);
+  var button = document.getElementById("expand_worker_tasks");
+  if (button.textContent === "Expand") {
+    button.textContent = "Schließen";
+    expand_widget("worker_tasks_box", ["worker_arbeitszeit", "worker_stundenzettel"]);
+  } else {
+    button.textContent = "Expand";
+    collapse_widget("worker_tasks_box", ["worker_arbeitszeit", "worker_stundenzettel"]);
+  }
 });
 
-
-
 function expand_widget(expand_id, collapse_ids) {
-  // Expandiere das Element mit der expand_id
   var expandElement = document.getElementById(expand_id);
   if (expandElement) {
+    expandElement.style.transition = 'width 0.5s ease, height 0.5s ease';
     expandElement.style.width = '90vw';
     expandElement.style.height = '70vh';
   }
 
-  // Verstecke alle Elemente mit den collapse_ids
   if (collapse_ids && Array.isArray(collapse_ids)) {
     collapse_ids.forEach(function(collapse_id) {
       var collapseElement = document.getElementById(collapse_id);
@@ -1391,6 +1395,24 @@ function expand_widget(expand_id, collapse_ids) {
     });
   }
 }
+
+function collapse_widget(expand_id, collapse_ids) {
+  var expandElement = document.getElementById(expand_id);
+  if (expandElement) {
+    expandElement.style.width = '100%';
+    expandElement.style.height = '100%';
+  }
+
+  if (collapse_ids && Array.isArray(collapse_ids)) {
+    collapse_ids.forEach(function(collapse_id) {
+      var collapseElement = document.getElementById(collapse_id);
+      if (collapseElement) {
+        collapseElement.style.display = 'block';
+      }
+    });
+  }
+}
+
 
 
 
