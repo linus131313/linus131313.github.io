@@ -840,6 +840,8 @@ onAuthStateChanged(auth, (user) => {
 
                 // Referenz zum Ordner im Storage
                 var imagesRef = ref(storage,filePathImages)  //storageRef.child(filePathImages);
+                const gebImagesDiv = document.getElementById("geb_images");
+
 
 
                               // Liste der Dateien im Ordner
