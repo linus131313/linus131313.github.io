@@ -978,6 +978,10 @@ onAuthStateChanged(auth, (user) => {
                         var dataG= docSnapshot.data()
                         document.getElementById("geb_name_layover").innerHTML=dataG.address+",";
                         document.getElementById("city_name_layover").innerHTML=dataG.zipcode+" "+dataG.city;
+                        document.getElementById("kunde_name").innerHTML=dataG.Eigentümer;
+                        document.getElementById("kunde_tel").innerHTML=dataG.Telefon;
+                        document.getElementById("kunde_mail").innerHTML=dataG.E-Mail;
+
                       } else {
                           console.log("Kein Dokument mit der ID gefunden:", button.id);
                       }
