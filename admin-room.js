@@ -11,6 +11,7 @@ import {
   collection,
   doc,
   getDocs,
+  getDoc,
   updateDoc,
   addDoc,
   deleteDoc,
@@ -963,14 +964,28 @@ onAuthStateChanged(auth, (user) => {
 
             // Iteriere über alle gefundenen Buttons und füge den Eventlistener hinzu
             buttons_geblayover.forEach(function(button) {
-                button.addEventListener('click', function() {
-                    // Mache das Div mit der ID "geb_layover" sichtbar
-                    var gebLayover = document.getElementById('geb_layover');
-                    
-                    gebLayover.style.display = "flex";
-
-                });
-            });
+              button.addEventListener('click', function() {
+                  // Mache das Div mit der ID "geb_layover" sichtbar
+                  var gebLayover = document.getElementById('geb_layover');
+                  
+                  gebLayover.style.display = "flex";
+                  console.log(button.id);
+          
+                  /// Hier auf die Firestore-Daten zugreifen und in die Konsole drucken
+                  const facilityCollections = collection(companyDoc, "Buildings");
+                  getDoc(doc(facilityCollections, button.id)).then((docSnapshot) => {
+                      if (docSnapshot.exists()) {
+                          console.log("Dokumentdaten:", docSnapshot.data());
+                      } else {
+                          console.log("Kein Dokument mit der ID gefunden:", button.id);
+                      }
+                  }).catch((error) => {
+                      console.error("Fehler beim Abrufen des Dokuments:", error);
+                  });
+          
+              });
+          });
+          
           });
           const companyCollections = collection(companyDoc, "Accesses");
           getDocs(companyCollections).then((querySnapshot) => {
