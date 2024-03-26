@@ -979,8 +979,15 @@ onAuthStateChanged(auth, (user) => {
                         document.getElementById("geb_name_layover").innerHTML=dataG.address+",";
                         document.getElementById("city_name_layover").innerHTML=dataG.zipcode+" "+dataG.city;
                         document.getElementById("kunde_name").innerHTML=dataG.Eigentümer;
-                        document.getElementById("kunde_tel").innerHTML=dataG.Telefon;
-                        document.getElementById("kunde_mail").innerHTML=dataG["E-Mail"];
+                        var telefon = dataG.Telefon;
+                        var email = dataG["E-Mail"];
+                        
+                        // Formatieren der Telefonnummer als Link
+                        document.getElementById("kunde_tel").innerHTML = "<a href='tel:" + telefon + "'>" + telefon + "</a>";
+                        
+                        // Formatieren der E-Mail-Adresse als Link
+                        document.getElementById("kunde_mail").innerHTML = "<a href='mailto:" + email + "'>" + email + "</a>";
+                        
 
                       } else {
                           console.log("Kein Dokument mit der ID gefunden:", button.id);
