@@ -68,6 +68,7 @@ var month = ("0" + (today.getMonth() + 1)).slice(-2);
 var year = today.getFullYear();
 var formattedDate = day + "." + month + "." + year;
 document.getElementById("day").innerHTML = formattedDate;
+document.getElementById("day3").innerHTML = formattedDate;
 
 //tab links
 window.onload = function () {
@@ -1374,7 +1375,9 @@ document.getElementById("expand_worker_tasks").addEventListener("click", functio
     expand_widget("worker_tasks_box", ["worker_arbeitszeit", "worker_stundenzettel"]);
   } else {
     button.textContent = "Expand";
-    collapse_widget("worker_tasks_box", ["worker_arbeitszeit", "worker_stundenzettel"]);
+    setTimeout(function() {
+      collapse_widget("worker_tasks_box", ["worker_arbeitszeit", "worker_stundenzettel"]);
+    }, 500); // Verzögerung von 500ms
   }
 });
 
@@ -1407,7 +1410,9 @@ function collapse_widget(expand_id, collapse_ids) {
     collapse_ids.forEach(function(collapse_id) {
       var collapseElement = document.getElementById(collapse_id);
       if (collapseElement) {
-        collapseElement.style.display = 'block';
+        setTimeout(function() {
+          collapseElement.style.display = 'block';
+        }, 500); // Verzögerung von 500ms
       }
     });
   }
