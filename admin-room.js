@@ -835,10 +835,11 @@ onAuthStateChanged(auth, (user) => {
                 docz.data().zipcode +
                 ")/Evidence";
 
-                var storageRef = storage.ref();
+                
 
                 // Referenz zum Ordner im Storage
-                var imagesRef = storageRef.child(filePathImages);
+                var imagesRef = ref(storage,filePathImages)  //storageRef.child(filePathImages);
+
 
                 var gebImagesDiv = document.getElementById("geb_images");
 
