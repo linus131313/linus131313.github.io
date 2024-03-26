@@ -864,14 +864,11 @@ onAuthStateChanged(auth, (user) => {
                           // Lightbox-Element dem DIV hinzufügen
                           gebImagesDiv.appendChild(lightboxLink);
               
-                          // Schließen-Knopf hinzufügen
-                          const closeButton = document.createElement("button");
-                          closeButton.innerHTML = "Schließen";
-                          closeButton.addEventListener("click", function() {
-                              // Schließe die Lightbox
-                              lightboxLink.dispatchEvent(new Event('click'));
+                          // Ereignishandler hinzufügen, um das Bild zu schließen
+                          lightboxLink.addEventListener("click", function(event) {
+                              event.preventDefault(); // Verhindert, dass der Link folgt
+                              wLightbox.close(); // Schließt die Lightbox
                           });
-                          lightboxLink.appendChild(closeButton);
                       }).catch((error) => {
                           console.error("Fehler beim Abrufen der Bild-URL:", error);
                       });
