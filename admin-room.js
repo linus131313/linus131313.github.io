@@ -1017,7 +1017,7 @@ onAuthStateChanged(auth, (user) => {
                         var telefon = dataG.Telefon;
                         var email = dataG["E-Mail"];
 
-                        document.getElementsByClassName("Button_Geb_Delete").addEventListener("click", function () {
+                        document.getElementById("Button_Geb_Delete").addEventListener("click", function () {
                           console.log(button.id);
                         });
                         
