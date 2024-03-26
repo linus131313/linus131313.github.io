@@ -1367,6 +1367,31 @@ function getWorkerChild(doc){
 
 }
 
+document.getElementById("expand_worker_tasks").addEventListener("click", function() {
+  expand_widget("worker_tasks_box", ["worker_arbeitszeit", "worker_stundenzettel"]);
+});
+
+
+
+function expand_widget(expand_id, collapse_ids) {
+  // Expandiere das Element mit der expand_id
+  var expandElement = document.getElementById(expand_id);
+  if (expandElement) {
+    expandElement.style.width = '90vw';
+    expandElement.style.height = '70vh';
+  }
+
+  // Verstecke alle Elemente mit den collapse_ids
+  if (collapse_ids && Array.isArray(collapse_ids)) {
+    collapse_ids.forEach(function(collapse_id) {
+      var collapseElement = document.getElementById(collapse_id);
+      if (collapseElement) {
+        collapseElement.style.display = 'none';
+      }
+    });
+  }
+}
+
 
 
 
