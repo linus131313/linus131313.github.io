@@ -976,7 +976,8 @@ onAuthStateChanged(auth, (user) => {
                   getDoc(doc(facilityCollections, button.id)).then((docSnapshot) => {
                       if (docSnapshot.exists()) {
                         var dataG= docSnapshot.data()
-                          document.getElementById("geb_name_layover").innerHTML=""+dataG.address+", \n "+dataG.city;
+                        document.getElementById("geb_name_layover").innerHTML=dataG.address+",";
+                        document.getElementById("city_name_layover").innerHTML=dataG.city;
                       } else {
                           console.log("Kein Dokument mit der ID gefunden:", button.id);
                       }
