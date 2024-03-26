@@ -981,6 +981,11 @@ onAuthStateChanged(auth, (user) => {
                         document.getElementById("kunde_name").innerHTML=dataG.Eigentümer;
                         var telefon = dataG.Telefon;
                         var email = dataG["E-Mail"];
+
+                        document.getElementByClassName("Button_Geb_Delete").addEventListener("click", function () {
+                          console.log(button.id);
+                        });
+                        
                         
                         // Formatieren der Telefonnummer als Link
                         document.getElementById("kunde_tel").innerHTML = "<a href='tel:" + telefon + "'>" + telefon + "</a>";
