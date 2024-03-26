@@ -1385,10 +1385,13 @@ document.getElementById("bilder_expand").addEventListener("click", function() {
   if (button.textContent === "Erweitern") {
     button.textContent = "Schließen";
     expand_widget("bilder_widget", ["kunde_widget", "info_widget","datei_widget"]);
+    document.getElementById("image_box_expand").style.height ='70vh';
   } else {
     button.textContent = "Erweitern";
     setTimeout(function() {
       collapse_widget("bilder_widget", ["kunde_widget", "info_widget","datei_widget"]);
+      document.getElementById("image_box_expand").style.height = '300px';
+
     }, 200); // Verzögerung von 200ms
   }
 });
