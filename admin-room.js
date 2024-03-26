@@ -982,9 +982,10 @@ onAuthStateChanged(auth, (user) => {
                         var telefon = dataG.Telefon;
                         var email = dataG["E-Mail"];
 
-                        document.getElementByClassName("Button_Geb_Delete").addEventListener("click", function () {
+                        document.getElementsByClassName("Button_Geb_Delete").addEventListener("click", function () {
                           console.log(button.id);
                         });
+                        
                         
                         
                         // Formatieren der Telefonnummer als Link
