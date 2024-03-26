@@ -841,22 +841,23 @@ onAuthStateChanged(auth, (user) => {
                 var imagesRef = ref(storage,filePathImages)  //storageRef.child(filePathImages);
 
 
-                imagesRef.list().then(function(result) {
-                  result.items.forEach(function(imageRef) {
+                              // Liste der Dateien im Ordner
+                listAll(imagesRef).then((result) => {
+                  result.items.forEach((imageRef) => {
                       // Bild-URL erhalten
-                      imageRef.getDownloadURL().then(function(url) {
+                      getDownloadURL(imageRef).then((url) => {
                           // Neues Bild-Element erstellen
-                          var img = document.createElement("img");
+                          const img = document.createElement("img");
                           img.src = url;
                           // Bild dem DIV hinzufügen
                           gebImagesDiv.appendChild(img);
-                      }).catch(function(error) {
+                      }).catch((error) => {
                           console.error("Fehler beim Abrufen der Bild-URL:", error);
                       });
                   });
-              }).catch(function(error) {
+                }).catch((error) => {
                   console.error("Fehler beim Auflisten der Dateien im Storage:", error);
-              });
+                });
 
               var fileInput = document.createElement("input");
               fileInput.type = "file";
