@@ -845,39 +845,38 @@ onAuthStateChanged(auth, (user) => {
 
 
                               // Liste der Dateien im Ordner
-                listAll(imagesRef).then((result) => {
-                  result.items.forEach((imageRef) => {
-                      // Bild-URL erhalten
-                      getDownloadURL(imageRef).then((url) => {
-                          // Neues Bild-Element erstellen
-                          const img = document.createElement("img");
-                          img.src = url;
-                          // Bild dem DIV hinzufügen
-                          gebImagesDiv.innerHTML+=`<a href="#"
-                           class="lightbox-link w-inline-block w-lightbox" aria-label="open lightbox" aria-haspopup="dialog">
-                           <img src="${img.src}" loading="lazy" alt="" class="image-11"><script type="application/json" class="w-json">{
-                            "items": [
-                              {
-                                "_id": "65279f9609ff78020df4cae1",
-                                "origFileName": "Draf Note-small.png",
-                                "fileName": "Draf Note-small.png",
-                                "fileSize": 84688,
-                                "height": 501,
-                                "url": "${img.src}",
-                                "width": 501,
-                                "type": "image"
-                              }
-                            ],
-                            "group": ""
-                          }</script></a>`
-                          // gebImagesDiv.appendChild(img);
-                      }).catch((error) => {
-                          console.error("Fehler beim Abrufen der Bild-URL:", error);
-                      });
-                  });
-                }).catch((error) => {
-                  console.error("Fehler beim Auflisten der Dateien im Storage:", error);
-                });
+                              listAll(imagesRef).then((result) => {
+                                result.items.forEach((imageRef) => {
+                                    // Bild-URL erhalten
+                                    getDownloadURL(imageRef).then((url) => {
+                                        // Neues Bild-Element erstellen
+                                        const img = document.createElement("img");
+                                        img.src = url;
+                            
+                                        // Neues Lightbox-Element erstellen
+                                        const lightboxLink = document.createElement("a");
+                                        lightboxLink.href = url;
+                                        lightboxLink.className = "lightbox-link w-inline-block w-lightbox";
+                                        lightboxLink.setAttribute("data-lightbox", "example");
+                                        lightboxLink.setAttribute("aria-label", "open lightbox");
+                                        lightboxLink.setAttribute("aria-haspopup", "dialog");
+                            
+                                        // Bild dem Lightbox-Element hinzufügen
+                                        lightboxLink.appendChild(img);
+                            
+                                        // Lightbox-Element dem DIV hinzufügen
+                                        gebImagesDiv.appendChild(lightboxLink);
+                                    }).catch((error) => {
+                                        console.error("Fehler beim Abrufen der Bild-URL:", error);
+                                    });
+                                });
+                            
+                                // Lightbox-Funktionalität erneut initialisieren
+                                wLightbox.init();
+                            }).catch((error) => {
+                                console.error("Fehler beim Auflisten der Dateien im Storage:", error);
+                            });
+                            
 
               var fileInput = document.createElement("input");
               fileInput.type = "file";
