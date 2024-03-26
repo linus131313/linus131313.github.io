@@ -853,7 +853,24 @@ onAuthStateChanged(auth, (user) => {
                           const img = document.createElement("img");
                           img.src = url;
                           // Bild dem DIV hinzufügen
-                          gebImagesDiv.appendChild(img);
+                          gebImagesDiv.innerHTML+=`<a href="#"
+                           class="lightbox-link w-inline-block w-lightbox" aria-label="open lightbox" aria-haspopup="dialog">
+                           <img src="${img.src}" loading="lazy" alt="" class="image-11"><script type="application/json" class="w-json">{
+                            "items": [
+                              {
+                                "_id": "65279f9609ff78020df4cae1",
+                                "origFileName": "Draf Note-small.png",
+                                "fileName": "Draf Note-small.png",
+                                "fileSize": 84688,
+                                "height": 501,
+                                "url": "${img.src}",
+                                "width": 501,
+                                "type": "image"
+                              }
+                            ],
+                            "group": ""
+                          }</script></a>`
+                          // gebImagesDiv.appendChild(img);
                       }).catch((error) => {
                           console.error("Fehler beim Abrufen der Bild-URL:", error);
                       });
