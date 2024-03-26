@@ -842,41 +842,47 @@ onAuthStateChanged(auth, (user) => {
                 var imagesRef = ref(storage,filePathImages)  //storageRef.child(filePathImages);
                 const gebImagesDiv = document.getElementById("geb_images");
 
-
-
-                              // Liste der Dateien im Ordner
-                              listAll(imagesRef).then((result) => {
-                                result.items.forEach((imageRef) => {
-                                    // Bild-URL erhalten
-                                    getDownloadURL(imageRef).then((url) => {
-                                        // Neues Bild-Element erstellen
-                                        const img = document.createElement("img");
-                                        img.src = url;
-                            
-                                        // Neues Lightbox-Element erstellen
-                                        const lightboxLink = document.createElement("a");
-                                        lightboxLink.href = url;
-                                        lightboxLink.className = "lightbox-link w-inline-block w-lightbox";
-                                        lightboxLink.setAttribute("data-lightbox", "example");
-                                        lightboxLink.setAttribute("aria-label", "open lightbox");
-                                        lightboxLink.setAttribute("aria-haspopup", "dialog");
-                            
-                                        // Bild dem Lightbox-Element hinzufügen
-                                        lightboxLink.appendChild(img);
-                            
-                                        // Lightbox-Element dem DIV hinzufügen
-                                        gebImagesDiv.appendChild(lightboxLink);
-                                    }).catch((error) => {
-                                        console.error("Fehler beim Abrufen der Bild-URL:", error);
-                                    });
-                                });
-                            
-                                // Lightbox-Funktionalität erneut initialisieren
-                                wLightbox.init();
-                            }).catch((error) => {
-                                console.error("Fehler beim Auflisten der Dateien im Storage:", error);
-                            });
-                            
+                listAll(imagesRef).then((result) => {
+                  result.items.forEach((imageRef) => {
+                      // Bild-URL erhalten
+                      getDownloadURL(imageRef).then((url) => {
+                          // Neues Bild-Element erstellen
+                          const img = document.createElement("img");
+                          img.src = url;
+              
+                          // Neues Lightbox-Element erstellen
+                          const lightboxLink = document.createElement("a");
+                          lightboxLink.href = url;
+                          lightboxLink.className = "lightbox-link w-inline-block w-lightbox";
+                          lightboxLink.setAttribute("data-lightbox", "example");
+                          lightboxLink.setAttribute("aria-label", "open lightbox");
+                          lightboxLink.setAttribute("aria-haspopup", "dialog");
+              
+                          // Bild dem Lightbox-Element hinzufügen
+                          lightboxLink.appendChild(img);
+              
+                          // Lightbox-Element dem DIV hinzufügen
+                          gebImagesDiv.appendChild(lightboxLink);
+              
+                          // Schließen-Knopf hinzufügen
+                          const closeButton = document.createElement("button");
+                          closeButton.innerHTML = "Schließen";
+                          closeButton.addEventListener("click", function() {
+                              // Schließe die Lightbox
+                              lightboxLink.dispatchEvent(new Event('click'));
+                          });
+                          lightboxLink.appendChild(closeButton);
+                      }).catch((error) => {
+                          console.error("Fehler beim Abrufen der Bild-URL:", error);
+                      });
+                  });
+              
+                  // Lightbox-Funktionalität erneut initialisieren
+                  wLightbox.init();
+              }).catch((error) => {
+                  console.error("Fehler beim Auflisten der Dateien im Storage:", error);
+              });
+              
 
               var fileInput = document.createElement("input");
               fileInput.type = "file";
