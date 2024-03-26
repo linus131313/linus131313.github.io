@@ -1370,21 +1370,34 @@ function getWorkerChild(doc){
 
 document.getElementById("expand_worker_tasks").addEventListener("click", function() {
   var button = document.getElementById("expand_worker_tasks");
-  if (button.textContent === "Expand") {
+  if (button.textContent === "Erweitern") {
     button.textContent = "Schließen";
     expand_widget("worker_tasks_box", ["worker_arbeitszeit", "worker_stundenzettel"]);
   } else {
-    button.textContent = "Expand";
+    button.textContent = "Erweitern";
     setTimeout(function() {
       collapse_widget("worker_tasks_box", ["worker_arbeitszeit", "worker_stundenzettel"]);
-    }, 500); // Verzögerung von 500ms
+    }, 200); // Verzögerung von 500ms
+  }
+});
+
+document.getElementById("bilder_expand").addEventListener("click", function() {
+  var button = document.getElementById("bilder_expand");
+  if (button.textContent === "Erweitern") {
+    button.textContent = "Schließen";
+    expand_widget("bilder_widget", ["kunde_widget", "info_widget","datei_widget"]);
+  } else {
+    button.textContent = "Erweitern";
+    setTimeout(function() {
+      collapse_widget("bilder_widget", ["kunde_widget", "info_widget","datei_widget"]);
+    }, 200); // Verzögerung von 500ms
   }
 });
 
 function expand_widget(expand_id, collapse_ids) {
   var expandElement = document.getElementById(expand_id);
   if (expandElement) {
-    expandElement.style.transition = 'width 0.5s ease, height 0.5s ease';
+    expandElement.style.transition = 'width 0.2s ease, height 0.2s ease';
     expandElement.style.width = '90vw';
     expandElement.style.height = '70vh';
   }
