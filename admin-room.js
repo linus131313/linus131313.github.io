@@ -1367,7 +1367,6 @@ function getWorkerChild(doc){
 
 
 }
-
 document.getElementById("expand_worker_tasks").addEventListener("click", function() {
   var button = document.getElementById("expand_worker_tasks");
   if (button.textContent === "Erweitern") {
@@ -1377,7 +1376,7 @@ document.getElementById("expand_worker_tasks").addEventListener("click", functio
     button.textContent = "Erweitern";
     setTimeout(function() {
       collapse_widget("worker_tasks_box", ["worker_arbeitszeit", "worker_stundenzettel"]);
-    }, 200); // Verzögerung von 500ms
+    }, 200); // Verzögerung von 200ms
   }
 });
 
@@ -1390,7 +1389,7 @@ document.getElementById("bilder_expand").addEventListener("click", function() {
     button.textContent = "Erweitern";
     setTimeout(function() {
       collapse_widget("bilder_widget", ["kunde_widget", "info_widget","datei_widget"]);
-    }, 200); // Verzögerung von 500ms
+    }, 200); // Verzögerung von 200ms
   }
 });
 
@@ -1430,7 +1429,6 @@ function collapse_widget(expand_id, collapse_ids) {
     });
   }
 }
-
 
 
 
