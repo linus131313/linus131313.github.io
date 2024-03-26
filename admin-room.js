@@ -1397,7 +1397,7 @@ document.getElementById("bilder_expand").addEventListener("click", function() {
 function expand_widget(expand_id, collapse_ids) {
   var expandElement = document.getElementById(expand_id);
   if (expandElement) {
-    expandElement.style.transition = 'width 0.2s ease, height 0.2s ease';
+    expandElement.style.transition = 'width 0.4s ease, height 0.4s ease';
     expandElement.style.width = '90vw';
     expandElement.style.height = '70vh';
   }
