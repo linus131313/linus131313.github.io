@@ -25,6 +25,7 @@ import {
   getMetadata,
   deleteObject,
   listAll,
+getDownloadURL,
 } from "https://www.gstatic.com/firebasejs/9.4.1/firebase-storage.js";
 
 const firebaseConfig = {
