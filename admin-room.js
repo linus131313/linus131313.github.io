@@ -975,7 +975,8 @@ onAuthStateChanged(auth, (user) => {
                   const facilityCollections = collection(companyDoc, "Buildings");
                   getDoc(doc(facilityCollections, button.id)).then((docSnapshot) => {
                       if (docSnapshot.exists()) {
-                          console.log("Dokumentdaten:", docSnapshot.data());
+                        var dataG= docSnapshot.data()
+                          document.getElementById("geb_name_layover").innerHTML=""+dataG.address+", \n "+dataG.city;
                       } else {
                           console.log("Kein Dokument mit der ID gefunden:", button.id);
                       }
