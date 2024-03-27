@@ -45,7 +45,7 @@ var newEvents = {};
 var workerColors = {};
 
 //image list for each building
-geb_image_map={}
+var geb_image_map={}
 
 //task done counter map for dahboard
 var taskDoneCounter = {};
