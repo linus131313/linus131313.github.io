@@ -47,6 +47,8 @@ var workerColors = {};
 //image list for each building
 var geb_image_map={};
 
+var geb_image_map_info={};
+
 //task done counter map for dahboard
 var taskDoneCounter = {};
 
@@ -866,6 +868,45 @@ onAuthStateChanged(auth, (user) => {
                             }).catch((error) => {
                                 
                             });
+
+
+
+                            const filePathImagesInfo =
+                            docx.data().company +
+                            "/" +
+                            docz.data().address +
+                            ", (" +
+                            docz.data().zipcode +
+                            ")/Information";
+            
+                            
+            
+                            var imagesRef = ref(storage,filePathImagesInfo)  //storageRef.child(filePathImages);
+            
+            
+            
+                                          listAll(imagesRef).then((result) => {
+                                            result.items.forEach((imageRef) => {
+                                                getDownloadURL(imageRef).then((url) => {
+                                                   
+                                        
+                                                  const map_key = docz.data().address + docz.data().zipcode;
+                                                  if (geb_image_map_info.hasOwnProperty(map_key)) {
+                                                      geb_image_map_info[map_key].push(url);
+                                                  } else {
+                                                      geb_image_map_info[map_key] = [url];
+                                                  }
+                                                  
+                                                 
+                                                }).catch((error) => {
+                                          
+                                                });
+                                            });
+                                        
+                              
+                                        }).catch((error) => {
+                                            
+                                        });
                             
 
               var fileInput = document.createElement("input");
@@ -1036,7 +1077,9 @@ onAuthStateChanged(auth, (user) => {
                               // Erstellen des <img>-Elements
                               const imageElement = document.createElement('img');
                               imageElement.src = image_url;
-                              imageElement.style.margin = '10px'; // Füge 10px Abstand hinzu
+                              imageElement.style.margin = '5px'; 
+                              imageElement.style.width= '140px';
+                              imageElement.style.height='140px';
                               
                               // Hinzufügen des <img>-Elements zum <a>-Element
                               imageLink.appendChild(imageElement);
@@ -1045,6 +1088,31 @@ onAuthStateChanged(auth, (user) => {
                               gebImagesDiv.appendChild(imageLink);
                           });
                       }
+
+
+                      const gebImagesInfoDiv = document.getElementById("geb_images_info");
+                      
+                      if (geb_image_map_info.hasOwnProperty(map_key)) {
+                        geb_image_map_info[map_key].forEach((image_url) => {
+                            // Erstellen des <a>-Elements
+                            const imageLink = document.createElement('a');
+                            imageLink.href = image_url;
+                            imageLink.target = "_blank"; // Öffnen des Links in einem neuen Tab
+                            
+                            // Erstellen des <img>-Elements
+                            const imageElement = document.createElement('img');
+                            imageElement.src = image_url;
+                            imageElement.style.margin = '5px'; 
+                            imageElement.style.width= '140px';
+                            imageElement.style.height='140px';
+                            
+                            // Hinzufügen des <img>-Elements zum <a>-Element
+                            imageLink.appendChild(imageElement);
+                            
+                            // Hinzufügen des <a>-Elements zum gebImagesDiv
+                            gebImagesInfoDiv.appendChild(imageLink);
+                        });
+                    }
                       
                         
                         
