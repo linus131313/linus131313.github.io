@@ -1026,31 +1026,49 @@ onAuthStateChanged(auth, (user) => {
                         const gebImagesDiv = document.getElementById("geb_images");
                         const map_key = dataG.address + dataG.zipcode;
                         
+                  
+                        
                         if (geb_image_map.hasOwnProperty(map_key)) {
                             geb_image_map[map_key].forEach((image_url) => {
-                                // Lightbox-Element erstellen
-                                const lightboxLink = document.createElement("a");
-                                lightboxLink.href = image_url;
-                                lightboxLink.className = "lightbox-link w-inline-block w-lightbox";
-                                lightboxLink.setAttribute("data-lightbox", "example");
-                                lightboxLink.setAttribute("aria-label", "open lightbox");
-                                lightboxLink.setAttribute("aria-haspopup", "dialog");
+                                const imageElement = document.createElement('img');
+                                imageElement.src = image_url;
+                                imageElement.classList.add('lightbox-trigger');
+                                gebImagesDiv.appendChild(imageElement);
                         
-                                // Bild-Element erstellen und dem Lightbox-Element hinzufügen
-                                const img = document.createElement("img");
-                                img.src = image_url;
-                                lightboxLink.appendChild(img);
+                                const lightboxContainer = document.createElement('div');
+                                lightboxContainer.classList.add('lightbox-container');
+                                lightboxContainer.style.display = 'none';
+                                lightboxContainer.style.position = 'fixed';
+                                lightboxContainer.style.top = '0';
+                                lightboxContainer.style.left = '0';
+                                lightboxContainer.style.width = '100%';
+                                lightboxContainer.style.height = '100%';
+                                lightboxContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+                                lightboxContainer.style.justifyContent = 'center';
+                                lightboxContainer.style.alignItems = 'center';
+                                document.body.appendChild(lightboxContainer);
                         
-                                // Lightbox-Element dem DIV hinzufügen
-                                gebImagesDiv.appendChild(lightboxLink);
+                                const lightboxImage = document.createElement('img');
+                                lightboxImage.src = image_url;
+                                lightboxImage.classList.add('lightbox-image');
+                                lightboxImage.style.maxWidth = '90%';
+                                lightboxImage.style.maxHeight = '90%';
+                                lightboxImage.style.objectFit = 'contain';
+                                lightboxImage.style.cursor = 'pointer';
+                                lightboxContainer.appendChild(lightboxImage);
                         
-                                // Ereignishandler hinzufügen, um die Lightbox zu schließen
-                                lightboxLink.addEventListener("click", function(event) {
-                                    event.preventDefault(); // Verhindert, dass der Link folgt
-                                    lightboxLink.click(); // Klickereignis auf das Lightbox-Element auslösen
+                                imageElement.addEventListener('click', () => {
+                                    lightboxContainer.style.display = 'flex';
+                                });
+                        
+                                lightboxContainer.addEventListener('click', (event) => {
+                                    if (event.target === lightboxContainer) {
+                                        lightboxContainer.style.display = 'none';
+                                    }
                                 });
                             });
                         }
+                        
                         
       
                         document.getElementById("geb_name_layover").innerHTML=dataG.address+",";
