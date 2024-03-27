@@ -1029,44 +1029,24 @@ onAuthStateChanged(auth, (user) => {
                         if (geb_image_map.hasOwnProperty(map_key)) {
                             geb_image_map[map_key].forEach((image_url) => {
                                 // Erstellen des <a>-Elements
-                                const lightboxLink = document.createElement('a');
-                                lightboxLink.href = "#";
-                                lightboxLink.classList.add('lightbox-link', 'w-inline-block', 'w-lightbox');
-                                lightboxLink.setAttribute('aria-label', 'open lightbox');
-                                lightboxLink.setAttribute('aria-haspopup', 'dialog');
-                                
-                                // Erstellen des <img>-Elements
-                                const imageElement = document.createElement('img');
-                                imageElement.src = image_url;
-                                imageElement.classList.add('image-11');
-                                imageElement.loading = 'lazy';
-                                imageElement.alt = '';
-                                
-                                // Erstellen des <script>-Elements für Lightbox-Konfiguration
-                                const scriptElement = document.createElement('script');
-                                scriptElement.type = 'application/json';
-                                scriptElement.classList.add('w-json');
-                                const jsonConfig = {
-                                    items: [{
-                                        _id: image_url,
-                                        origFileName: image_url.substring(image_url.lastIndexOf('/') + 1),
-                                        fileName: image_url.substring(image_url.lastIndexOf('/') + 1),
-                                        fileSize: 0, // Füge hier die tatsächliche Dateigröße hinzu, falls verfügbar
-                                        height: 0, // Füge hier die tatsächliche Höhe hinzu, falls verfügbar
-                                        url: image_url,
-                                        width: 0, // Füge hier die tatsächliche Breite hinzu, falls verfügbar
-                                        type: 'image'
-                                    }],
-                                    group: ''
-                                };
-                                scriptElement.textContent = JSON.stringify(jsonConfig);
-                                
-                                // Hinzufügen der Elemente zur Lightbox-Verankerung
-                                lightboxLink.appendChild(imageElement);
-                                lightboxLink.appendChild(scriptElement);
-                                
-                                // Hinzufügen der Lightbox-Verankerung zum Haupt-Div
-                                gebImagesDiv.appendChild(lightboxLink);
+                               gebImagesDiv.innerHTML+=`
+                               <a href="#" class="lightbox-link w-inline-block w-lightbox" 
+                               aria-label="open lightbox" aria-haspopup="dialog">
+                               <img src="${image_url}" loading="lazy" alt="" class="image-11"><script type="application/json" class="w-json">{
+                                "items": [
+                                  {
+                                    "_id": "65279f9609ff78020df4cae1",
+                                    "origFileName": "Draf Note-small.png",
+                                    "fileName": "Draf Note-small.png",
+                                    "fileSize": 84688,
+                                    "height": 501,
+                                    "url": "${image_url}",
+                                    "width": 501,
+                                    "type": "image"
+                                  }
+                                ],
+                                "group": ""
+                              }</script></a>`
                             });
                         }
                         
