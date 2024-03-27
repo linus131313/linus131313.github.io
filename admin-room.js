@@ -44,6 +44,8 @@ const storage = getStorage(app);
 var newEvents = {};
 var workerColors = {};
 
+//image list for each building
+geb_image_map={}
 
 //task done counter map for dahboard
 var taskDoneCounter = {};
@@ -840,46 +842,37 @@ onAuthStateChanged(auth, (user) => {
 
                 // Referenz zum Ordner im Storage
                 var imagesRef = ref(storage,filePathImages)  //storageRef.child(filePathImages);
-                const gebImagesDiv = document.getElementById("geb_images");
 
-                listAll(imagesRef).then((result) => {
-                  result.items.forEach((imageRef) => {
-                      // Bild-URL erhalten
-                      getDownloadURL(imageRef).then((url) => {
-                          // Neues Bild-Element erstellen
-                          const img = document.createElement("img");
-                          img.src = url;
-              
-                          // Neues Lightbox-Element erstellen
-                          const lightboxLink = document.createElement("a");
-                          lightboxLink.href = url;
-                          lightboxLink.className = "lightbox-link w-inline-block w-lightbox";
-                          lightboxLink.setAttribute("data-lightbox", "example");
-                          lightboxLink.setAttribute("aria-label", "open lightbox");
-                          lightboxLink.setAttribute("aria-haspopup", "dialog");
-              
-                          // Bild dem Lightbox-Element hinzufügen
-                          lightboxLink.appendChild(img);
-              
-                          // Lightbox-Element dem DIV hinzufügen
-                          gebImagesDiv.appendChild(lightboxLink);
-              
-                          // Ereignishandler hinzufügen, um das Bild zu schließen
-                          lightboxLink.addEventListener("click", function(event) {
-                              event.preventDefault(); // Verhindert, dass der Link folgt
-                              wLightbox.close(); // Schließt die Lightbox
-                          });
-                      }).catch((error) => {
-                          console.error("Fehler beim Abrufen der Bild-URL:", error);
-                      });
-                  });
-              
-                  // Lightbox-Funktionalität erneut initialisieren
-                  wLightbox.init();
-              }).catch((error) => {
-                  console.error("Fehler beim Auflisten der Dateien im Storage:", error);
-              });
-              
+
+
+                              // Liste der Dateien im Ordner
+                              listAll(imagesRef).then((result) => {
+                                result.items.forEach((imageRef) => {
+                                    // Bild-URL erhalten
+                                    getDownloadURL(imageRef).then((url) => {
+                                        // Neues Bild-Element erstellen
+                                        const img = document.createElement("img");
+                                        img.src = url;
+                            
+                                      const map_key = docz.data().address + docz.data().zipcode;
+                                      if (geb_image_map.hasOwnProperty(map_key)) {
+                                          geb_image_map[map_key].push(img.src);
+                                      } else {
+                                          geb_image_map[map_key] = [img.src];
+                                      }
+                                      
+                                     
+                                    }).catch((error) => {
+                                        console.error("Fehler beim Abrufen der Bild-URL:", error);
+                                    });
+                                });
+                            
+                                // Lightbox-Funktionalität erneut initialisieren
+                                wLightbox.init();
+                            }).catch((error) => {
+                                console.error("Fehler beim Auflisten der Dateien im Storage:", error);
+                            });
+                            
 
               var fileInput = document.createElement("input");
               fileInput.type = "file";
@@ -1026,6 +1019,9 @@ onAuthStateChanged(auth, (user) => {
                   
                   gebLayover.style.display = "flex";
                   console.log(button.id);
+                  console.log(geb_image_map);
+                  const gebImagesDiv = document.getElementById("geb_images");
+
           
                   /// Hier auf die Firestore-Daten zugreifen und in die Konsole drucken
                   const facilityCollections = collection(companyDoc, "Buildings");
