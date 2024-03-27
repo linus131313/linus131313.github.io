@@ -1027,28 +1027,25 @@ onAuthStateChanged(auth, (user) => {
                         const map_key = dataG.address + dataG.zipcode;
                         
                         if (geb_image_map.hasOwnProperty(map_key)) {
-                            geb_image_map[map_key].forEach((image_url) => {
-                                // Erstellen des <a>-Elements
-                               gebImagesDiv.innerHTML+=`
-                               <a href="#" class="lightbox-link w-inline-block w-lightbox" 
-                               aria-label="open lightbox" aria-haspopup="dialog">
-                               <img src="${image_url}" loading="lazy" alt="" class="image-11"><script type="application/json" class="w-json">{
-                                "items": [
-                                  {
-                                    "_id": "65279f9609ff78020df4cae1",
-                                    "origFileName": "Draf Note-small.png",
-                                    "fileName": "Draf Note-small.png",
-                                    "fileSize": 84688,
-                                    "height": 501,
-                                    "url": "${image_url}",
-                                    "width": 501,
-                                    "type": "image"
-                                  }
-                                ],
-                                "group": ""
-                              }</script></a>`
-                            });
-                        }
+                          geb_image_map[map_key].forEach((image_url) => {
+                              // Erstellen des <a>-Elements
+                              const imageLink = document.createElement('a');
+                              imageLink.href = image_url;
+                              imageLink.target = "_blank"; // Öffnen des Links in einem neuen Tab
+                              
+                              // Erstellen des <img>-Elements
+                              const imageElement = document.createElement('img');
+                              imageElement.src = image_url;
+                              imageElement.style.margin = '10px'; // Füge 10px Abstand hinzu
+                              
+                              // Hinzufügen des <img>-Elements zum <a>-Element
+                              imageLink.appendChild(imageElement);
+                              
+                              // Hinzufügen des <a>-Elements zum gebImagesDiv
+                              gebImagesDiv.appendChild(imageLink);
+                          });
+                      }
+                      
                         
                         
       
