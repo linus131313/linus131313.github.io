@@ -1026,46 +1026,47 @@ onAuthStateChanged(auth, (user) => {
                         const gebImagesDiv = document.getElementById("geb_images");
                         const map_key = dataG.address + dataG.zipcode;
                         
-                  
-                        
                         if (geb_image_map.hasOwnProperty(map_key)) {
                             geb_image_map[map_key].forEach((image_url) => {
+                                // Erstellen des <a>-Elements
+                                const lightboxLink = document.createElement('a');
+                                lightboxLink.href = "#";
+                                lightboxLink.classList.add('lightbox-link', 'w-inline-block', 'w-lightbox');
+                                lightboxLink.setAttribute('aria-label', 'open lightbox');
+                                lightboxLink.setAttribute('aria-haspopup', 'dialog');
+                                
+                                // Erstellen des <img>-Elements
                                 const imageElement = document.createElement('img');
                                 imageElement.src = image_url;
-                                imageElement.classList.add('lightbox-trigger');
-                                gebImagesDiv.appendChild(imageElement);
-                        
-                                const lightboxContainer = document.createElement('div');
-                                lightboxContainer.classList.add('lightbox-container');
-                                lightboxContainer.style.display = 'none';
-                                lightboxContainer.style.position = 'fixed';
-                                lightboxContainer.style.top = '0';
-                                lightboxContainer.style.left = '0';
-                                lightboxContainer.style.width = '100%';
-                                lightboxContainer.style.height = '100%';
-                                lightboxContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
-                                lightboxContainer.style.justifyContent = 'center';
-                                lightboxContainer.style.alignItems = 'center';
-                                document.body.appendChild(lightboxContainer);
-                        
-                                const lightboxImage = document.createElement('img');
-                                lightboxImage.src = image_url;
-                                lightboxImage.classList.add('lightbox-image');
-                                lightboxImage.style.maxWidth = '90%';
-                                lightboxImage.style.maxHeight = '90%';
-                                lightboxImage.style.objectFit = 'contain';
-                                lightboxImage.style.cursor = 'pointer';
-                                lightboxContainer.appendChild(lightboxImage);
-                        
-                                imageElement.addEventListener('click', () => {
-                                    lightboxContainer.style.display = 'flex';
-                                });
-                        
-                                lightboxContainer.addEventListener('click', (event) => {
-                                    if (event.target === lightboxContainer) {
-                                        lightboxContainer.style.display = 'none';
-                                    }
-                                });
+                                imageElement.classList.add('image-11');
+                                imageElement.loading = 'lazy';
+                                imageElement.alt = '';
+                                
+                                // Erstellen des <script>-Elements für Lightbox-Konfiguration
+                                const scriptElement = document.createElement('script');
+                                scriptElement.type = 'application/json';
+                                scriptElement.classList.add('w-json');
+                                const jsonConfig = {
+                                    items: [{
+                                        _id: image_url,
+                                        origFileName: image_url.substring(image_url.lastIndexOf('/') + 1),
+                                        fileName: image_url.substring(image_url.lastIndexOf('/') + 1),
+                                        fileSize: 0, // Füge hier die tatsächliche Dateigröße hinzu, falls verfügbar
+                                        height: 0, // Füge hier die tatsächliche Höhe hinzu, falls verfügbar
+                                        url: image_url,
+                                        width: 0, // Füge hier die tatsächliche Breite hinzu, falls verfügbar
+                                        type: 'image'
+                                    }],
+                                    group: ''
+                                };
+                                scriptElement.textContent = JSON.stringify(jsonConfig);
+                                
+                                // Hinzufügen der Elemente zur Lightbox-Verankerung
+                                lightboxLink.appendChild(imageElement);
+                                lightboxLink.appendChild(scriptElement);
+                                
+                                // Hinzufügen der Lightbox-Verankerung zum Haupt-Div
+                                gebImagesDiv.appendChild(lightboxLink);
                             });
                         }
                         
