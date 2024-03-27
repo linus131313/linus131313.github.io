@@ -1047,10 +1047,11 @@ onAuthStateChanged(auth, (user) => {
                                 // Ereignishandler hinzufügen, um die Lightbox zu schließen
                                 lightboxLink.addEventListener("click", function(event) {
                                     event.preventDefault(); // Verhindert, dass der Link folgt
-                                    wLightbox.close(); // Schließt die Lightbox
+                                    lightboxLink.click(); // Klickereignis auf das Lightbox-Element auslösen
                                 });
                             });
                         }
+                        
       
                         document.getElementById("geb_name_layover").innerHTML=dataG.address+",";
                         document.getElementById("city_name_layover").innerHTML=dataG.zipcode+" "+dataG.city;
