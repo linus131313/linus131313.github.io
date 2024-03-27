@@ -45,7 +45,7 @@ var newEvents = {};
 var workerColors = {};
 
 //image list for each building
-var geb_image_map={}
+var geb_image_map={};
 
 //task done counter map for dahboard
 var taskDoneCounter = {};
@@ -840,37 +840,31 @@ onAuthStateChanged(auth, (user) => {
 
                 
 
-                // Referenz zum Ordner im Storage
                 var imagesRef = ref(storage,filePathImages)  //storageRef.child(filePathImages);
 
 
 
-                              // Liste der Dateien im Ordner
                               listAll(imagesRef).then((result) => {
                                 result.items.forEach((imageRef) => {
-                                    // Bild-URL erhalten
                                     getDownloadURL(imageRef).then((url) => {
-                                        // Neues Bild-Element erstellen
-                                        const img = document.createElement("img");
-                                        img.src = url;
+                                       
                             
                                       const map_key = docz.data().address + docz.data().zipcode;
                                       if (geb_image_map.hasOwnProperty(map_key)) {
-                                          geb_image_map[map_key].push(img.src);
+                                          geb_image_map[map_key].push(url);
                                       } else {
-                                          geb_image_map[map_key] = [img.src];
+                                          geb_image_map[map_key] = [url];
                                       }
                                       
                                      
                                     }).catch((error) => {
-                                        console.error("Fehler beim Abrufen der Bild-URL:", error);
+                              
                                     });
                                 });
                             
-                                // Lightbox-Funktionalität erneut initialisieren
-                                wLightbox.init();
+                  
                             }).catch((error) => {
-                                console.error("Fehler beim Auflisten der Dateien im Storage:", error);
+                                
                             });
                             
 
@@ -1020,14 +1014,44 @@ onAuthStateChanged(auth, (user) => {
                   gebLayover.style.display = "flex";
                   console.log(button.id);
                   console.log(geb_image_map);
-                  const gebImagesDiv = document.getElementById("geb_images");
-
+                 
           
                   /// Hier auf die Firestore-Daten zugreifen und in die Konsole drucken
                   const facilityCollections = collection(companyDoc, "Buildings");
                   getDoc(doc(facilityCollections, button.id)).then((docSnapshot) => {
                       if (docSnapshot.exists()) {
                         var dataG= docSnapshot.data()
+
+                        //add images to building layover
+                        const gebImagesDiv = document.getElementById("geb_images");
+                        const map_key = dataG.address + dataG.zipcode;
+                        
+                        if (geb_image_map.hasOwnProperty(map_key)) {
+                            geb_image_map[map_key].forEach((image_url) => {
+                                // Lightbox-Element erstellen
+                                const lightboxLink = document.createElement("a");
+                                lightboxLink.href = image_url;
+                                lightboxLink.className = "lightbox-link w-inline-block w-lightbox";
+                                lightboxLink.setAttribute("data-lightbox", "example");
+                                lightboxLink.setAttribute("aria-label", "open lightbox");
+                                lightboxLink.setAttribute("aria-haspopup", "dialog");
+                        
+                                // Bild-Element erstellen und dem Lightbox-Element hinzufügen
+                                const img = document.createElement("img");
+                                img.src = image_url;
+                                lightboxLink.appendChild(img);
+                        
+                                // Lightbox-Element dem DIV hinzufügen
+                                gebImagesDiv.appendChild(lightboxLink);
+                        
+                                // Ereignishandler hinzufügen, um die Lightbox zu schließen
+                                lightboxLink.addEventListener("click", function(event) {
+                                    event.preventDefault(); // Verhindert, dass der Link folgt
+                                    wLightbox.close(); // Schließt die Lightbox
+                                });
+                            });
+                        }
+      
                         document.getElementById("geb_name_layover").innerHTML=dataG.address+",";
                         document.getElementById("city_name_layover").innerHTML=dataG.zipcode+" "+dataG.city;
                         document.getElementById("kunde_name").innerHTML=dataG.Eigentümer;
