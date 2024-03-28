@@ -1445,6 +1445,9 @@ document.getElementById("close_popup").addEventListener("click", function () {
 });
 
 document.getElementById("geb_back").addEventListener("click", function () {
+  console.log("delete inner html");
+  document.getElementById("geb_images_info").innerHTML="";
+  document.getElementById("geb_images").innerHTML="";
   const popup = document.getElementById("geb_layover");
   popup.style.display = "none";
 });
