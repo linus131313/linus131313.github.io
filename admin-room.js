@@ -1080,6 +1080,7 @@ onAuthStateChanged(auth, (user) => {
                               imageElement.style.margin = '5px'; 
                               imageElement.style.width= '140px';
                               imageElement.style.height='140px';
+                              imageElement.style.objectFit = 'cover'; 
                               
                               // Hinzufügen des <img>-Elements zum <a>-Element
                               imageLink.appendChild(imageElement);
@@ -1105,6 +1106,7 @@ onAuthStateChanged(auth, (user) => {
                             imageElement.style.margin = '5px'; 
                             imageElement.style.width= '140px';
                             imageElement.style.height='140px';
+                            imageElement.style.objectFit = 'cover'; 
                             
                             // Hinzufügen des <img>-Elements zum <a>-Element
                             imageLink.appendChild(imageElement);
