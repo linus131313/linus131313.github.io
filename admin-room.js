@@ -713,7 +713,7 @@ onAuthStateChanged(auth, (user) => {
                       }
                       if ((new Date() - taskIssued) / (1000 * 60 * 60) > 1) {
                         //wenn aufgabe nach einer stunde immernoch nicht bearbeitet wurde
-                        task_lost_html=`
+                        var task_lost_html=`
                         <div class="columns-14 w-row">
                             <div class="column-23 w-col w-col-6">
                                 <div class="text-block-19-copy-copy-copy">${taskdoc.data().title}</div>
@@ -740,7 +740,7 @@ onAuthStateChanged(auth, (user) => {
                     }
 
                       } else {
-                        task_open_html=`
+                        var task_open_html=`
                         <div class="columns-14 w-row">
                             <div class="column-23 w-col w-col-6">
                                 <div class="text-block-19-copy-copy-copy">${taskdoc.data().title}</div>
