@@ -1172,6 +1172,26 @@ onAuthStateChanged(auth, (user) => {
                         var del_bttn=document.getElementById("Button_Geb_Delete");
                           del_bttn.addEventListener("click", function clickHandler() {
                             console.log(button.id);
+                            const confirmation = confirm("Bist du sicher, dass du das Gebäude löschen willst? Es kann im Nachhinein nicht mehr wiederhergestellt werden.");
+
+                            if (confirmation) {
+                                // Erstellen einer Referenz zum zu löschenden Dokument
+                                const docRef = doc(facilityCollections, button.id);
+                        
+                                // Dokument löschen
+                                deleteDoc(docRef)
+                                    .then(() => {
+                                        alert("Das Gebäude wurde erfolgreich gelöscht.");
+                                        window.location.reload();
+
+                                    })
+                                    .catch((error) => {
+                                        alert("Beim Löschen des Gebäudes ist ein Fehler aufgetreten: " + error.message);
+                                    });
+                                    
+                            } else {
+                                alert("Das Löschen wurde abgebrochen.");
+                            }
                             // Entferne den Event Listener, nachdem er ausgeführt wurde
                             del_bttn.removeEventListener("click", clickHandler);
                         });
