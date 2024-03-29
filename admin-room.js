@@ -1354,7 +1354,6 @@ onAuthStateChanged(auth, (user) => {
                 const minutesWorked = totalTimeWorked % 60;
 
                 const formattedTime = `${hoursWorked.toString().padStart(2, "0")}:${minutesWorked.toString().padStart(2, "0")}`;
-                  console.log(formattedTime);
                   document.getElementById("w_time_today").innerHTML=formattedTime;
                       }
                     });
@@ -1385,9 +1384,11 @@ onAuthStateChanged(auth, (user) => {
                         var nameW= dataW.name;
                         document.getElementById("w_name").innerHTML=nameW;
                         console.log(worker_layover_task_today_list);
-                        for (var c_html in worker_layover_task_today_list[emailW]){
-                            document.getElementById("worker_layover_task_today").innerHTML+=c_html;
-                          }
+                        const taskHtmlArray = worker_layover_task_today_list[emailW];
+
+                        for (var c_html of taskHtmlArray) {
+                            document.getElementById("worker_layover_task_today").innerHTML += c_html;
+                        }
                         
                       }});
                 
