@@ -1080,6 +1080,8 @@ onAuthStateChanged(auth, (user) => {
 
             //add event listener to buttons
             // Finde alle Buttons mit der Klasse "link-block w-inline-block"
+            let deleteButtonAdded = false;
+
             var buttons_geblayover = document.querySelectorAll('.link-block.w-inline-block');
 
             // Iteriere über alle gefundenen Buttons und füge den Eventlistener hinzu
@@ -1168,9 +1170,12 @@ onAuthStateChanged(auth, (user) => {
                         var telefon = dataG.Telefon;
                         var email = dataG["E-Mail"];
 
-                        document.getElementById("Button_Geb_Delete").addEventListener("click", function () {
-                          console.log(button.id);
-                        });
+                        if (!deleteButtonAdded) {
+                          document.getElementById("Button_Geb_Delete").addEventListener("click", function () {
+                              console.log(button.id);
+                          });
+                          deleteButtonAdded = true;
+                      }
                         
                         
                         
