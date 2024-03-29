@@ -790,6 +790,7 @@ onAuthStateChanged(auth, (user) => {
                 });
 
                 //add tasks to worker layover list
+                console.log(worker_layover_task_today_list);
           for (c_html in worker_layover_task_today_list){
             document.getElementById("worker_layover_task_today").innerHTML+=c_html;
           }
