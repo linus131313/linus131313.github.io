@@ -1340,18 +1340,22 @@ onAuthStateChanged(auth, (user) => {
                         }
 
                      // Berechnung der gearbeiteten Zeit
-                    for (let i = 0; i < Math.min(workStart.length, workEnd.length); i++) {
-                      const start = timeToMinutes(workStart[i]);
-                      const end = timeToMinutes(workEnd[i]);
-                      totalTimeWorked += end - start;
-                  }
+                   // Berechnung der gearbeiteten Zeit
+                   for (let i = 0; i < Math.min(workStart.length, workEnd.length); i++) {
+                    const [startHours, startMinutes] = workStart[i].split(":").map(Number);
+                    const [endHours, endMinutes] = workEnd[i].split(":").map(Number);
+                    const startMinutesSinceMidnight = startHours * 60 + startMinutes;
+                    const endMinutesSinceMidnight = endHours * 60 + endMinutes;
+                    totalTimeWorked += endMinutesSinceMidnight - startMinutesSinceMidnight;
+                }
 
-                  // Konvertierung der gearbeiteten Zeit zurück in "HH:MM" Format
-                  const hoursWorked = Math.floor(totalTimeWorked / 60);
-                  const minutesWorked = totalTimeWorked % 60;
+                // Konvertierung der gearbeiteten Zeit zurück in "HH:MM" Format
+                const hoursWorked = Math.floor(totalTimeWorked / 60);
+                const minutesWorked = totalTimeWorked % 60;
 
-                  const formattedTime = `${hoursWorked.toString().padStart(2, "0")}:${minutesWorked.toString().padStart(2, "0")}`;
+                const formattedTime = `${hoursWorked.toString().padStart(2, "0")}:${minutesWorked.toString().padStart(2, "0")}`;
                   console.log(formattedTime);
+                  document.getElementById("w_time_today").innerHTML=formattedTime;
                       }
                     });
                     if (!active_today) {
@@ -1386,8 +1390,7 @@ onAuthStateChanged(auth, (user) => {
                           }
                         
                       }});
-                    //add tasks to worker layover list
-                // console.log(worker_layover_task_today_list);
+                
                 
                     
                     wLayover.style.display = "flex";
