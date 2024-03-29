@@ -1359,6 +1359,7 @@ onAuthStateChanged(auth, (user) => {
                         var emailW= dataW.email;
                         var nameW= dataW.name;
                         document.getElementById("w_name").innerHTML=nameW;
+                        console.log(worker_layover_task_today_list);
                         for (c_html in worker_layover_task_today_list[emailW]){
                             document.getElementById("worker_layover_task_today").innerHTML+=c_html;
                           }
