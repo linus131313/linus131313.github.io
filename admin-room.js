@@ -789,11 +789,7 @@ onAuthStateChanged(auth, (user) => {
                   };
                 });
 
-                //add tasks to worker layover list
-                console.log(worker_layover_task_today_list);
-          for (c_html in worker_layover_task_today_list){
-            document.getElementById("worker_layover_task_today").innerHTML+=c_html;
-          }
+                
 
                 const deleteTaskButtons =
                   document.querySelectorAll(".deleteTaskButton");
@@ -1092,8 +1088,8 @@ onAuthStateChanged(auth, (user) => {
                   var gebLayover = document.getElementById('geb_layover');
                   
                   gebLayover.style.display = "flex";
-                  console.log(button.id);
-                  console.log(geb_image_map);
+                  // console.log(button.id);
+                  // console.log(geb_image_map);
                  
           
                   /// Hier auf die Firestore-Daten zugreifen und in die Konsole drucken
@@ -1355,6 +1351,22 @@ onAuthStateChanged(auth, (user) => {
                 button.addEventListener('click', function() {
                     // Mache das Div mit der ID "geb_layover" sichtbar
                     var wLayover = document.getElementById('worker_layover');
+
+                    const facilityCollections = collection(companyDoc, "Users");
+                  getDoc(doc(facilityCollections, button.id)).then((docSnapshot) => {
+                      if (docSnapshot.exists()) {
+                        var dataW= docSnapshot.data();
+                        var emailW= dataW.email();
+                        var nameW= dataW.name();
+                        document.getElementById("w_name").innerHTML=nameW;
+                        for (c_html in worker_layover_task_today_list[emailW]){
+                            document.getElementById("worker_layover_task_today").innerHTML+=c_html;
+                          }
+                        
+                      }});
+                    //add tasks to worker layover list
+                // console.log(worker_layover_task_today_list);
+                
                     
                     wLayover.style.display = "flex";
 
