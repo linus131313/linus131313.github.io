@@ -500,10 +500,10 @@ onAuthStateChanged(auth, (user) => {
                   const formattedTime = `${taskIssued
                     .getHours()
                     .toString()
-                    .padStart(2, "0")}:${taskIssued
+                    .padStart(2, "0")}h ${taskIssued
                     .getMinutes()
                     .toString()
-                    .padStart(2, "0")}`;
+                    .padStart(2, "0")}min`;
 
                   const taskDone = new Date(taskdoc.data().done.seconds * 1000);
                   const january1st2010 = new Date("2010-01-01T00:00:00Z");
