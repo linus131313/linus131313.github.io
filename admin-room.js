@@ -77,6 +77,7 @@ var month = ("0" + (today.getMonth() + 1)).slice(-2);
 var year = today.getFullYear();
 var formattedDate = day + "." + month + "." + year;
 document.getElementById("day").innerHTML = formattedDate;
+document.getElementById("day3").innerHTML = formattedDate;
 
 //tab links
 window.onload = function () {
