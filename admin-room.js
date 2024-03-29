@@ -52,6 +52,9 @@ var geb_image_map_info={};
 //task done counter map for dahboard
 var taskDoneCounter = {};
 
+//list for tasks for worker layover
+var worker_layover_task_today={}
+
 let signOutButton = document.getElementById("signout-button");
 
 if (typeof signOutButton !== null) {
@@ -663,7 +666,35 @@ onAuthStateChanged(auth, (user) => {
                   if (
                     dateFromTimestamp.toDateString() === today.toDateString()
                   ) {
+
+
                     if (taskDone > january1st2010) {
+
+                      var task_done_html=`
+                      <div class="columns-14 w-row">
+                          <div class="column-23 w-col w-col-6">
+                              <div class="text-block-19-copy-copy-copy">${taskdoc.data().title}</div>
+                              <div class="text-block-19-copy-copy">${taskdoc.data().building}</div>
+                          </div>
+                          <div class="w-col w-col-3">
+                              <div class="text-block-19-copy">${formattedTime}</div>
+                          </div>
+                          <div class="column-24 w-col w-col-3">
+                              <div class="div-block-green">
+                                  <div class="text-block-19-copy">
+                                      <strong class="bold-text-green">fertig</strong>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>`;
+                      //task abgehakt
+                      //worker_layover_task_today
+                      if (!worker_layover_task_today.hasOwnProperty(assignee)) {
+                        worker_layover_task_today[assignee] = [task_done_html]; 
+                    } else {
+                        worker_layover_task_today[assignee].push(task_done_html); 
+                    }
+
                       ///task done count dashboard
                       if (taskDoneCounter[taskdoc.data().assignee]) {
                         taskDoneCounter[taskdoc.data().assignee][0] += 1;
@@ -672,23 +703,7 @@ onAuthStateChanged(auth, (user) => {
                         taskDoneCounter[taskdoc.data().assignee] = [1, 1];
                       }
 
-                      taskListDash.innerHTML += `
-<div class="columns-14 w-row">
-    <div class="column-23 w-col w-col-6">
-        <div class="text-block-19-copy-copy-copy">${taskdoc.data().title}</div>
-        <div class="text-block-19-copy-copy">${taskdoc.data().building}</div>
-    </div>
-    <div class="w-col w-col-3">
-        <div class="text-block-19-copy">${formattedTime}</div>
-    </div>
-    <div class="column-24 w-col w-col-3">
-        <div class="div-block-green">
-            <div class="text-block-19-copy">
-                <strong class="bold-text-green">fertig</strong>
-            </div>
-        </div>
-    </div>
-</div>`;
+                      taskListDash.innerHTML += task_done_html;
                     } else {
                       ///task done count dashboard
                       if (taskDoneCounter[taskdoc.data().assignee]) {
@@ -699,41 +714,58 @@ onAuthStateChanged(auth, (user) => {
                       }
                       if ((new Date() - taskIssued) / (1000 * 60 * 60) > 1) {
                         //wenn aufgabe nach einer stunde immernoch nicht bearbeitet wurde
-                        taskListDash.innerHTML += `
-<div class="columns-14 w-row">
-    <div class="column-23 w-col w-col-6">
-        <div class="text-block-19-copy-copy-copy">${taskdoc.data().title}</div>
-        <div class="text-block-19-copy-copy">${taskdoc.data().building}</div>
-    </div>
-    <div class="w-col w-col-3">
-        <div id="tasks_done_counter" class="text-block-19-copy">${formattedTime}</div>
-    </div>
-    <div class="column-24 w-col w-col-3">
-        <div class="div-block-red">
-            <div class="text-block-19-copy">
-                <strong class="bold-text-red">verpasst</strong>
-            </div>
-        </div>
-    </div>
-</div>`;
+                        task_lost_html=`
+                        <div class="columns-14 w-row">
+                            <div class="column-23 w-col w-col-6">
+                                <div class="text-block-19-copy-copy-copy">${taskdoc.data().title}</div>
+                                <div class="text-block-19-copy-copy">${taskdoc.data().building}</div>
+                            </div>
+                            <div class="w-col w-col-3">
+                                <div id="tasks_done_counter" class="text-block-19-copy">${formattedTime}</div>
+                            </div>
+                            <div class="column-24 w-col w-col-3">
+                                <div class="div-block-red">
+                                    <div class="text-block-19-copy">
+                                        <strong class="bold-text-red">verpasst</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`;
+                        taskListDash.innerHTML += task_lost_html;
+
+                        //worker_layover_task_today
+                      if (!worker_layover_task_today.hasOwnProperty(assignee)) {
+                        worker_layover_task_today[assignee] = [task_lost_html]; 
+                    } else {
+                        worker_layover_task_today[assignee].push(task_lost_html); 
+                    }
+
                       } else {
-                        taskListDash.innerHTML += `
-<div class="columns-14 w-row">
-    <div class="column-23 w-col w-col-6">
-        <div class="text-block-19-copy-copy-copy">${taskdoc.data().title}</div>
-        <div class="text-block-19-copy-copy">${taskdoc.data().building}</div>
-    </div>
-    <div class="w-col w-col-3">
-        <div id="tasks_done_counter" class="text-block-19-copy">${formattedTime}</div>
-    </div>
-    <div class="column-24 w-col w-col-3">
-        <div class="div-block-orange">
-            <div class="text-block-19-copy">
-                <strong class="bold-text-orange">offen</strong>
-            </div>
-        </div>
-    </div>
-</div>`;
+                        task_open_html=`
+                        <div class="columns-14 w-row">
+                            <div class="column-23 w-col w-col-6">
+                                <div class="text-block-19-copy-copy-copy">${taskdoc.data().title}</div>
+                                <div class="text-block-19-copy-copy">${taskdoc.data().building}</div>
+                            </div>
+                            <div class="w-col w-col-3">
+                                <div id="tasks_done_counter" class="text-block-19-copy">${formattedTime}</div>
+                            </div>
+                            <div class="column-24 w-col w-col-3">
+                                <div class="div-block-orange">
+                                    <div class="text-block-19-copy">
+                                        <strong class="bold-text-orange">offen</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`;
+                        taskListDash.innerHTML += task_open_html;
+
+                        //worker_layover_task_today
+                      if (!worker_layover_task_today.hasOwnProperty(assignee)) {
+                        worker_layover_task_today[assignee] = [task_open_html]; 
+                    } else {
+                        worker_layover_task_today[assignee].push(task_open_html); 
+                    }
                       }
                     }
                   }
@@ -778,6 +810,11 @@ onAuthStateChanged(auth, (user) => {
               }
             }
           );
+
+          //add tasks to worker layover list
+          for (c_html in worker_layover_task_today){
+            document.getElementById("worker_layover_task_today").innerHTML+=c_html;
+          }
 
           getDocs(facilityCollections).then((querySnapshot) => {
             // const userList = document.querySelector("#facilityList");
@@ -1125,7 +1162,7 @@ onAuthStateChanged(auth, (user) => {
                         document.getElementById("counter_wasser").innerHTML=dataG.counterwater;
                         document.getElementById("counter_gas").innerHTML=dataG.countergas;
                         document.getElementById("counter_strom").innerHTML=dataG.counterelectricity;
-                        
+
 
 
 
@@ -1452,7 +1489,6 @@ document.getElementById("close_popup").addEventListener("click", function () {
 });
 
 document.getElementById("geb_back").addEventListener("click", function () {
-  console.log("delete inner html");
   document.getElementById("geb_images_info").innerHTML="";
   document.getElementById("geb_images").innerHTML="";
   const popup = document.getElementById("geb_layover");
