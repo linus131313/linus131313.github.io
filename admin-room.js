@@ -688,10 +688,10 @@ onAuthStateChanged(auth, (user) => {
                       </div>`;
                       //task abgehakt
                       //worker_layover_task_today
-                      if (!worker_layover_task_today_list.hasOwnProperty(assignee)) {
-                        worker_layover_task_today_list[assignee] = [task_done_html]; 
+                      if (!worker_layover_task_today_list.hasOwnProperty(taskdoc.data().assignee)) {
+                        worker_layover_task_today_list[taskdoc.data().assignee] = [task_done_html]; 
                     } else {
-                        worker_layover_task_today_list[assignee].push(task_done_html); 
+                        worker_layover_task_today_list[taskdoc.data().assignee].push(task_done_html); 
                     }
 
                       ///task done count dashboard
@@ -733,10 +733,10 @@ onAuthStateChanged(auth, (user) => {
                         taskListDash.innerHTML += task_lost_html;
 
                         //worker_layover_task_today
-                      if (!worker_layover_task_today_list.hasOwnProperty(assignee)) {
-                        worker_layover_task_today_list[assignee] = [task_lost_html]; 
+                      if (!worker_layover_task_today_list.hasOwnProperty(taskdoc.data().assignee)) {
+                        worker_layover_task_today_list[taskdoc.data().assignee] = [task_lost_html]; 
                     } else {
-                        worker_layover_task_today_list[assignee].push(task_lost_html); 
+                        worker_layover_task_today_list[taskdoc.data().assignee].push(task_lost_html); 
                     }
 
                       } else {
@@ -760,10 +760,10 @@ onAuthStateChanged(auth, (user) => {
                         taskListDash.innerHTML += task_open_html;
 
                         //worker_layover_task_today
-                      if (!worker_layover_task_today_list.hasOwnProperty(assignee)) {
-                        worker_layover_task_today_list[assignee] = [task_open_html]; 
+                      if (!worker_layover_task_today_list.hasOwnProperty(taskdoc.data().assignee)) {
+                        worker_layover_task_today_list[taskdoc.data().assignee] = [task_open_html]; 
                     } else {
-                        worker_layover_task_today_list[assignee].push(task_open_html); 
+                        worker_layover_task_today_list[taskdoc.data().assignee].push(task_open_html); 
                     }
                       }
                     }
