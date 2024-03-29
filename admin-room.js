@@ -1356,8 +1356,8 @@ onAuthStateChanged(auth, (user) => {
                   getDoc(doc(facilityCollections, button.id)).then((docSnapshot) => {
                       if (docSnapshot.exists()) {
                         var dataW= docSnapshot.data();
-                        var emailW= dataW.email();
-                        var nameW= dataW.name();
+                        var emailW= dataW.email;
+                        var nameW= dataW.name;
                         document.getElementById("w_name").innerHTML=nameW;
                         for (c_html in worker_layover_task_today_list[emailW]){
                             document.getElementById("worker_layover_task_today").innerHTML+=c_html;
