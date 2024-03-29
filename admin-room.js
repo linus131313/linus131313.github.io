@@ -1122,6 +1122,13 @@ onAuthStateChanged(auth, (user) => {
                         document.getElementById("geb_name_layover").innerHTML=dataG.address+",";
                         document.getElementById("city_name_layover").innerHTML=dataG.zipcode+" "+dataG.city;
                         document.getElementById("kunde_name").innerHTML=dataG.Eigentümer;
+                        document.getElementById("counter_wasser").innerHTML=dataG.counterwater;
+                        document.getElementById("counter_gas").innerHTML=dataG.countergas;
+                        document.getElementById("counter_strom").innerHTML=dataG.counterelectricity;
+                        
+
+
+
                         var telefon = dataG.Telefon;
                         var email = dataG["E-Mail"];
 
