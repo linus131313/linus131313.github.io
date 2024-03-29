@@ -53,7 +53,7 @@ var geb_image_map_info={};
 var taskDoneCounter = {};
 
 //list for tasks for worker layover
-var worker_layover_task_today_list={}
+var worker_layover_task_today_list={};
 
 let signOutButton = document.getElementById("signout-button");
 
