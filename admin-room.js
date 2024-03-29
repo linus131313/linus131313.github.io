@@ -1319,18 +1319,39 @@ onAuthStateChanged(auth, (user) => {
 
                     timestampsQuerySnapshot.forEach((timestampDoc) => {
                       if (timestampDoc.id === currentDateString) {
+                        //document from today
+                        const workStart = timestampDoc.data().Start;
+                        const workEnd = timestampDoc.data().End;
+
+                        const currentDate = new Date(); // Aktuelles Datum und Zeit
+                        // const currentTimestamp = currentDate.getHours() * 60 + currentDate.getMinutes();
+
+                    let totalTimeWorked = 0;
                         active_today = true;
-                        console.log("Here3");
                         if (
-                          timestampDoc.data().Start.length >
-                          timestampDoc.data().End.length
+                          workStart.length >
+                          workEnd.length
                         ) {
-                          console.log("Here4");
+                          workEnd.push(currentDate.getHours() + ":" + currentDate.getMinutes());
+
                           workerListDash.innerHTML += htmlCodeOnline;
                         } else {
-                          console.log("Here5");
                           workerListDash.innerHTML += htmlCodeOffline;
                         }
+
+                     // Berechnung der gearbeiteten Zeit
+                    for (let i = 0; i < Math.min(workStart.length, workEnd.length); i++) {
+                      const start = timeToMinutes(workStart[i]);
+                      const end = timeToMinutes(workEnd[i]);
+                      totalTimeWorked += end - start;
+                  }
+
+                  // Konvertierung der gearbeiteten Zeit zurück in "HH:MM" Format
+                  const hoursWorked = Math.floor(totalTimeWorked / 60);
+                  const minutesWorked = totalTimeWorked % 60;
+
+                  const formattedTime = `${hoursWorked.toString().padStart(2, "0")}:${minutesWorked.toString().padStart(2, "0")}`;
+                  console.log(formattedTime);
                       }
                     });
                     if (!active_today) {
