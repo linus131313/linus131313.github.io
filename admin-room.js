@@ -1171,14 +1171,11 @@ onAuthStateChanged(auth, (user) => {
 
                         var del_bttn=document.getElementById("Button_Geb_Delete");
                           del_bttn.addEventListener("click", function clickHandler() {
-                            console.log(button.id);
                             const confirmation = confirm("Bist du sicher, dass du das Gebäude löschen willst? Es kann im Nachhinein nicht mehr wiederhergestellt werden.");
 
                             if (confirmation) {
-                                // Erstellen einer Referenz zum zu löschenden Dokument
                                 const docRef = doc(facilityCollections, button.id);
                         
-                                // Dokument löschen
                                 deleteDoc(docRef)
                                     .then(() => {
                                         alert("Das Gebäude wurde erfolgreich gelöscht.");
@@ -1192,14 +1189,11 @@ onAuthStateChanged(auth, (user) => {
                             } else {
                                 alert("Das Löschen wurde abgebrochen.");
                             }
-                            // Entferne den Event Listener, nachdem er ausgeführt wurde
                             del_bttn.removeEventListener("click", clickHandler);
                         });
                       
+
                         
-                        
-                        
-                        // Formatieren der Telefonnummer als Link
                         document.getElementById("kunde_tel").innerHTML = "<a href='tel:" + telefon + "'>" + telefon + "</a>";
                         
                         // Formatieren der E-Mail-Adresse als Link
@@ -1411,10 +1405,15 @@ onAuthStateChanged(auth, (user) => {
                         document.getElementById("w_name").innerHTML=nameW;
                         console.log(worker_layover_task_today_list);
                         const taskHtmlArray = worker_layover_task_today_list[emailW];
+                        
 
-                        for (var c_html of taskHtmlArray) {
-                            document.getElementById("worker_layover_task_today").innerHTML += c_html;
-                        }
+                        if (taskHtmlArray && taskHtmlArray.length > 0) {
+                          for (var c_html of taskHtmlArray) {
+                              document.getElementById("worker_layover_task_today").innerHTML += c_html;
+                          }
+                      } else {
+                          document.getElementById("worker_layover_task_today").innerHTML = `<div class="text-block-26">Heute keine Aufgaben bei diesem Mitarbeiter!</div>`;
+                      }
                         
                       }});
                 
@@ -1557,13 +1556,16 @@ document.getElementById("close_popup").addEventListener("click", function () {
 document.getElementById("geb_back").addEventListener("click", function () {
   document.getElementById("geb_images_info").innerHTML="";
   document.getElementById("geb_images").innerHTML="";
+ 
   const popup = document.getElementById("geb_layover");
   popup.style.display = "none";
 });
 
 document.getElementById("worker_back").addEventListener("click", function () {
   const popup = document.getElementById("worker_layover");
+  
   popup.style.display = "none";
+  document.getElementById("worker_layover_task_today").innerHTML="";
 });
 
 mitarbeiter_Calender_Select.addEventListener("change", function () {
