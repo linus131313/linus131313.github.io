@@ -1268,8 +1268,10 @@ onAuthStateChanged(auth, (user) => {
               document.getElementById("date2").innerHTML = dateString;
             });
           });
+
+          var worked_hours={};
           getDocs(userCollections).then((querySnapshot) => {
-            const userList = document.querySelector("#userList");
+            // const userList = document.querySelector("#userList");
             const currentDateString = new Date()
               .toLocaleDateString("de-DE", {
                 day: "2-digit",
@@ -1416,8 +1418,13 @@ onAuthStateChanged(auth, (user) => {
                           .padStart(2, "0")}h ${minutesWorked
                           .toString()
                           .padStart(2, "0")}min`;
-                        document.getElementById("w_time_today").innerHTML =
-                          formattedTime;
+                       
+
+                          if ( !worked_hours.hasOwnProperty(docw.data().email)) {
+                            worked_hours[docw.data().email] = {"today":formattedTime};
+                          }  else {
+                            worked_hours[docw.data().email]["today"] = formattedTime;
+                        }
                       } else if (yesterdayDateString === timestampDoc.id) {
                         const workStart = timestampDoc.data().Start;
                         const workEnd = timestampDoc.data().End;
@@ -1456,14 +1463,24 @@ onAuthStateChanged(auth, (user) => {
                         const hoursWorked = Math.floor(totalTimeWorked / 60);
                         const minutesWorked = totalTimeWorked % 60;
 
-                        const formattedTime = `${hoursWorked
+                        const formattedTimeY = `${hoursWorked
                           .toString()
                           .padStart(2, "0")}h ${minutesWorked
                           .toString()
                           .padStart(2, "0")}min`;
-                        document.getElementById("w_time_yesterday").innerHTML =
-                          formattedTime;
+                       
+
+                          if ( !worked_hours.hasOwnProperty(docw.data().email)) {
+                            worked_hours[docw.data().email] = {"yesterday":formattedTimeY};
+                          }  else {
+                            worked_hours[docw.data().email]["yesterday"] = formattedTimeY;
+                        }
+
+
                       }
+
+
+                     
                     });
                     if (!active_today) {
                       workerListDash.innerHTML += htmlCodeOffline;
@@ -1486,6 +1503,9 @@ onAuthStateChanged(auth, (user) => {
                 // Mache das Div mit der ID "geb_layover" sichtbar
                 var wLayover = document.getElementById("worker_layover");
 
+                // worked_hours[docw.data().email]["today"]
+                
+
                 const facilityCollections = collection(companyDoc, "Users");
                 getDoc(doc(facilityCollections, button.id)).then(
                   (docSnapshot) => {
@@ -1493,6 +1513,12 @@ onAuthStateChanged(auth, (user) => {
                       var dataW = docSnapshot.data();
                       var emailW = dataW.email;
                       var nameW = dataW.name;
+
+                      const workerHours = worked_hours[emailW] || {};
+
+                      document.getElementById("w_time_yesterday").innerHTML = workerHours["yesterday"] || "0h 00min";
+                      document.getElementById("w_time_today").innerHTML = workerHours["today"] || "0h 00min";
+
                       document.getElementById("w_name").innerHTML = nameW;
                       const taskHtmlArray =
                         worker_layover_task_today_list[emailW];
