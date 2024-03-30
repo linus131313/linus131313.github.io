@@ -1365,7 +1365,38 @@ onAuthStateChanged(auth, (user) => {
                       })
                       .replace(/\./g, "");
 
+
+                      const currentDayOfWeek = currentDate.getDay(); // 0 für Sonntag, 1 für Montag, ..., 6 für Samstag
+                      const daysToAdd = currentDayOfWeek === 0 ? -6 : 1 - currentDayOfWeek; // Anzahl der Tage, um zum Montag dieser Woche zu gelangen
+                      const currentMonday = new Date(currentDate);
+                      currentMonday.setDate(currentDate.getDate() + daysToAdd);
+
+                      const currentSunday = new Date(currentMonday);
+                      currentSunday.setDate(currentMonday.getDate() + 6); // Sonntag dieser Woche
+
+                      let totalMinutesWorked = 0;
+
+
                     timestampsQuerySnapshot.forEach((timestampDoc) => {
+                      const timestampDate = new Date(timestampDoc.id.substring(0, 2), parseInt(timestampDoc.id.substring(2, 4)) - 1, parseInt(timestampDoc.id.substring(4, 6)));
+  
+                      //  date this week
+                      if (timestampDate >= currentMonday && timestampDate <= currentSunday) {
+                        const workStart = timestampDoc.data().Start;
+                        const workEnd = timestampDoc.data().End;
+                    
+                        for (let i = 0; i < Math.min(workStart.length, workEnd.length); i++) {
+                          const [startHours, startMinutes] = workStart[i].split(":").map(Number);
+                          const [endHours, endMinutes] = workEnd[i].split(":").map(Number);
+                          
+                          const startMinutesSinceMidnight = startHours * 60 + startMinutes;
+                          const endMinutesSinceMidnight = endHours * 60 + endMinutes;
+                          
+                          totalMinutesWorked += endMinutesSinceMidnight - startMinutesSinceMidnight;
+                        }
+                      }
+
+                      //date today
                       if (timestampDoc.id === currentDateString) {
                         //document from today
                         const workStart = timestampDoc.data().Start;
@@ -1482,6 +1513,16 @@ onAuthStateChanged(auth, (user) => {
 
                      
                     });
+
+                    const hoursWorked = Math.floor(totalMinutesWorked / 60);
+                    const minutesWorked = totalMinutesWorked % 60;
+                    const formattedTotalTime = `${hoursWorked.toString().padStart(2, "0")}h ${minutesWorked.toString().padStart(2, "0")}min`;
+                    if ( !worked_hours.hasOwnProperty(docw.data().email)) {
+                      worked_hours[docw.data().email] = {"week":formattedTotalTime};
+                    }  else {
+                      worked_hours[docw.data().email]["week"] = formattedTotalTime;
+                  }
+
                     if (!active_today) {
                       workerListDash.innerHTML += htmlCodeOffline;
                     }
@@ -1518,6 +1559,8 @@ onAuthStateChanged(auth, (user) => {
 
                       document.getElementById("w_time_yesterday").innerHTML = workerHours["yesterday"] || "0h 00min";
                       document.getElementById("w_time_today").innerHTML = workerHours["today"] || "0h 00min";
+                      document.getElementById("w_time_week").innerHTML = workerHours["week"] || "0h 00min";
+
 
                       document.getElementById("w_name").innerHTML = nameW;
                       const taskHtmlArray =
