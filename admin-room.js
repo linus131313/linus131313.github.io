@@ -4,7 +4,6 @@ import {
   signOut,
   onAuthStateChanged,
   createUserWithEmailAndPassword,
-
 } from "https://www.gstatic.com/firebasejs/9.4.1/firebase-auth.js";
 import {
   getFirestore,
@@ -25,7 +24,7 @@ import {
   getMetadata,
   deleteObject,
   listAll,
-getDownloadURL,
+  getDownloadURL,
 } from "https://www.gstatic.com/firebasejs/9.4.1/firebase-storage.js";
 
 const firebaseConfig = {
@@ -45,15 +44,15 @@ var newEvents = {};
 var workerColors = {};
 
 //image list for each building
-var geb_image_map={};
+var geb_image_map = {};
 
-var geb_image_map_info={};
+var geb_image_map_info = {};
 
 //task done counter map for dahboard
 var taskDoneCounter = {};
 
 //list for tasks for worker layover
-var worker_layover_task_today_list={};
+var worker_layover_task_today_list = {};
 
 let signOutButton = document.getElementById("signout-button");
 
@@ -120,7 +119,6 @@ function handleSignOut() {
 
 let GForm = document.getElementById("geb_form");
 let AForm = document.getElementById("task_form");
-
 
 //disable/enable buttons
 const taskForm = document.getElementById("task_form");
@@ -210,12 +208,11 @@ function toggleButtonStateW() {
 
   getDocs(accessesRef).then((querySnapshot) => {
     querySnapshot.forEach((doc) => {
-      w_available = parseInt(doc.data().userAvailable); 
+      w_available = parseInt(doc.data().userAvailable);
       if (w_available == 0) {
         is_w_available = false;
       }
     });
-
 
     inputFieldsW.forEach((input) => {
       if (input.value.trim() === "") {
@@ -267,44 +264,52 @@ function handleWForm(e) {
       // Benutzer erfolgreich erstellt
       const user = userCredential.user;
 
-      const userRef= collection(db,"Users");
-      const doc_data1={
-        company:companyName,
-        email:emailW,
+      const userRef = collection(db, "Users");
+      const doc_data1 = {
+        company: companyName,
+        email: emailW,
       };
-      addDoc(userRef,doc_data1);
+      addDoc(userRef, doc_data1);
 
       // Füge den neuen Benutzer zur Firestore-Datenbank hinzu
 
       const companiesDocRef = doc(collection(db, "Companies"), companyName);
       const newSubcollectionRef = collection(companiesDocRef, "Users");
-      const accessesRef= collection(companiesDocRef, "Accesses");
+      const accessesRef = collection(companiesDocRef, "Accesses");
       getDocs(accessesRef).then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
           let w_available = parseInt(doc.data().userAvailable); // Konvertiere in Ganzzahl
-      
+
           // Überprüfe, ob w_available eine gültige Zahl ist
           if (!isNaN(w_available)) {
             // Reduziere um 1 und stelle sicher, dass die Zahl nicht negativ wird
             w_available = Math.max(w_available - 1, 0);
-      
+
             // Aktualisiere das erste Dokument der "accesses"-Sammlung mit dem neuen Wert
             updateDoc(doc.ref, { userAvailable: w_available.toString() })
               .then(() => {
-                console.log("Anzahl verfügbarer Benutzer erfolgreich aktualisiert");
+                console.log(
+                  "Anzahl verfügbarer Benutzer erfolgreich aktualisiert"
+                );
               })
               .catch((error) => {
-                console.error("Fehler beim Aktualisieren der Anzahl verfügbarer Benutzer:", error);
+                console.error(
+                  "Fehler beim Aktualisieren der Anzahl verfügbarer Benutzer:",
+                  error
+                );
               });
-            
+
             // Break nach dem ersten Dokument, da wir nur das erste Dokument aktualisieren wollen
             return;
           } else {
-            console.error("Ungültiger Wert für w_available:", doc.data().userAvailable);
+            console.error(
+              "Ungültiger Wert für w_available:",
+              doc.data().userAvailable
+            );
           }
         });
       });
-      
+
       const newDocumentData2 = {
         name: nameW,
         email: emailW,
@@ -322,8 +327,6 @@ function handleWForm(e) {
       alert(errorMessage);
     });
 }
-
-
 
 function handleGForm(e) {
   e.preventDefault();
@@ -500,10 +503,10 @@ onAuthStateChanged(auth, (user) => {
                   const formattedTime = `${taskIssued
                     .getHours()
                     .toString()
-                    .padStart(2, "0")}h ${taskIssued
+                    .padStart(2, "0")}: ${taskIssued
                     .getMinutes()
                     .toString()
-                    .padStart(2, "0")}min`;
+                    .padStart(2, "0")} Uhr`;
 
                   const taskDone = new Date(taskdoc.data().done.seconds * 1000);
                   const january1st2010 = new Date("2010-01-01T00:00:00Z");
@@ -666,15 +669,16 @@ onAuthStateChanged(auth, (user) => {
                   if (
                     dateFromTimestamp.toDateString() === today.toDateString()
                   ) {
-
-
                     if (taskDone > january1st2010) {
-
-                      var task_done_html=`
+                      var task_done_html = `
                       <div class="columns-14 w-row">
                           <div class="column-23 w-col w-col-6">
-                              <div class="text-block-19-copy-copy-copy">${taskdoc.data().title}</div>
-                              <div class="text-block-19-copy-copy">${taskdoc.data().building}</div>
+                              <div class="text-block-19-copy-copy-copy">${
+                                taskdoc.data().title
+                              }</div>
+                              <div class="text-block-19-copy-copy">${
+                                taskdoc.data().building
+                              }</div>
                           </div>
                           <div class="w-col w-col-3">
                               <div class="text-block-19-copy">${formattedTime}</div>
@@ -689,11 +693,19 @@ onAuthStateChanged(auth, (user) => {
                       </div>`;
                       //task abgehakt
                       //worker_layover_task_today
-                      if (!worker_layover_task_today_list.hasOwnProperty(taskdoc.data().assignee)) {
-                        worker_layover_task_today_list[taskdoc.data().assignee] = [task_done_html]; 
-                    } else {
-                        worker_layover_task_today_list[taskdoc.data().assignee].push(task_done_html); 
-                    }
+                      if (
+                        !worker_layover_task_today_list.hasOwnProperty(
+                          taskdoc.data().assignee
+                        )
+                      ) {
+                        worker_layover_task_today_list[
+                          taskdoc.data().assignee
+                        ] = [task_done_html];
+                      } else {
+                        worker_layover_task_today_list[
+                          taskdoc.data().assignee
+                        ].push(task_done_html);
+                      }
 
                       ///task done count dashboard
                       if (taskDoneCounter[taskdoc.data().assignee]) {
@@ -714,11 +726,15 @@ onAuthStateChanged(auth, (user) => {
                       }
                       if ((new Date() - taskIssued) / (1000 * 60 * 60) > 1) {
                         //wenn aufgabe nach einer stunde immernoch nicht bearbeitet wurde
-                        var task_lost_html=`
+                        var task_lost_html = `
                         <div class="columns-14 w-row">
                             <div class="column-23 w-col w-col-6">
-                                <div class="text-block-19-copy-copy-copy">${taskdoc.data().title}</div>
-                                <div class="text-block-19-copy-copy">${taskdoc.data().building}</div>
+                                <div class="text-block-19-copy-copy-copy">${
+                                  taskdoc.data().title
+                                }</div>
+                                <div class="text-block-19-copy-copy">${
+                                  taskdoc.data().building
+                                }</div>
                             </div>
                             <div class="w-col w-col-3">
                                 <div id="tasks_done_counter" class="text-block-19-copy">${formattedTime}</div>
@@ -734,18 +750,29 @@ onAuthStateChanged(auth, (user) => {
                         taskListDash.innerHTML += task_lost_html;
 
                         //worker_layover_task_today
-                      if (!worker_layover_task_today_list.hasOwnProperty(taskdoc.data().assignee)) {
-                        worker_layover_task_today_list[taskdoc.data().assignee] = [task_lost_html]; 
-                    } else {
-                        worker_layover_task_today_list[taskdoc.data().assignee].push(task_lost_html); 
-                    }
-
+                        if (
+                          !worker_layover_task_today_list.hasOwnProperty(
+                            taskdoc.data().assignee
+                          )
+                        ) {
+                          worker_layover_task_today_list[
+                            taskdoc.data().assignee
+                          ] = [task_lost_html];
+                        } else {
+                          worker_layover_task_today_list[
+                            taskdoc.data().assignee
+                          ].push(task_lost_html);
+                        }
                       } else {
-                        var task_open_html=`
+                        var task_open_html = `
                         <div class="columns-14 w-row">
                             <div class="column-23 w-col w-col-6">
-                                <div class="text-block-19-copy-copy-copy">${taskdoc.data().title}</div>
-                                <div class="text-block-19-copy-copy">${taskdoc.data().building}</div>
+                                <div class="text-block-19-copy-copy-copy">${
+                                  taskdoc.data().title
+                                }</div>
+                                <div class="text-block-19-copy-copy">${
+                                  taskdoc.data().building
+                                }</div>
                             </div>
                             <div class="w-col w-col-3">
                                 <div id="tasks_done_counter" class="text-block-19-copy">${formattedTime}</div>
@@ -761,11 +788,19 @@ onAuthStateChanged(auth, (user) => {
                         taskListDash.innerHTML += task_open_html;
 
                         //worker_layover_task_today
-                      if (!worker_layover_task_today_list.hasOwnProperty(taskdoc.data().assignee)) {
-                        worker_layover_task_today_list[taskdoc.data().assignee] = [task_open_html]; 
-                    } else {
-                        worker_layover_task_today_list[taskdoc.data().assignee].push(task_open_html); 
-                    }
+                        if (
+                          !worker_layover_task_today_list.hasOwnProperty(
+                            taskdoc.data().assignee
+                          )
+                        ) {
+                          worker_layover_task_today_list[
+                            taskdoc.data().assignee
+                          ] = [task_open_html];
+                        } else {
+                          worker_layover_task_today_list[
+                            taskdoc.data().assignee
+                          ].push(task_open_html);
+                        }
                       }
                     }
                   }
@@ -790,8 +825,6 @@ onAuthStateChanged(auth, (user) => {
                   };
                 });
 
-                
-
                 const deleteTaskButtons =
                   document.querySelectorAll(".deleteTaskButton");
                 deleteTaskButtons.forEach((button) => {
@@ -813,8 +846,6 @@ onAuthStateChanged(auth, (user) => {
             }
           );
 
-          
-
           getDocs(facilityCollections).then((querySnapshot) => {
             // const userList = document.querySelector("#facilityList");
             var once = true;
@@ -823,10 +854,9 @@ onAuthStateChanged(auth, (user) => {
             //   document.getElementById("facility_dropdown");
             querySnapshot.forEach((docz) => {
               //facillity list for dropdown
-              
+
               var dd_child = getFacilityChild(docz);
               facility_dropdown.innerHTML += dd_child;
-             
 
               //gebaude options vor a form
               var opt3 = document.createElement("option");
@@ -836,10 +866,9 @@ onAuthStateChanged(auth, (user) => {
                 docz.data().zipcode +
                 " " +
                 docz.data().city;
-              
+
               opt3.text = addressString;
               gebaude_List.appendChild(opt3);
-              
 
               const subDictionary = {
                 address: docz.data().address,
@@ -866,9 +895,8 @@ onAuthStateChanged(auth, (user) => {
                 docz.data().zipcode +
                 ")/Calendar";
 
-
-                //images for gebäude layover
-                const filePathImages =
+              //images for gebäude layover
+              const filePathImages =
                 docx.data().company +
                 "/" +
                 docz.data().address +
@@ -876,74 +904,53 @@ onAuthStateChanged(auth, (user) => {
                 docz.data().zipcode +
                 ")/Evidence";
 
-                
+              var imagesRef = ref(storage, filePathImages); //storageRef.child(filePathImages);
 
-                var imagesRef = ref(storage,filePathImages)  //storageRef.child(filePathImages);
+              listAll(imagesRef)
+                .then((result) => {
+                  result.items.forEach((imageRef) => {
+                    getDownloadURL(imageRef)
+                      .then((url) => {
+                        const map_key =
+                          docz.data().address + docz.data().zipcode;
+                        if (geb_image_map.hasOwnProperty(map_key)) {
+                          geb_image_map[map_key].push(url);
+                        } else {
+                          geb_image_map[map_key] = [url];
+                        }
+                      })
+                      .catch((error) => {});
+                  });
+                })
+                .catch((error) => {});
 
+              const filePathImagesInfo =
+                docx.data().company +
+                "/" +
+                docz.data().address +
+                ", (" +
+                docz.data().zipcode +
+                ")/Information";
 
+              var imagesRef = ref(storage, filePathImagesInfo); //storageRef.child(filePathImages);
 
-                              listAll(imagesRef).then((result) => {
-                                result.items.forEach((imageRef) => {
-                                    getDownloadURL(imageRef).then((url) => {
-                                       
-                            
-                                      const map_key = docz.data().address + docz.data().zipcode;
-                                      if (geb_image_map.hasOwnProperty(map_key)) {
-                                          geb_image_map[map_key].push(url);
-                                      } else {
-                                          geb_image_map[map_key] = [url];
-                                      }
-                                      
-                                     
-                                    }).catch((error) => {
-                              
-                                    });
-                                });
-                            
-                  
-                            }).catch((error) => {
-                                
-                            });
-
-
-
-                            const filePathImagesInfo =
-                            docx.data().company +
-                            "/" +
-                            docz.data().address +
-                            ", (" +
-                            docz.data().zipcode +
-                            ")/Information";
-            
-                            
-            
-                            var imagesRef = ref(storage,filePathImagesInfo)  //storageRef.child(filePathImages);
-            
-            
-            
-                                          listAll(imagesRef).then((result) => {
-                                            result.items.forEach((imageRef) => {
-                                                getDownloadURL(imageRef).then((url) => {
-                                                   
-                                        
-                                                  const map_key = docz.data().address + docz.data().zipcode;
-                                                  if (geb_image_map_info.hasOwnProperty(map_key)) {
-                                                      geb_image_map_info[map_key].push(url);
-                                                  } else {
-                                                      geb_image_map_info[map_key] = [url];
-                                                  }
-                                                  
-                                                 
-                                                }).catch((error) => {
-                                          
-                                                });
-                                            });
-                                        
-                              
-                                        }).catch((error) => {
-                                            
-                                        });
-                            
+              listAll(imagesRef)
+                .then((result) => {
+                  result.items.forEach((imageRef) => {
+                    getDownloadURL(imageRef)
+                      .then((url) => {
+                        const map_key =
+                          docz.data().address + docz.data().zipcode;
+                        if (geb_image_map_info.hasOwnProperty(map_key)) {
+                          geb_image_map_info[map_key].push(url);
+                        } else {
+                          geb_image_map_info[map_key] = [url];
+                        }
+                      })
+                      .catch((error) => {});
+                  });
+                })
+                .catch((error) => {});
 
               var fileInput = document.createElement("input");
               fileInput.type = "file";
@@ -1081,135 +1088,142 @@ onAuthStateChanged(auth, (user) => {
             //add event listener to buttons
             // Finde alle Buttons mit der Klasse "link-block w-inline-block"
 
-            var buttons_geblayover = document.querySelectorAll('.link-block.w-inline-block');
+            var buttons_geblayover = document.querySelectorAll(
+              ".link-block.w-inline-block"
+            );
 
             // Iteriere über alle gefundenen Buttons und füge den Eventlistener hinzu
-            buttons_geblayover.forEach(function(button) {
-              button.addEventListener('click', function() {
-                  // Mache das Div mit der ID "geb_layover" sichtbar
-                  var gebLayover = document.getElementById('geb_layover');
-                  
-                  gebLayover.style.display = "flex";
-                  // console.log(button.id);
-                  // console.log(geb_image_map);
-                 
-          
-                  /// Hier auf die Firestore-Daten zugreifen und in die Konsole drucken
-                  const facilityCollections = collection(companyDoc, "Buildings");
-                  getDoc(doc(facilityCollections, button.id)).then((docSnapshot) => {
-                      if (docSnapshot.exists()) {
-                        var dataG= docSnapshot.data()
+            buttons_geblayover.forEach(function (button) {
+              button.addEventListener("click", function () {
+                // Mache das Div mit der ID "geb_layover" sichtbar
+                var gebLayover = document.getElementById("geb_layover");
 
-                        //add images to building layover
-                        const gebImagesDiv = document.getElementById("geb_images");
-                        const map_key = dataG.address + dataG.zipcode;
-                        
-                        if (geb_image_map.hasOwnProperty(map_key)) {
-                          geb_image_map[map_key].forEach((image_url) => {
-                              // Erstellen des <a>-Elements
-                              const imageLink = document.createElement('a');
-                              imageLink.href = image_url;
-                              imageLink.target = "_blank"; // Öffnen des Links in einem neuen Tab
-                              
-                              // Erstellen des <img>-Elements
-                              const imageElement = document.createElement('img');
-                              imageElement.src = image_url;
-                              imageElement.style.margin = '5px'; 
-                              imageElement.style.width= '140px';
-                              imageElement.style.height='140px';
-                              imageElement.style.objectFit = 'cover'; 
-                              
-                              // Hinzufügen des <img>-Elements zum <a>-Element
-                              imageLink.appendChild(imageElement);
-                              
-                              // Hinzufügen des <a>-Elements zum gebImagesDiv
-                              gebImagesDiv.appendChild(imageLink);
-                          });
+                gebLayover.style.display = "flex";
+
+                /// Hier auf die Firestore-Daten zugreifen und in die Konsole drucken
+                const facilityCollections = collection(companyDoc, "Buildings");
+                getDoc(doc(facilityCollections, button.id))
+                  .then((docSnapshot) => {
+                    if (docSnapshot.exists()) {
+                      var dataG = docSnapshot.data();
+
+                      //add images to building layover
+                      const gebImagesDiv =
+                        document.getElementById("geb_images");
+                      const map_key = dataG.address + dataG.zipcode;
+
+                      if (geb_image_map.hasOwnProperty(map_key)) {
+                        geb_image_map[map_key].forEach((image_url) => {
+                          // Erstellen des <a>-Elements
+                          const imageLink = document.createElement("a");
+                          imageLink.href = image_url;
+                          imageLink.target = "_blank"; // Öffnen des Links in einem neuen Tab
+
+                          // Erstellen des <img>-Elements
+                          const imageElement = document.createElement("img");
+                          imageElement.src = image_url;
+                          imageElement.style.margin = "5px";
+                          imageElement.style.width = "140px";
+                          imageElement.style.height = "140px";
+                          imageElement.style.objectFit = "cover";
+
+                          // Hinzufügen des <img>-Elements zum <a>-Element
+                          imageLink.appendChild(imageElement);
+
+                          // Hinzufügen des <a>-Elements zum gebImagesDiv
+                          gebImagesDiv.appendChild(imageLink);
+                        });
                       }
 
+                      const gebImagesInfoDiv =
+                        document.getElementById("geb_images_info");
 
-                      const gebImagesInfoDiv = document.getElementById("geb_images_info");
-                      
                       if (geb_image_map_info.hasOwnProperty(map_key)) {
                         geb_image_map_info[map_key].forEach((image_url) => {
-                            // Erstellen des <a>-Elements
-                            const imageLink = document.createElement('a');
-                            imageLink.href = image_url;
-                            imageLink.target = "_blank"; // Öffnen des Links in einem neuen Tab
-                            
-                            // Erstellen des <img>-Elements
-                            const imageElement = document.createElement('img');
-                            imageElement.src = image_url;
-                            imageElement.style.margin = '5px'; 
-                            imageElement.style.width= '140px';
-                            imageElement.style.height='140px';
-                            imageElement.style.objectFit = 'cover'; 
-                            
-                            // Hinzufügen des <img>-Elements zum <a>-Element
-                            imageLink.appendChild(imageElement);
-                            
-                            // Hinzufügen des <a>-Elements zum gebImagesDiv
-                            gebImagesInfoDiv.appendChild(imageLink);
+                          // Erstellen des <a>-Elements
+                          const imageLink = document.createElement("a");
+                          imageLink.href = image_url;
+                          imageLink.target = "_blank"; // Öffnen des Links in einem neuen Tab
+
+                          // Erstellen des <img>-Elements
+                          const imageElement = document.createElement("img");
+                          imageElement.src = image_url;
+                          imageElement.style.margin = "5px";
+                          imageElement.style.width = "140px";
+                          imageElement.style.height = "140px";
+                          imageElement.style.objectFit = "cover";
+
+                          // Hinzufügen des <img>-Elements zum <a>-Element
+                          imageLink.appendChild(imageElement);
+
+                          // Hinzufügen des <a>-Elements zum gebImagesDiv
+                          gebImagesInfoDiv.appendChild(imageLink);
                         });
-                    }
-                      
-                        
-                        
-      
-                        document.getElementById("geb_name_layover").innerHTML=dataG.address+",";
-                        document.getElementById("city_name_layover").innerHTML=dataG.zipcode+" "+dataG.city;
-                        document.getElementById("kunde_name").innerHTML=dataG.Eigentümer;
-                        document.getElementById("counter_wasser").innerHTML=dataG.counterwater;
-                        document.getElementById("counter_gas").innerHTML=dataG.countergas;
-                        document.getElementById("counter_strom").innerHTML=dataG.counterelectricity;
-
-
-
-
-                        var telefon = dataG.Telefon;
-                        var email = dataG["E-Mail"];
-
-                        var del_bttn=document.getElementById("Button_Geb_Delete");
-                          del_bttn.addEventListener("click", function clickHandler() {
-                            const confirmation = confirm("Bist du sicher, dass du das Gebäude löschen willst? Es kann im Nachhinein nicht mehr wiederhergestellt werden.");
-
-                            if (confirmation) {
-                                const docRef = doc(facilityCollections, button.id);
-                        
-                                deleteDoc(docRef)
-                                    .then(() => {
-                                        alert("Das Gebäude wurde erfolgreich gelöscht.");
-                                        window.location.reload();
-
-                                    })
-                                    .catch((error) => {
-                                        alert("Beim Löschen des Gebäudes ist ein Fehler aufgetreten: " + error.message);
-                                    });
-                                    
-                            } else {
-                                alert("Das Löschen wurde abgebrochen.");
-                            }
-                            del_bttn.removeEventListener("click", clickHandler);
-                        });
-                      
-
-                        
-                        document.getElementById("kunde_tel").innerHTML = "<a href='tel:" + telefon + "'>" + telefon + "</a>";
-                        
-                        // Formatieren der E-Mail-Adresse als Link
-                        document.getElementById("kunde_mail").innerHTML = "<a href='mailto:" + email + "'>" + email + "</a>";
-                        
-
-                      } else {
-                          console.log("Kein Dokument mit der ID gefunden:", button.id);
                       }
-                  }).catch((error) => {
-                      console.error("Fehler beim Abrufen des Dokuments:", error);
+
+                      document.getElementById("geb_name_layover").innerHTML =
+                        dataG.address + ",";
+                      document.getElementById("city_name_layover").innerHTML =
+                        dataG.zipcode + " " + dataG.city;
+                      document.getElementById("kunde_name").innerHTML =
+                        dataG.Eigentümer;
+                      document.getElementById("counter_wasser").innerHTML =
+                        dataG.counterwater;
+                      document.getElementById("counter_gas").innerHTML =
+                        dataG.countergas;
+                      document.getElementById("counter_strom").innerHTML =
+                        dataG.counterelectricity;
+
+                      var telefon = dataG.Telefon;
+                      var email = dataG["E-Mail"];
+
+                      var del_bttn =
+                        document.getElementById("Button_Geb_Delete");
+                      del_bttn.addEventListener(
+                        "click",
+                        function clickHandler() {
+                          const confirmation = confirm(
+                            "Bist du sicher, dass du das Gebäude löschen willst? Es kann im Nachhinein nicht mehr wiederhergestellt werden."
+                          );
+
+                          if (confirmation) {
+                            const docRef = doc(facilityCollections, button.id);
+
+                            deleteDoc(docRef)
+                              .then(() => {
+                                alert(
+                                  "Das Gebäude wurde erfolgreich gelöscht."
+                                );
+                                window.location.reload();
+                              })
+                              .catch((error) => {
+                                alert(
+                                  "Beim Löschen des Gebäudes ist ein Fehler aufgetreten: " +
+                                    error.message
+                                );
+                              });
+                          } else {
+                            alert("Das Löschen wurde abgebrochen.");
+                          }
+                          del_bttn.removeEventListener("click", clickHandler);
+                        }
+                      );
+
+                      document.getElementById("kunde_tel").innerHTML =
+                        "<a href='tel:" + telefon + "'>" + telefon + "</a>";
+
+                      // Formatieren der E-Mail-Adresse als Link
+                      document.getElementById("kunde_mail").innerHTML =
+                        "<a href='mailto:" + email + "'>" + email + "</a>";
+                    } else {
+                      console.log("Fehler Dokument ID");
+                    }
+                  })
+                  .catch((error) => {
+                    console.error("Fehler beim Abrufen des Dokuments:", error);
                   });
-          
               });
-          });
-          
+            });
           });
           const companyCollections = collection(companyDoc, "Accesses");
           getDocs(companyCollections).then((querySnapshot) => {
@@ -1266,11 +1280,13 @@ onAuthStateChanged(auth, (user) => {
 
             const workerListDash = document.getElementById("worker_list_dash");
 
-            const mitarbeiterList_main=document.getElementById("mitarbeiter_dropdown");
+            const mitarbeiterList_main = document.getElementById(
+              "mitarbeiter_dropdown"
+            );
 
             querySnapshot.forEach((docw) => {
-              var dd_m_child=getWorkerChild(docw);
-              mitarbeiterList_main.innerHTML+=dd_m_child;
+              var dd_m_child = getWorkerChild(docw);
+              mitarbeiterList_main.innerHTML += dd_m_child;
 
               const htmlCodeOffline = `
             <div class="columns-14 w-row">
@@ -1337,6 +1353,16 @@ onAuthStateChanged(auth, (user) => {
                   } else {
                     var active_today = false;
 
+                    const yesterday = new Date();
+                    yesterday.setDate(yesterday.getDate() - 1);
+                    const yesterdayDateString = yesterday
+                      .toLocaleDateString("de-DE", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      })
+                      .replace(/\./g, "");
+
                     timestampsQuerySnapshot.forEach((timestampDoc) => {
                       if (timestampDoc.id === currentDateString) {
                         //document from today
@@ -1346,35 +1372,97 @@ onAuthStateChanged(auth, (user) => {
                         const currentDate = new Date(); // Aktuelles Datum und Zeit
                         // const currentTimestamp = currentDate.getHours() * 60 + currentDate.getMinutes();
 
-                    let totalTimeWorked = 0;
+                        let totalTimeWorked = 0;
                         active_today = true;
-                        if (
-                          workStart.length >
-                          workEnd.length
-                        ) {
-                          workEnd.push(currentDate.getHours() + ":" + currentDate.getMinutes());
+                        if (workStart.length > workEnd.length) {
+                          workEnd.push(
+                            currentDate.getHours() +
+                              ":" +
+                              currentDate.getMinutes()
+                          );
 
                           workerListDash.innerHTML += htmlCodeOnline;
                         } else {
                           workerListDash.innerHTML += htmlCodeOffline;
                         }
 
-                     // Berechnung der gearbeiteten Zeit
-                   // Berechnung der gearbeiteten Zeit
-                   for (let i = 0; i < Math.min(workStart.length, workEnd.length); i++) {
-                    const [startHours, startMinutes] = workStart[i].split(":").map(Number);
-                    const [endHours, endMinutes] = workEnd[i].split(":").map(Number);
-                    const startMinutesSinceMidnight = startHours * 60 + startMinutes;
-                    const endMinutesSinceMidnight = endHours * 60 + endMinutes;
-                    totalTimeWorked += endMinutesSinceMidnight - startMinutesSinceMidnight;
-                }
+                        // Berechnung der gearbeiteten Zeit
+                        // Berechnung der gearbeiteten Zeit
+                        for (
+                          let i = 0;
+                          i < Math.min(workStart.length, workEnd.length);
+                          i++
+                        ) {
+                          const [startHours, startMinutes] = workStart[i]
+                            .split(":")
+                            .map(Number);
+                          const [endHours, endMinutes] = workEnd[i]
+                            .split(":")
+                            .map(Number);
+                          const startMinutesSinceMidnight =
+                            startHours * 60 + startMinutes;
+                          const endMinutesSinceMidnight =
+                            endHours * 60 + endMinutes;
+                          totalTimeWorked +=
+                            endMinutesSinceMidnight - startMinutesSinceMidnight;
+                        }
 
-                // Konvertierung der gearbeiteten Zeit zurück in "HH:MM" Format
-                const hoursWorked = Math.floor(totalTimeWorked / 60);
-                const minutesWorked = totalTimeWorked % 60;
+                        // Konvertierung der gearbeiteten Zeit zurück in "HH:MM" Format
+                        const hoursWorked = Math.floor(totalTimeWorked / 60);
+                        const minutesWorked = totalTimeWorked % 60;
 
-                const formattedTime = `${hoursWorked.toString().padStart(2, "0")}:${minutesWorked.toString().padStart(2, "0")}`;
-                  document.getElementById("w_time_today").innerHTML=formattedTime;
+                        const formattedTime = `${hoursWorked
+                          .toString()
+                          .padStart(2, "0")}h ${minutesWorked
+                          .toString()
+                          .padStart(2, "0")}min`;
+                        document.getElementById("w_time_today").innerHTML =
+                          formattedTime;
+                      } else if (yesterdayDateString === timestampDoc.id) {
+                        const workStart = timestampDoc.data().Start;
+                        const workEnd = timestampDoc.data().End;
+
+                        const currentDate = new Date(); // Aktuelles Datum und Zeit
+                        // const currentTimestamp = currentDate.getHours() * 60 + currentDate.getMinutes();
+
+                        let totalTimeWorked = 0;
+                        active_today = true;
+                        if (workStart.length > workEnd.length) {
+                          workEnd.push( "23:59");
+
+                        } 
+
+                      
+                        for (
+                          let i = 0;
+                          i < Math.min(workStart.length, workEnd.length);
+                          i++
+                        ) {
+                          const [startHours, startMinutes] = workStart[i]
+                            .split(":")
+                            .map(Number);
+                          const [endHours, endMinutes] = workEnd[i]
+                            .split(":")
+                            .map(Number);
+                          const startMinutesSinceMidnight =
+                            startHours * 60 + startMinutes;
+                          const endMinutesSinceMidnight =
+                            endHours * 60 + endMinutes;
+                          totalTimeWorked +=
+                            endMinutesSinceMidnight - startMinutesSinceMidnight;
+                        }
+
+                        // Konvertierung der gearbeiteten Zeit zurück in "HH:MM" Format
+                        const hoursWorked = Math.floor(totalTimeWorked / 60);
+                        const minutesWorked = totalTimeWorked % 60;
+
+                        const formattedTime = `${hoursWorked
+                          .toString()
+                          .padStart(2, "0")}h ${minutesWorked
+                          .toString()
+                          .padStart(2, "0")}min`;
+                        document.getElementById("w_time_yesterday").innerHTML =
+                          formattedTime;
                       }
                     });
                     if (!active_today) {
@@ -1388,40 +1476,44 @@ onAuthStateChanged(auth, (user) => {
             });
 
             // Finde alle Buttons mit der Klasse "link-block w-inline-block"
-            var buttons_wlayover = document.querySelectorAll('.link-block.w-inline-block.worker');
+            var buttons_wlayover = document.querySelectorAll(
+              ".link-block.w-inline-block.worker"
+            );
 
             // Iteriere über alle gefundenen Buttons und füge den Eventlistener hinzu
-            buttons_wlayover.forEach(function(button) {
-                button.addEventListener('click', function() {
-                    // Mache das Div mit der ID "geb_layover" sichtbar
-                    var wLayover = document.getElementById('worker_layover');
+            buttons_wlayover.forEach(function (button) {
+              button.addEventListener("click", function () {
+                // Mache das Div mit der ID "geb_layover" sichtbar
+                var wLayover = document.getElementById("worker_layover");
 
-                    const facilityCollections = collection(companyDoc, "Users");
-                  getDoc(doc(facilityCollections, button.id)).then((docSnapshot) => {
-                      if (docSnapshot.exists()) {
-                        var dataW= docSnapshot.data();
-                        var emailW= dataW.email;
-                        var nameW= dataW.name;
-                        document.getElementById("w_name").innerHTML=nameW;
-                        console.log(worker_layover_task_today_list);
-                        const taskHtmlArray = worker_layover_task_today_list[emailW];
-                        
+                const facilityCollections = collection(companyDoc, "Users");
+                getDoc(doc(facilityCollections, button.id)).then(
+                  (docSnapshot) => {
+                    if (docSnapshot.exists()) {
+                      var dataW = docSnapshot.data();
+                      var emailW = dataW.email;
+                      var nameW = dataW.name;
+                      document.getElementById("w_name").innerHTML = nameW;
+                      const taskHtmlArray =
+                        worker_layover_task_today_list[emailW];
 
-                        if (taskHtmlArray && taskHtmlArray.length > 0) {
-                          for (var c_html of taskHtmlArray) {
-                              document.getElementById("worker_layover_task_today").innerHTML += c_html;
-                          }
+                      if (taskHtmlArray && taskHtmlArray.length > 0) {
+                        for (var c_html of taskHtmlArray) {
+                          document.getElementById(
+                            "worker_layover_task_today"
+                          ).innerHTML += c_html;
+                        }
                       } else {
-                          document.getElementById("worker_layover_task_today").innerHTML = `<div class="text-block-26">Heute keine Aufgaben bei diesem Mitarbeiter!</div>`;
+                        document.getElementById(
+                          "worker_layover_task_today"
+                        ).innerHTML = `<div class="text-block-26">Heute keine Aufgaben bei diesem Mitarbeiter!</div>`;
                       }
-                        
-                      }});
-                
-                
-                    
-                    wLayover.style.display = "flex";
+                    }
+                  }
+                );
 
-                });
+                wLayover.style.display = "flex";
+              });
             });
           });
         }
@@ -1446,15 +1538,12 @@ onAuthStateChanged(auth, (user) => {
 });
 
 document.getElementById("calendar-tab").addEventListener("click", function () {
-  // console.log("Render Calendar");
-
   setTimeout(function () {
     renderCalendar(newEvents);
   }, 500);
 });
 
 document.getElementById("aufgaben-tab").addEventListener("click", function () {
-  // console.log("Render Calendar");
   setTimeout(function () {
     renderCalendar(newEvents);
   }, 500);
@@ -1554,18 +1643,18 @@ document.getElementById("close_popup").addEventListener("click", function () {
 });
 
 document.getElementById("geb_back").addEventListener("click", function () {
-  document.getElementById("geb_images_info").innerHTML="";
-  document.getElementById("geb_images").innerHTML="";
- 
+  document.getElementById("geb_images_info").innerHTML = "";
+  document.getElementById("geb_images").innerHTML = "";
+
   const popup = document.getElementById("geb_layover");
   popup.style.display = "none";
 });
 
 document.getElementById("worker_back").addEventListener("click", function () {
   const popup = document.getElementById("worker_layover");
-  
+
   popup.style.display = "none";
-  document.getElementById("worker_layover_task_today").innerHTML="";
+  document.getElementById("worker_layover_task_today").innerHTML = "";
 });
 
 mitarbeiter_Calender_Select.addEventListener("change", function () {
@@ -1627,11 +1716,7 @@ async function deleteDocumentFromFirestore(documentId, taskCollection) {
 
 function getFacilityChild(doc) {
   const addressString =
-                doc.data().address +
-                ", " +
-                doc.data().zipcode +
-                " " +
-                doc.data().city;
+    doc.data().address + ", " + doc.data().zipcode + " " + doc.data().city;
   var htmlCode = `
   <a id="${doc.id}" class="link-block w-inline-block" style="max-width:600px">
   <div class="text-block-22">${addressString}</div>
@@ -1641,11 +1726,10 @@ function getFacilityChild(doc) {
   return htmlCode;
 }
 
-
-function getWorkerChild(doc){
-  const name =doc.data().name;
-  const mail= doc.data().email
-  const m_string= name+" | "+mail;
+function getWorkerChild(doc) {
+  const name = doc.data().name;
+  const mail = doc.data().email;
+  const m_string = name + " | " + mail;
 
   var htmlCode = `
   <a id="${doc.id}" class="link-block w-inline-block worker" style="max-width:600px">
@@ -1654,35 +1738,47 @@ function getWorkerChild(doc){
   `;
 
   return htmlCode;
-
-
-
 }
-document.getElementById("expand_worker_tasks").addEventListener("click", function() {
-  var button = document.getElementById("expand_worker_tasks");
-  if (button.textContent === "Erweitern") {
-    button.textContent = "Schließen";
-    expand_widget("worker_tasks_box", ["worker_arbeitszeit", "worker_stundenzettel"]);
-  } else {
-    button.textContent = "Erweitern";
-    setTimeout(function() {
-      collapse_widget("worker_tasks_box", ["worker_arbeitszeit", "worker_stundenzettel"]);
-    }, 200); // Verzögerung von 200ms
-  }
-});
+document
+  .getElementById("expand_worker_tasks")
+  .addEventListener("click", function () {
+    var button = document.getElementById("expand_worker_tasks");
+    if (button.textContent === "Erweitern") {
+      button.textContent = "Schließen";
+      expand_widget("worker_tasks_box", [
+        "worker_arbeitszeit",
+        "worker_stundenzettel",
+      ]);
+    } else {
+      button.textContent = "Erweitern";
+      setTimeout(function () {
+        collapse_widget("worker_tasks_box", [
+          "worker_arbeitszeit",
+          "worker_stundenzettel",
+        ]);
+      }, 200); // Verzögerung von 200ms
+    }
+  });
 
-document.getElementById("bilder_expand").addEventListener("click", function() {
+document.getElementById("bilder_expand").addEventListener("click", function () {
   var button = document.getElementById("bilder_expand");
   if (button.textContent === "Erweitern") {
     button.textContent = "Schließen";
-    expand_widget("bilder_widget", ["kunde_widget", "info_widget","datei_widget"]);
-    document.getElementById("image_box_expand").style.height ='70vh';
+    expand_widget("bilder_widget", [
+      "kunde_widget",
+      "info_widget",
+      "datei_widget",
+    ]);
+    document.getElementById("image_box_expand").style.height = "70vh";
   } else {
     button.textContent = "Erweitern";
-    setTimeout(function() {
-      collapse_widget("bilder_widget", ["kunde_widget", "info_widget","datei_widget"]);
-      document.getElementById("image_box_expand").style.height = '300px';
-
+    setTimeout(function () {
+      collapse_widget("bilder_widget", [
+        "kunde_widget",
+        "info_widget",
+        "datei_widget",
+      ]);
+      document.getElementById("image_box_expand").style.height = "300px";
     }, 200); // Verzögerung von 200ms
   }
 });
@@ -1690,16 +1786,16 @@ document.getElementById("bilder_expand").addEventListener("click", function() {
 function expand_widget(expand_id, collapse_ids) {
   var expandElement = document.getElementById(expand_id);
   if (expandElement) {
-    expandElement.style.transition = 'width 0.4s ease, height 0.4s ease';
-    expandElement.style.width = '90vw';
-    expandElement.style.height = '70vh';
+    expandElement.style.transition = "width 0.4s ease, height 0.4s ease";
+    expandElement.style.width = "90vw";
+    expandElement.style.height = "70vh";
   }
 
   if (collapse_ids && Array.isArray(collapse_ids)) {
-    collapse_ids.forEach(function(collapse_id) {
+    collapse_ids.forEach(function (collapse_id) {
       var collapseElement = document.getElementById(collapse_id);
       if (collapseElement) {
-        collapseElement.style.display = 'none';
+        collapseElement.style.display = "none";
       }
     });
   }
@@ -1708,24 +1804,20 @@ function expand_widget(expand_id, collapse_ids) {
 function collapse_widget(expand_id, collapse_ids) {
   var expandElement = document.getElementById(expand_id);
   if (expandElement) {
-    expandElement.style.width = '100%';
-    expandElement.style.height = '100%';
+    expandElement.style.width = "100%";
+    expandElement.style.height = "100%";
   }
 
   if (collapse_ids && Array.isArray(collapse_ids)) {
-    collapse_ids.forEach(function(collapse_id) {
+    collapse_ids.forEach(function (collapse_id) {
       var collapseElement = document.getElementById(collapse_id);
       if (collapseElement) {
-        setTimeout(function() {
-          collapseElement.style.display = 'block';
+        setTimeout(function () {
+          collapseElement.style.display = "block";
         }, 500); // Verzögerung von 500ms
       }
     });
   }
 }
 
-
-
-
-
-// onclick="document.getElementById('geb_layover').style.visibility = 'visible'; 
+// onclick="document.getElementById('geb_layover').style.visibility = 'visible';
