@@ -1365,6 +1365,7 @@ onAuthStateChanged(auth, (user) => {
                       })
                       .replace(/\./g, "");
 
+                      const currentDate = new Date(); // Aktuelles Datum und Zeit
 
                       const currentDayOfWeek = currentDate.getDay(); // 0 für Sonntag, 1 für Montag, ..., 6 für Samstag
                       const daysToAdd = currentDayOfWeek === 0 ? -6 : 1 - currentDayOfWeek; // Anzahl der Tage, um zum Montag dieser Woche zu gelangen
@@ -1444,7 +1445,7 @@ onAuthStateChanged(auth, (user) => {
                         const hoursWorked = Math.floor(totalTimeWorked / 60);
                         const minutesWorked = totalTimeWorked % 60;
 
-                        const formattedTime = `${hoursWorked
+                        const formattedTimeT = `${hoursWorked
                           .toString()
                           .padStart(2, "0")}h ${minutesWorked
                           .toString()
@@ -1452,9 +1453,9 @@ onAuthStateChanged(auth, (user) => {
                        
 
                           if ( !worked_hours.hasOwnProperty(docw.data().email)) {
-                            worked_hours[docw.data().email] = {"today":formattedTime};
+                            worked_hours[docw.data().email] = {"today":formattedTimeT};
                           }  else {
-                            worked_hours[docw.data().email]["today"] = formattedTime;
+                            worked_hours[docw.data().email]["today"] = formattedTimeT;
                         }
                       } else if (yesterdayDateString === timestampDoc.id) {
                         const workStart = timestampDoc.data().Start;
