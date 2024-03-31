@@ -1514,10 +1514,12 @@ onAuthStateChanged(auth, (user) => {
 
                      
                     });
+                    console.log(timeMinutesWorked);
 
                     const hoursWorked = Math.floor(totalMinutesWorked / 60);
                     const minutesWorked = totalMinutesWorked % 60;
                     const formattedTotalTime = `${hoursWorked.toString().padStart(2, "0")}h ${minutesWorked.toString().padStart(2, "0")}min`;
+                    console.log(formattedTotalTime);
                     if ( !worked_hours.hasOwnProperty(docw.data().email)) {
                       worked_hours[docw.data().email] = {"week":formattedTotalTime};
                     }  else {
