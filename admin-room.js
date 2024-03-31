@@ -1514,7 +1514,7 @@ onAuthStateChanged(auth, (user) => {
 
                      
                     });
-                    console.log(timeMinutesWorked);
+                    console.log(totalMinutesWorked);
 
                     const hoursWorked = Math.floor(totalMinutesWorked / 60);
                     const minutesWorked = totalMinutesWorked % 60;
