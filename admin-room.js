@@ -1487,7 +1487,32 @@ currentSunday.setHours(0, 0, 0, 0);
                               currentDate.getMinutes()
                           );
 
-                          workerListDash.innerHTML += htmlCodeOnline;
+                          workerListDash.innerHTML += `
+                          <div class="columns-14 w-row">
+                              <div class="column-23 w-col w-col-5">
+                                  <div class="text-block-19-copy-copy">${
+                                    docw.data().name
+                                  }</div>
+                              </div>
+                              <div class="w-col w-col-4">
+                                  <div id="tasks_done_counter" class="text-block-19-copy">${
+                                    taskDoneCounter[docw.data().email]
+                                      ? taskDoneCounter[docw.data().email][0]
+                                      : 0
+                                  } von ${
+                              taskDoneCounter[docw.data().email]
+                                ? taskDoneCounter[docw.data().email][1]
+                                : 0
+                            }</div>
+                              </div>
+                              <div class="column-24 w-col w-col-3">
+                                  <div class="div-block-green">
+                                      <div class="text-block-19-copy">
+                                          <strong class="bold-text-green">aktiv</strong>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>`;
                         } else {
                           workerListDash.innerHTML += `
                           <div class="columns-14 w-row">
@@ -1622,7 +1647,32 @@ currentSunday.setHours(0, 0, 0, 0);
                   }
 
                     if (!active_today) {
-                      workerListDash.innerHTML += htmlCodeOffline;
+                      workerListDash.innerHTML += `
+                      <div class="columns-14 w-row">
+                          <div class="column-23 w-col w-col-5">
+                              <div class="text-block-19-copy-copy">${
+                                docw.data().name
+                              }</div>
+                          </div>
+                          <div class="w-col w-col-4">
+                              <div id="tasks_done_counter" class="text-block-19-copy">${
+                                taskDoneCounter[docw.data().email]
+                                  ? taskDoneCounter[docw.data().email][0]
+                                  : 0
+                              } von ${
+                          taskDoneCounter[docw.data().email]
+                            ? taskDoneCounter[docw.data().email][1]
+                            : 0
+                        }</div>
+                          </div>
+                          <div class="column-24 w-col w-col-3">
+                              <div class="div-block-red">
+                                  <div class="text-block-19-copy">
+                                      <strong class="bold-text-red">inaktiv</strong>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>`;
                     }
                   }
                 })
