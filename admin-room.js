@@ -747,27 +747,7 @@ onAuthStateChanged(auth, (user) => {
                                 </div>
                             </div>
                         </div>`;
-                        taskListDash.innerHTML += `
-                        <div class="columns-14 w-row">
-                            <div class="column-23 w-col w-col-6">
-                                <div class="text-block-19-copy-copy-copy">${
-                                  taskdoc.data().title
-                                }</div>
-                                <div class="text-block-19-copy-copy">${
-                                  taskdoc.data().building
-                                }</div>
-                            </div>
-                            <div class="w-col w-col-3">
-                                <div id="tasks_done_counter" class="text-block-19-copy">${formattedTime}</div>
-                            </div>
-                            <div class="column-24 w-col w-col-3">
-                                <div class="div-block-red">
-                                    <div class="text-block-19-copy">
-                                        <strong class="bold-text-red">verpasst</strong>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>`;
+                        taskListDash.innerHTML += task_lost_html;
 
                         //worker_layover_task_today
                         if (
@@ -805,27 +785,7 @@ onAuthStateChanged(auth, (user) => {
                                 </div>
                             </div>
                         </div>`;
-                        taskListDash.innerHTML += `
-                        <div class="columns-14 w-row">
-                            <div class="column-23 w-col w-col-6">
-                                <div class="text-block-19-copy-copy-copy">${
-                                  taskdoc.data().title
-                                }</div>
-                                <div class="text-block-19-copy-copy">${
-                                  taskdoc.data().building
-                                }</div>
-                            </div>
-                            <div class="w-col w-col-3">
-                                <div id="tasks_done_counter" class="text-block-19-copy">${formattedTime}</div>
-                            </div>
-                            <div class="column-24 w-col w-col-3">
-                                <div class="div-block-orange">
-                                    <div class="text-block-19-copy">
-                                        <strong class="bold-text-orange">offen</strong>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>`;
+                        taskListDash.innerHTML += task_open_html;
 
                         //worker_layover_task_today
                         if (
@@ -1391,32 +1351,7 @@ onAuthStateChanged(auth, (user) => {
               getDocs(timestampsCollectionRef)
                 .then((timestampsQuerySnapshot) => {
                   if (timestampsQuerySnapshot.empty) {
-                    workerListDash.innerHTML += `
-                    <div class="columns-14 w-row">
-                        <div class="column-23 w-col w-col-5">
-                            <div class="text-block-19-copy-copy">${
-                              docw.data().name
-                            }</div>
-                        </div>
-                        <div class="w-col w-col-4">
-                            <div id="tasks_done_counter" class="text-block-19-copy">${
-                              taskDoneCounter[docw.data().email]
-                                ? taskDoneCounter[docw.data().email][0]
-                                : 0
-                            } von ${
-                        taskDoneCounter[docw.data().email]
-                          ? taskDoneCounter[docw.data().email][1]
-                          : 0
-                      }</div>
-                        </div>
-                        <div class="column-24 w-col w-col-3">
-                            <div class="div-block-red">
-                                <div class="text-block-19-copy">
-                                    <strong class="bold-text-red">inaktiv</strong>
-                                </div>
-                            </div>
-                        </div>
-                    </div>`;
+                    workerListDash.innerHTML += htmlCodeOffline;
                   } else {
                     var active_today = false;
 
@@ -1443,6 +1378,23 @@ onAuthStateChanged(auth, (user) => {
 
 currentSunday.setHours(0, 0, 0, 0);
 
+
+const currentYear = currentDate.getFullYear();
+const currentMonth = currentDate.getMonth();
+
+// Erstellen des Startdatums des aktuellen Monats
+const firstDayOfMonth = new Date(currentYear, currentMonth, 1);
+const lastDayOfMonth = new Date(currentYear, currentMonth + 1, 0);
+
+// Setzen der Uhrzeitkomponente auf Mitternacht für das Startdatum des aktuellen Monats
+firstDayOfMonth.setHours(0, 0, 0, 0);
+
+// Setzen der Uhrzeitkomponente auf Mitternacht für das Enddatum des aktuellen Monats
+lastDayOfMonth.setHours(23, 59, 59, 999);
+let totalMinutesWorkedInMonth = 0;
+
+
+
                       let totalMinutesWorked = 0;
 
 
@@ -1452,6 +1404,22 @@ currentSunday.setHours(0, 0, 0, 0);
                       const day = parseInt(timestampDoc.id.substring(0, 2));
                     
                       const timestampDate = new Date(year, month, day);
+
+                      //this month
+                      if(timestampDate >= firstDayOfMonth && timestampDate <= lastDayOfMonth){
+                        const workStart = timestampDoc.data().Start;
+        const workEnd = timestampDoc.data().End;
+    
+        for (let i = 0; i < Math.min(workStart.length, workEnd.length); i++) {
+            const [startHours, startMinutes] = workStart[i].split(":").map(Number);
+            const [endHours, endMinutes] = workEnd[i].split(":").map(Number);
+            
+            const startMinutesSinceMidnight = startHours * 60 + startMinutes;
+            const endMinutesSinceMidnight = endHours * 60 + endMinutes;
+            
+            totalMinutesWorkedInMonth += endMinutesSinceMidnight - startMinutesSinceMidnight;
+        }
+                      }
                   
                       //  date this week
                       if (timestampDate >= currentMonday && timestampDate <= currentSunday) {
@@ -1487,59 +1455,9 @@ currentSunday.setHours(0, 0, 0, 0);
                               currentDate.getMinutes()
                           );
 
-                          workerListDash.innerHTML += `
-                          <div class="columns-14 w-row">
-                              <div class="column-23 w-col w-col-5">
-                                  <div class="text-block-19-copy-copy">${
-                                    docw.data().name
-                                  }</div>
-                              </div>
-                              <div class="w-col w-col-4">
-                                  <div id="tasks_done_counter" class="text-block-19-copy">${
-                                    taskDoneCounter[docw.data().email]
-                                      ? taskDoneCounter[docw.data().email][0]
-                                      : 0
-                                  } von ${
-                              taskDoneCounter[docw.data().email]
-                                ? taskDoneCounter[docw.data().email][1]
-                                : 0
-                            }</div>
-                              </div>
-                              <div class="column-24 w-col w-col-3">
-                                  <div class="div-block-green">
-                                      <div class="text-block-19-copy">
-                                          <strong class="bold-text-green">aktiv</strong>
-                                      </div>
-                                  </div>
-                              </div>
-                          </div>`;
+                          workerListDash.innerHTML += htmlCodeOnline;
                         } else {
-                          workerListDash.innerHTML += `
-                          <div class="columns-14 w-row">
-                              <div class="column-23 w-col w-col-5">
-                                  <div class="text-block-19-copy-copy">${
-                                    docw.data().name
-                                  }</div>
-                              </div>
-                              <div class="w-col w-col-4">
-                                  <div id="tasks_done_counter" class="text-block-19-copy">${
-                                    taskDoneCounter[docw.data().email]
-                                      ? taskDoneCounter[docw.data().email][0]
-                                      : 0
-                                  } von ${
-                              taskDoneCounter[docw.data().email]
-                                ? taskDoneCounter[docw.data().email][1]
-                                : 0
-                            }</div>
-                              </div>
-                              <div class="column-24 w-col w-col-3">
-                                  <div class="div-block-red">
-                                      <div class="text-block-19-copy">
-                                          <strong class="bold-text-red">inaktiv</strong>
-                                      </div>
-                                  </div>
-                              </div>
-                          </div>`;
+                          workerListDash.innerHTML += htmlCodeOffline;
                         }
 
                         // Berechnung der gearbeiteten Zeit
@@ -1637,42 +1555,27 @@ currentSunday.setHours(0, 0, 0, 0);
                      
                     });
 
+                    
+
+                    const hoursWorkedM = Math.floor(totalMinutesWorkedInMonth / 60);
+                    const minutesWorkedM = totalMinutesWorkedInMonth % 60;
+                    const formattedTotalTimeM = `${hoursWorked.toString().padStart(2, "0")}h ${minutesWorked.toString().padStart(2, "0")}min`;
+
                     const hoursWorked = Math.floor(totalMinutesWorked / 60);
                     const minutesWorked = totalMinutesWorked % 60;
                     const formattedTotalTime = `${hoursWorked.toString().padStart(2, "0")}h ${minutesWorked.toString().padStart(2, "0")}min`;
                     if ( !worked_hours.hasOwnProperty(docw.data().email)) {
                       worked_hours[docw.data().email] = {"week":formattedTotalTime};
+                      worked_hours[docw.data().email] = {"month":formattedTotalTimeM};
                     }  else {
                       worked_hours[docw.data().email]["week"] = formattedTotalTime;
+                      worked_hours[docw.data().email]["month"] = formattedTotalTimeM;
+
+
                   }
 
                     if (!active_today) {
-                      workerListDash.innerHTML += `
-                      <div class="columns-14 w-row">
-                          <div class="column-23 w-col w-col-5">
-                              <div class="text-block-19-copy-copy">${
-                                docw.data().name
-                              }</div>
-                          </div>
-                          <div class="w-col w-col-4">
-                              <div id="tasks_done_counter" class="text-block-19-copy">${
-                                taskDoneCounter[docw.data().email]
-                                  ? taskDoneCounter[docw.data().email][0]
-                                  : 0
-                              } von ${
-                          taskDoneCounter[docw.data().email]
-                            ? taskDoneCounter[docw.data().email][1]
-                            : 0
-                        }</div>
-                          </div>
-                          <div class="column-24 w-col w-col-3">
-                              <div class="div-block-red">
-                                  <div class="text-block-19-copy">
-                                      <strong class="bold-text-red">inaktiv</strong>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>`;
+                      workerListDash.innerHTML += htmlCodeOffline;
                     }
                   }
                 })
@@ -1708,6 +1611,7 @@ currentSunday.setHours(0, 0, 0, 0);
                       document.getElementById("w_time_yesterday").innerHTML = workerHours["yesterday"] || "0h 00min";
                       document.getElementById("w_time_today").innerHTML = workerHours["today"] || "0h 00min";
                       document.getElementById("w_time_week").innerHTML = workerHours["week"] || "0h 00min";
+                      document.getElementById("w_time_month").innerHTML = workerHours["month"] || "0h 00min";
 
 
                       document.getElementById("w_name").innerHTML = nameW;
