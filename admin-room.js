@@ -1367,13 +1367,13 @@ onAuthStateChanged(auth, (user) => {
 
                       const currentDate = new Date(); // Aktuelles Datum und Zeit
 
-                      const currentDayOfWeek = currentDate.getDay(); // 0 für Sonntag, 1 für Montag, ..., 6 für Samstag
-                      const daysToAdd = currentDayOfWeek === 0 ? -6 : 1 - currentDayOfWeek; // Anzahl der Tage, um zum Montag dieser Woche zu gelangen
+                      const currentDayOfWeek = currentDate.getDay();
+                      const daysToAdd = currentDayOfWeek === 0 ? -6 : 1 - currentDayOfWeek; 
                       const currentMonday = new Date(currentDate);
                       currentMonday.setDate(currentDate.getDate() + daysToAdd);
 
                       const currentSunday = new Date(currentMonday);
-                      currentSunday.setDate(currentMonday.getDate() + 6); // Sonntag dieser Woche
+                      currentSunday.setDate(currentMonday.getDate() + 6);
                       currentMonday.setHours(0, 0, 0, 0);
 
 currentSunday.setHours(0, 0, 0, 0);
@@ -1383,13 +1383,12 @@ currentSunday.setHours(0, 0, 0, 0);
 
                     timestampsQuerySnapshot.forEach((timestampDoc) => {
                       const year = parseInt(timestampDoc.id.substring(4, 8));
-                      const month = parseInt(timestampDoc.id.substring(2, 4)) - 1; // Monate sind 0-basiert
+                      const month = parseInt(timestampDoc.id.substring(2, 4)) - 1; 
                       const day = parseInt(timestampDoc.id.substring(0, 2));
                     
                       const timestampDate = new Date(year, month, day);
                   
                       //  date this week
-                      console.log(timestampDate+" "+currentMonday+" "+currentSunday);
                       if (timestampDate >= currentMonday && timestampDate <= currentSunday) {
                         const workStart = timestampDoc.data().Start;
                         const workEnd = timestampDoc.data().End;
@@ -1400,7 +1399,6 @@ currentSunday.setHours(0, 0, 0, 0);
                           
                           const startMinutesSinceMidnight = startHours * 60 + startMinutes;
                           const endMinutesSinceMidnight = endHours * 60 + endMinutes;
-                          console.log("add to week");
                           
                           totalMinutesWorked += endMinutesSinceMidnight - startMinutesSinceMidnight;
                         }
