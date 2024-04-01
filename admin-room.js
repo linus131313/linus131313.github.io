@@ -1379,8 +1379,12 @@ onAuthStateChanged(auth, (user) => {
 
 
                     timestampsQuerySnapshot.forEach((timestampDoc) => {
-                      const timestampDate = new Date(timestampDoc.id.substring(0, 2), parseInt(timestampDoc.id.substring(2, 4)) - 1, parseInt(timestampDoc.id.substring(4, 6)));
-  
+                      const year = parseInt(timestampDoc.id.substring(4, 8));
+                      const month = parseInt(timestampDoc.id.substring(2, 4)) - 1; // Monate sind 0-basiert
+                      const day = parseInt(timestampDoc.id.substring(0, 2));
+                    
+                      const timestampDate = new Date(year, month, day);
+                  
                       //  date this week
                       console.log(timestampDate+" "+currentMonday+" "+currentSunday);
                       if (timestampDate >= currentMonday && timestampDate <= currentSunday) {
