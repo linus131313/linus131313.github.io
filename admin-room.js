@@ -1382,6 +1382,7 @@ onAuthStateChanged(auth, (user) => {
                       const timestampDate = new Date(timestampDoc.id.substring(0, 2), parseInt(timestampDoc.id.substring(2, 4)) - 1, parseInt(timestampDoc.id.substring(4, 6)));
   
                       //  date this week
+                      console.log(timestampDate+" "+currentMonday+" "+currentSunday);
                       if (timestampDate >= currentMonday && timestampDate <= currentSunday) {
                         const workStart = timestampDoc.data().Start;
                         const workEnd = timestampDoc.data().End;
