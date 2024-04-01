@@ -1602,7 +1602,9 @@ let totalMinutesWorkedInMonth = 0;
                 getDoc(doc(workerCollections, button.id)).then(
                   (docSnapshot) => {
                     if (docSnapshot.exists()) {
-
+                      var dataW = docSnapshot.data();
+                      var emailW = dataW.email;
+                      var nameW = dataW.name;
 
                       //delete button
                       var del_bttn_W =
@@ -1617,10 +1619,24 @@ let totalMinutesWorkedInMonth = 0;
                         if (confirmation) {
                           const docRef = doc(workerCollections, button.id);
 
+                          
+
                           deleteDoc(docRef)
                             .then(() => {
-                              /////////////////
-                              console.log(companyName);
+
+                              // Benutzer anhand der E-Mail-Adresse finden
+                              return getDocs(query(collection(auth, "users"), where("email", "==", emailW)));
+                            })
+                            .then((userQuery) => {
+                              if (!userQuery.empty) {
+                                // Wenn der Benutzer gefunden wurde, löschen Sie ihn
+                                const userDoc = userQuery.docs[0];
+                                const userId = userDoc.id;
+                          
+                                // Benutzer aus Firebase Authentication löschen
+                                return deleteUser(auth, userId);
+                              }
+               
                               const companiesDocRef = doc(collection(db, "Companies"), companyName);
                               const accessesRef = collection(companiesDocRef, "Accesses");
                               getDocs(accessesRef).then((querySnapshot) => {
@@ -1667,9 +1683,7 @@ let totalMinutesWorkedInMonth = 0;
                       }
                     );
 
-                      var dataW = docSnapshot.data();
-                      var emailW = dataW.email;
-                      var nameW = dataW.name;
+                   
 
                       const workerHours = worked_hours[emailW] || {};
 
