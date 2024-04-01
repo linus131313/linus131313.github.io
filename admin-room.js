@@ -4,8 +4,6 @@ import {
   signOut,
   onAuthStateChanged,
   createUserWithEmailAndPassword,
-  deleteUser,
-  getUserByEmail
 } from "https://www.gstatic.com/firebasejs/9.4.1/firebase-auth.js";
 import {
   getFirestore,
@@ -1625,18 +1623,33 @@ let totalMinutesWorkedInMonth = 0;
 
                           deleteDoc(docRef)
                           .then(() => {
-                            const email = emailW; // E-Mail-Adresse des zu löschenden Benutzers
-                        
-                            // Benutzer anhand der E-Mail-Adresse finden
-                            return getUserByEmail(auth, email);
-                          })
-                          .then((userRecord) => {
-                            // Wenn der Benutzer gefunden wurde, löschen Sie ihn
-                            const userId = userRecord.uid;
-                        
-                            return deleteUser(auth, userId);
-                          })
-                          .then(() => {
+
+                            const userCollection = collection(db,"Users");
+
+                            const q = query(userCollection, where("email", "==", emailW));
+
+                                      // Führe die Abfrage aus
+                                      getDocs(q)
+                                        .then((querySnapshot) => {
+                                          // Es wird erwartet, dass nur ein Dokument gefunden wird
+                                          if (!querySnapshot.empty) {
+                                            const doc = querySnapshot.docs[0];
+                                            // Dokument gefunden, lösche es
+                                            deleteDoc(doc.ref)
+                                              .then(() => {
+                                                console.log("Dokument erfolgreich gelöscht:", doc.id);
+                                              })
+                                              .catch((error) => {
+                                                console.error("Fehler beim Löschen des Dokuments:", error);
+                                              });
+                                          } else {
+                                            console.log("Es wurde kein Dokument mit der angegebenen E-Mail-Adresse gefunden.");
+                                          }
+                                        })
+                                        .catch((error) => {
+                                          console.error("Fehler beim Ausführen der Abfrage:", error);
+                                        });
+                           
                
                               const companiesDocRef = doc(collection(db, "Companies"), companyName);
                               const accessesRef = collection(companiesDocRef, "Accesses");
