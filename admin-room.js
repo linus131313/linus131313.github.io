@@ -1374,6 +1374,9 @@ onAuthStateChanged(auth, (user) => {
 
                       const currentSunday = new Date(currentMonday);
                       currentSunday.setDate(currentMonday.getDate() + 6); // Sonntag dieser Woche
+                      currentMonday.setHours(0, 0, 0, 0);
+
+currentSunday.setHours(0, 0, 0, 0);
 
                       let totalMinutesWorked = 0;
 
