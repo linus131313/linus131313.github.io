@@ -1392,6 +1392,7 @@ onAuthStateChanged(auth, (user) => {
                           
                           const startMinutesSinceMidnight = startHours * 60 + startMinutes;
                           const endMinutesSinceMidnight = endHours * 60 + endMinutes;
+                          console.log("add to week");
                           
                           totalMinutesWorked += endMinutesSinceMidnight - startMinutesSinceMidnight;
                         }
