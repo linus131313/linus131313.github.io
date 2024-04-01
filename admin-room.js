@@ -4,6 +4,8 @@ import {
   signOut,
   onAuthStateChanged,
   createUserWithEmailAndPassword,
+  deleteUser,
+  getUserByEmail
 } from "https://www.gstatic.com/firebasejs/9.4.1/firebase-auth.js";
 import {
   getFirestore,
@@ -1622,20 +1624,19 @@ let totalMinutesWorkedInMonth = 0;
                           
 
                           deleteDoc(docRef)
-                            .then(() => {
-
-                              // Benutzer anhand der E-Mail-Adresse finden
-                              return getDocs(query(collection(auth, "users"), where("email", "==", emailW)));
-                            })
-                            .then((userQuery) => {
-                              if (!userQuery.empty) {
-                                // Wenn der Benutzer gefunden wurde, löschen Sie ihn
-                                const userDoc = userQuery.docs[0];
-                                const userId = userDoc.id;
-                          
-                                // Benutzer aus Firebase Authentication löschen
-                                return deleteUser(auth, userId);
-                              }
+                          .then(() => {
+                            const email = emailW; // E-Mail-Adresse des zu löschenden Benutzers
+                        
+                            // Benutzer anhand der E-Mail-Adresse finden
+                            return getUserByEmail(auth, email);
+                          })
+                          .then((userRecord) => {
+                            // Wenn der Benutzer gefunden wurde, löschen Sie ihn
+                            const userId = userRecord.uid;
+                        
+                            return deleteUser(auth, userId);
+                          })
+                          .then(() => {
                
                               const companiesDocRef = doc(collection(db, "Companies"), companyName);
                               const accessesRef = collection(companiesDocRef, "Accesses");
