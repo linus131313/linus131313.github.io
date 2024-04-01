@@ -1559,7 +1559,7 @@ let totalMinutesWorkedInMonth = 0;
 
                     const hoursWorkedM = Math.floor(totalMinutesWorkedInMonth / 60);
                     const minutesWorkedM = totalMinutesWorkedInMonth % 60;
-                    const formattedTotalTimeM = `${hoursWorked.toString().padStart(2, "0")}h ${minutesWorked.toString().padStart(2, "0")}min`;
+                    const formattedTotalTimeM = `${hoursWorkedM.toString().padStart(2, "0")}h ${minutesWorkedM.toString().padStart(2, "0")}min`;
 
                     const hoursWorked = Math.floor(totalMinutesWorked / 60);
                     const minutesWorked = totalMinutesWorked % 60;
