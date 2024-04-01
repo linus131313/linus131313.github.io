@@ -747,7 +747,27 @@ onAuthStateChanged(auth, (user) => {
                                 </div>
                             </div>
                         </div>`;
-                        taskListDash.innerHTML += task_lost_html;
+                        taskListDash.innerHTML += `
+                        <div class="columns-14 w-row">
+                            <div class="column-23 w-col w-col-6">
+                                <div class="text-block-19-copy-copy-copy">${
+                                  taskdoc.data().title
+                                }</div>
+                                <div class="text-block-19-copy-copy">${
+                                  taskdoc.data().building
+                                }</div>
+                            </div>
+                            <div class="w-col w-col-3">
+                                <div id="tasks_done_counter" class="text-block-19-copy">${formattedTime}</div>
+                            </div>
+                            <div class="column-24 w-col w-col-3">
+                                <div class="div-block-red">
+                                    <div class="text-block-19-copy">
+                                        <strong class="bold-text-red">verpasst</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`;
 
                         //worker_layover_task_today
                         if (
@@ -1521,12 +1541,10 @@ currentSunday.setHours(0, 0, 0, 0);
 
                      
                     });
-                    console.log(totalMinutesWorked);
 
                     const hoursWorked = Math.floor(totalMinutesWorked / 60);
                     const minutesWorked = totalMinutesWorked % 60;
                     const formattedTotalTime = `${hoursWorked.toString().padStart(2, "0")}h ${minutesWorked.toString().padStart(2, "0")}min`;
-                    console.log(formattedTotalTime);
                     if ( !worked_hours.hasOwnProperty(docw.data().email)) {
                       worked_hours[docw.data().email] = {"week":formattedTotalTime};
                     }  else {
