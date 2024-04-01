@@ -1598,10 +1598,72 @@ let totalMinutesWorkedInMonth = 0;
                 // worked_hours[docw.data().email]["today"]
                 
 
-                const facilityCollections = collection(companyDoc, "Users");
-                getDoc(doc(facilityCollections, button.id)).then(
+                const workerCollections = collection(companyDoc, "Users");
+                getDoc(doc(workerCollections, button.id)).then(
                   (docSnapshot) => {
                     if (docSnapshot.exists()) {
+
+
+                      //delete button
+                      var del_bttn_W =
+                      document.getElementById("W_delete");
+                    del_bttn_W.addEventListener(
+                      "click",
+                      function clickHandler() {
+                        const confirmation = confirm(
+                          "Bist du sicher, dass du den Mitarbeiter löschen willst? Er/Sie kann im Nachhinein nicht mehr wiederhergestellt werden."
+                        );
+
+                        if (confirmation) {
+                          const docRef = doc(workerCollections, button.id);
+
+                          deleteDoc(docRef)
+                            .then(() => {
+                              /////////////////
+                              getDocs(accessesRef).then((querySnapshot) => {
+                                querySnapshot.forEach((doc) => {
+                                  let w_available = parseInt(doc.data().userAvailable); // Konvertiere in Ganzzahl
+                        
+                                  // Überprüfe, ob w_available eine gültige Zahl ist
+                                  if (!isNaN(w_available)) {
+                                    // Reduziere um 1 und stelle sicher, dass die Zahl nicht negativ wird
+                                    w_available =w_available+1;
+                        
+                                    // Aktualisiere das erste Dokument der "accesses"-Sammlung mit dem neuen Wert
+                                    updateDoc(doc.ref, { userAvailable: w_available.toString() })
+                                      .then(() => {
+                                        console.log(
+                                          "Anzahl verfügbarer Benutzer erfolgreich aktualisiert"
+                                        );
+                                      })
+                                      .catch((error) => {
+                                        console.error(
+                                          "Fehler beim Aktualisieren der Anzahl verfügbarer Benutzer:",
+                                          error
+                                        );
+                                      });
+                        
+                                   
+                                  }})});
+
+                              alert(
+                                "Das Gebäude wurde erfolgreich gelöscht."
+                              );
+                              window.location.reload();
+                            })
+                            .catch((error) => {
+                              alert(
+                                "Beim Löschen des Mitarbeiters ist ein Fehler aufgetreten: " +
+                                  error.message
+                              );
+                            });
+                        } else {
+                          alert("Das Löschen wurde abgebrochen.");
+                        }
+                        del_bttn_W.removeEventListener("click", clickHandler);
+                      }
+                    );
+
                       var dataW = docSnapshot.data();
                       var emailW = dataW.email;
                       var nameW = dataW.name;
