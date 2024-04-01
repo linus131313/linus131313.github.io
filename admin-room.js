@@ -1656,19 +1656,14 @@ let totalMinutesWorkedInMonth = 0;
                               const accessesRef = collection(companiesDocRef, "Accesses");
                               getDocs(accessesRef).then((querySnapshot) => {
                                 querySnapshot.forEach((doc) => {
-                                  let w_available = parseInt(doc.data().userAvailable); // Konvertiere in Ganzzahl
+                                  let w_available = parseInt(doc.data().userAvailable); 
                         
-                                  // Überprüfe, ob w_available eine gültige Zahl ist
                                   if (!isNaN(w_available)) {
-                                    // Reduziere um 1 und stelle sicher, dass die Zahl nicht negativ wird
                                     w_available =w_available+1;
                         
-                                    // Aktualisiere das erste Dokument der "accesses"-Sammlung mit dem neuen Wert
                                     updateDoc(doc.ref, { userAvailable: w_available.toString() })
                                       .then(() => {
-                                        console.log(
-                                          "Anzahl verfügbarer Benutzer erfolgreich aktualisiert"
-                                        );
+                                       
                                       })
                                       .catch((error) => {
                                         console.error(
@@ -1681,7 +1676,7 @@ let totalMinutesWorkedInMonth = 0;
                                   }})});
 
                               alert(
-                                "Das Gebäude wurde erfolgreich gelöscht."
+                                "Der/Die Mitarbeiter/in wurde erfolgreich gelöscht. Der Zugang wurde gesperrt."
                               );
                               window.location.reload();
                             })
