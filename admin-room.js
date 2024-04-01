@@ -1620,6 +1620,9 @@ let totalMinutesWorkedInMonth = 0;
                           deleteDoc(docRef)
                             .then(() => {
                               /////////////////
+                              console.log(companyName);
+                              const companiesDocRef = doc(collection(db, "Companies"), companyName);
+                              const accessesRef = collection(companiesDocRef, "Accesses");
                               getDocs(accessesRef).then((querySnapshot) => {
                                 querySnapshot.forEach((doc) => {
                                   let w_available = parseInt(doc.data().userAvailable); // Konvertiere in Ganzzahl
