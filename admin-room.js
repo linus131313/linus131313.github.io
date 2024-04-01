@@ -805,7 +805,27 @@ onAuthStateChanged(auth, (user) => {
                                 </div>
                             </div>
                         </div>`;
-                        taskListDash.innerHTML += task_open_html;
+                        taskListDash.innerHTML += `
+                        <div class="columns-14 w-row">
+                            <div class="column-23 w-col w-col-6">
+                                <div class="text-block-19-copy-copy-copy">${
+                                  taskdoc.data().title
+                                }</div>
+                                <div class="text-block-19-copy-copy">${
+                                  taskdoc.data().building
+                                }</div>
+                            </div>
+                            <div class="w-col w-col-3">
+                                <div id="tasks_done_counter" class="text-block-19-copy">${formattedTime}</div>
+                            </div>
+                            <div class="column-24 w-col w-col-3">
+                                <div class="div-block-orange">
+                                    <div class="text-block-19-copy">
+                                        <strong class="bold-text-orange">offen</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`;
 
                         //worker_layover_task_today
                         if (
@@ -1371,7 +1391,32 @@ onAuthStateChanged(auth, (user) => {
               getDocs(timestampsCollectionRef)
                 .then((timestampsQuerySnapshot) => {
                   if (timestampsQuerySnapshot.empty) {
-                    workerListDash.innerHTML += htmlCodeOffline;
+                    workerListDash.innerHTML += `
+                    <div class="columns-14 w-row">
+                        <div class="column-23 w-col w-col-5">
+                            <div class="text-block-19-copy-copy">${
+                              docw.data().name
+                            }</div>
+                        </div>
+                        <div class="w-col w-col-4">
+                            <div id="tasks_done_counter" class="text-block-19-copy">${
+                              taskDoneCounter[docw.data().email]
+                                ? taskDoneCounter[docw.data().email][0]
+                                : 0
+                            } von ${
+                        taskDoneCounter[docw.data().email]
+                          ? taskDoneCounter[docw.data().email][1]
+                          : 0
+                      }</div>
+                        </div>
+                        <div class="column-24 w-col w-col-3">
+                            <div class="div-block-red">
+                                <div class="text-block-19-copy">
+                                    <strong class="bold-text-red">inaktiv</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
                   } else {
                     var active_today = false;
 
@@ -1444,7 +1489,32 @@ currentSunday.setHours(0, 0, 0, 0);
 
                           workerListDash.innerHTML += htmlCodeOnline;
                         } else {
-                          workerListDash.innerHTML += htmlCodeOffline;
+                          workerListDash.innerHTML += `
+                          <div class="columns-14 w-row">
+                              <div class="column-23 w-col w-col-5">
+                                  <div class="text-block-19-copy-copy">${
+                                    docw.data().name
+                                  }</div>
+                              </div>
+                              <div class="w-col w-col-4">
+                                  <div id="tasks_done_counter" class="text-block-19-copy">${
+                                    taskDoneCounter[docw.data().email]
+                                      ? taskDoneCounter[docw.data().email][0]
+                                      : 0
+                                  } von ${
+                              taskDoneCounter[docw.data().email]
+                                ? taskDoneCounter[docw.data().email][1]
+                                : 0
+                            }</div>
+                              </div>
+                              <div class="column-24 w-col w-col-3">
+                                  <div class="div-block-red">
+                                      <div class="text-block-19-copy">
+                                          <strong class="bold-text-red">inaktiv</strong>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>`;
                         }
 
                         // Berechnung der gearbeiteten Zeit
