@@ -1914,6 +1914,9 @@ document.getElementById("geb_back").addEventListener("click", function () {
   document.getElementById("geb_images_info").innerHTML = "";
   document.getElementById("geb_images").innerHTML = "";
 
+  document.getElementById("pdf_list").innerHTML = "";
+
+
   const popup = document.getElementById("geb_layover");
   popup.style.display = "none";
 });
