@@ -919,7 +919,7 @@ onAuthStateChanged(auth, (user) => {
                 var pdfsRef = ref(storage, filePathPdf);
 
 
-                      pdfsRef.listAll().then((result) => {
+                      listAll(pdfsRef).then((result) => {
                         result.items.forEach((pdfRef) => {
                           const pdfName = pdfRef.name;
 
