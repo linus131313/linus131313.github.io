@@ -16,7 +16,7 @@ import {
   deleteDoc,
   query,
   orderBy,
- where,
+  where,
 } from "https://www.gstatic.com/firebasejs/9.4.1/firebase-firestore.js";
 import {
   getStorage,
@@ -50,7 +50,7 @@ var geb_image_map = {};
 var geb_image_map_info = {};
 
 //pdf map
-var geb_pdf_map={};
+var geb_pdf_map = {};
 
 //task done counter map for dahboard
 var taskDoneCounter = {};
@@ -908,7 +908,7 @@ onAuthStateChanged(auth, (user) => {
                 docz.data().zipcode +
                 ")/Evidence";
 
-                const filePathPdf =
+              const filePathPdf =
                 docx.data().company +
                 "/" +
                 docz.data().address +
@@ -916,42 +916,44 @@ onAuthStateChanged(auth, (user) => {
                 docz.data().zipcode +
                 ")/PDFs";
 
-                var pdfsRef = ref(storage, filePathPdf);
+              var pdfsRef = ref(storage, filePathPdf);
 
-
-                listAll(pdfsRef).then((result) => {
+              listAll(pdfsRef)
+                .then((result) => {
                   result.items.forEach((pdfRef) => {
                     const pdfName = pdfRef.name;
-                
-                    getDownloadURL(pdfRef).then((url) => {
-                      const innerHtmlPdf = `<a href="${url}" target="_blank" class="w-inline-block">
+
+                    getDownloadURL(pdfRef)
+                      .then((url) => {
+                        const innerHtmlPdf = `<a href="${url}" target="_blank" class="w-inline-block">
                                               <div class="div-block-34-copy">
                                                 <div class="text-block-19-pdf">${pdfName}</div>
                                                 <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/63ef532ba90a073195f4a6b6_Arrow%20Right.svg" loading="lazy" alt="" class="image-12">
                                               </div>
                                             </a>`;
 
-
-                                            const map_key =
-                                            docz.data().address + docz.data().zipcode;
-                                          if (geb_pdf_map.hasOwnProperty(map_key)) {
-                                            geb_pdf_map[map_key].push(innerHtmlPdf);
-                                          } else {
-                                            geb_pdf_map[map_key] = [innerHtmlPdf];
-                                          }
-                    
-                    }).catch((error) => {
-                      console.error("Fehler beim Abrufen des Download-URLs:", error);
-                    });
-
-            
-        
+                        const map_key =
+                          docz.data().address + docz.data().zipcode;
+                        if (geb_pdf_map.hasOwnProperty(map_key)) {
+                          geb_pdf_map[map_key].push(innerHtmlPdf);
+                        } else {
+                          geb_pdf_map[map_key] = [innerHtmlPdf];
+                        }
+                      })
+                      .catch((error) => {
+                        console.error(
+                          "Fehler beim Abrufen des Download-URLs:",
+                          error
+                        );
+                      });
                   });
-                }).catch((error) => {
-                  console.error("Fehler beim Auflisten der PDF-Dateien:", error);
+                })
+                .catch((error) => {
+                  console.error(
+                    "Fehler beim Auflisten der PDF-Dateien:",
+                    error
+                  );
                 });
-
-
 
               var imagesRef = ref(storage, filePathImages); //storageRef.child(filePathImages);
 
@@ -1162,14 +1164,13 @@ onAuthStateChanged(auth, (user) => {
 
                       if (geb_pdf_map.hasOwnProperty(map_key)) {
                         geb_pdf_map[map_key].forEach((pdf_html) => {
-                          pdfListDiv.innerHTML+=pdf_html;
-
-                        })};
+                          pdfListDiv.innerHTML += pdf_html;
+                        });
+                      }
 
                       //add images to building layover
                       const gebImagesDiv =
                         document.getElementById("geb_images");
-                      
 
                       if (geb_image_map.hasOwnProperty(map_key)) {
                         geb_image_map[map_key].forEach((image_url) => {
@@ -1328,7 +1329,7 @@ onAuthStateChanged(auth, (user) => {
             });
           });
 
-          var worked_hours={};
+          var worked_hours = {};
           getDocs(userCollections).then((querySnapshot) => {
             // const userList = document.querySelector("#userList");
             const currentDateString = new Date()
@@ -1424,75 +1425,106 @@ onAuthStateChanged(auth, (user) => {
                       })
                       .replace(/\./g, "");
 
-                      const currentDate = new Date(); // Aktuelles Datum und Zeit
+                    const currentDate = new Date(); // Aktuelles Datum und Zeit
 
-                      const currentDayOfWeek = currentDate.getDay();
-                      const daysToAdd = currentDayOfWeek === 0 ? -6 : 1 - currentDayOfWeek; 
-                      const currentMonday = new Date(currentDate);
-                      currentMonday.setDate(currentDate.getDate() + daysToAdd);
+                    const currentDayOfWeek = currentDate.getDay();
+                    const daysToAdd =
+                      currentDayOfWeek === 0 ? -6 : 1 - currentDayOfWeek;
+                    const currentMonday = new Date(currentDate);
+                    currentMonday.setDate(currentDate.getDate() + daysToAdd);
 
-                      const currentSunday = new Date(currentMonday);
-                      currentSunday.setDate(currentMonday.getDate() + 6);
-                      currentMonday.setHours(0, 0, 0, 0);
+                    const currentSunday = new Date(currentMonday);
+                    currentSunday.setDate(currentMonday.getDate() + 6);
+                    currentMonday.setHours(0, 0, 0, 0);
 
-currentSunday.setHours(0, 0, 0, 0);
+                    currentSunday.setHours(0, 0, 0, 0);
 
+                    const currentYear = currentDate.getFullYear();
+                    const currentMonth = currentDate.getMonth();
 
-const currentYear = currentDate.getFullYear();
-const currentMonth = currentDate.getMonth();
+                    const firstDayOfMonth = new Date(
+                      currentYear,
+                      currentMonth,
+                      1
+                    );
+                    const lastDayOfMonth = new Date(
+                      currentYear,
+                      currentMonth + 1,
+                      0
+                    );
 
-// Erstellen des Startdatums des aktuellen Monats
-const firstDayOfMonth = new Date(currentYear, currentMonth, 1);
-const lastDayOfMonth = new Date(currentYear, currentMonth + 1, 0);
+                    firstDayOfMonth.setHours(0, 0, 0, 0);
 
-// Setzen der Uhrzeitkomponente auf Mitternacht für das Startdatum des aktuellen Monats
-firstDayOfMonth.setHours(0, 0, 0, 0);
+                    lastDayOfMonth.setHours(23, 59, 59, 999);
+                    let totalMinutesWorkedInMonth = 0;
 
-// Setzen der Uhrzeitkomponente auf Mitternacht für das Enddatum des aktuellen Monats
-lastDayOfMonth.setHours(23, 59, 59, 999);
-let totalMinutesWorkedInMonth = 0;
-
-
-
-                      let totalMinutesWorked = 0;
-
+                    let totalMinutesWorked = 0;
 
                     timestampsQuerySnapshot.forEach((timestampDoc) => {
                       const year = parseInt(timestampDoc.id.substring(4, 8));
-                      const month = parseInt(timestampDoc.id.substring(2, 4)) - 1; 
+                      const month =
+                        parseInt(timestampDoc.id.substring(2, 4)) - 1;
                       const day = parseInt(timestampDoc.id.substring(0, 2));
-                    
+
                       const timestampDate = new Date(year, month, day);
 
                       //this month
-                      if(timestampDate >= firstDayOfMonth && timestampDate <= lastDayOfMonth){
-                        const workStart = timestampDoc.data().Start;
-        const workEnd = timestampDoc.data().End;
-    
-        for (let i = 0; i < Math.min(workStart.length, workEnd.length); i++) {
-            const [startHours, startMinutes] = workStart[i].split(":").map(Number);
-            const [endHours, endMinutes] = workEnd[i].split(":").map(Number);
-            
-            const startMinutesSinceMidnight = startHours * 60 + startMinutes;
-            const endMinutesSinceMidnight = endHours * 60 + endMinutes;
-            
-            totalMinutesWorkedInMonth += endMinutesSinceMidnight - startMinutesSinceMidnight;
-        }
-                      }
-                  
-                      //  date this week
-                      if (timestampDate >= currentMonday && timestampDate <= currentSunday) {
+                      if (
+                        timestampDate >= firstDayOfMonth &&
+                        timestampDate <= lastDayOfMonth
+                      ) {
                         const workStart = timestampDoc.data().Start;
                         const workEnd = timestampDoc.data().End;
-                    
-                        for (let i = 0; i < Math.min(workStart.length, workEnd.length); i++) {
-                          const [startHours, startMinutes] = workStart[i].split(":").map(Number);
-                          const [endHours, endMinutes] = workEnd[i].split(":").map(Number);
-                          
-                          const startMinutesSinceMidnight = startHours * 60 + startMinutes;
-                          const endMinutesSinceMidnight = endHours * 60 + endMinutes;
-                          
-                          totalMinutesWorked += endMinutesSinceMidnight - startMinutesSinceMidnight;
+
+                        for (
+                          let i = 0;
+                          i < Math.min(workStart.length, workEnd.length);
+                          i++
+                        ) {
+                          const [startHours, startMinutes] = workStart[i]
+                            .split(":")
+                            .map(Number);
+                          const [endHours, endMinutes] = workEnd[i]
+                            .split(":")
+                            .map(Number);
+
+                          const startMinutesSinceMidnight =
+                            startHours * 60 + startMinutes;
+                          const endMinutesSinceMidnight =
+                            endHours * 60 + endMinutes;
+
+                          totalMinutesWorkedInMonth +=
+                            endMinutesSinceMidnight - startMinutesSinceMidnight;
+                        }
+                      }
+
+                      //  date this week
+                      if (
+                        timestampDate >= currentMonday &&
+                        timestampDate <= currentSunday
+                      ) {
+                        const workStart = timestampDoc.data().Start;
+                        const workEnd = timestampDoc.data().End;
+
+                        for (
+                          let i = 0;
+                          i < Math.min(workStart.length, workEnd.length);
+                          i++
+                        ) {
+                          const [startHours, startMinutes] = workStart[i]
+                            .split(":")
+                            .map(Number);
+                          const [endHours, endMinutes] = workEnd[i]
+                            .split(":")
+                            .map(Number);
+
+                          const startMinutesSinceMidnight =
+                            startHours * 60 + startMinutes;
+                          const endMinutesSinceMidnight =
+                            endHours * 60 + endMinutes;
+
+                          totalMinutesWorked +=
+                            endMinutesSinceMidnight - startMinutesSinceMidnight;
                         }
                       }
 
@@ -1502,8 +1534,7 @@ let totalMinutesWorkedInMonth = 0;
                         const workStart = timestampDoc.data().Start;
                         const workEnd = timestampDoc.data().End;
 
-                        const currentDate = new Date(); // Aktuelles Datum und Zeit
-                        // const currentTimestamp = currentDate.getHours() * 60 + currentDate.getMinutes();
+                        const currentDate = new Date();
 
                         let totalTimeWorked = 0;
                         active_today = true;
@@ -1549,14 +1580,18 @@ let totalMinutesWorkedInMonth = 0;
                           .padStart(2, "0")}h ${minutesWorked
                           .toString()
                           .padStart(2, "0")}min`;
-                       
 
-                          if ( !worked_hours.hasOwnProperty(docw.data().email)) {
-                            worked_hours[docw.data().email] = {"today":formattedTimeT};
-                          }  else {
-                            worked_hours[docw.data().email]["today"] = formattedTimeT;
+                        if (!worked_hours.hasOwnProperty(docw.data().email)) {
+                          worked_hours[docw.data().email] = {
+                            today: formattedTimeT,
+                          };
+                        } else {
+                          worked_hours[docw.data().email]["today"] =
+                            formattedTimeT;
                         }
-                      } else if (yesterdayDateString === timestampDoc.id) {
+                      } 
+                      //date yesterday
+                      if (yesterdayDateString === timestampDoc.id) {
                         const workStart = timestampDoc.data().Start;
                         const workEnd = timestampDoc.data().End;
 
@@ -1564,13 +1599,10 @@ let totalMinutesWorkedInMonth = 0;
                         // const currentTimestamp = currentDate.getHours() * 60 + currentDate.getMinutes();
 
                         let totalTimeWorked = 0;
-                        active_today = true;
                         if (workStart.length > workEnd.length) {
-                          workEnd.push( "23:59");
+                          workEnd.push("23:59");
+                        }
 
-                        } 
-
-                      
                         for (
                           let i = 0;
                           i < Math.min(workStart.length, workEnd.length);
@@ -1599,39 +1631,48 @@ let totalMinutesWorkedInMonth = 0;
                           .padStart(2, "0")}h ${minutesWorked
                           .toString()
                           .padStart(2, "0")}min`;
-                       
 
-                          if ( !worked_hours.hasOwnProperty(docw.data().email)) {
-                            worked_hours[docw.data().email] = {"yesterday":formattedTimeY};
-                          }  else {
-                            worked_hours[docw.data().email]["yesterday"] = formattedTimeY;
+                        if (!worked_hours.hasOwnProperty(docw.data().email)) {
+                          worked_hours[docw.data().email] = {
+                            yesterday: formattedTimeY,
+                          };
+                        } else {
+                          worked_hours[docw.data().email]["yesterday"] =
+                            formattedTimeY;
                         }
-
-
                       }
-
-
-                     
                     });
 
-                    
-
-                    const hoursWorkedM = Math.floor(totalMinutesWorkedInMonth / 60);
+                    const hoursWorkedM = Math.floor(
+                      totalMinutesWorkedInMonth / 60
+                    );
                     const minutesWorkedM = totalMinutesWorkedInMonth % 60;
-                    const formattedTotalTimeM = `${hoursWorkedM.toString().padStart(2, "0")}h ${minutesWorkedM.toString().padStart(2, "0")}min`;
+                    const formattedTotalTimeM = `${hoursWorkedM
+                      .toString()
+                      .padStart(2, "0")}h ${minutesWorkedM
+                      .toString()
+                      .padStart(2, "0")}min`;
 
                     const hoursWorked = Math.floor(totalMinutesWorked / 60);
                     const minutesWorked = totalMinutesWorked % 60;
-                    const formattedTotalTime = `${hoursWorked.toString().padStart(2, "0")}h ${minutesWorked.toString().padStart(2, "0")}min`;
-                    if ( !worked_hours.hasOwnProperty(docw.data().email)) {
-                      worked_hours[docw.data().email] = {"week":formattedTotalTime};
-                      worked_hours[docw.data().email] = {"month":formattedTotalTimeM};
-                    }  else {
-                      worked_hours[docw.data().email]["week"] = formattedTotalTime;
-                      worked_hours[docw.data().email]["month"] = formattedTotalTimeM;
-
-
-                  }
+                    const formattedTotalTime = `${hoursWorked
+                      .toString()
+                      .padStart(2, "0")}h ${minutesWorked
+                      .toString()
+                      .padStart(2, "0")}min`;
+                    if (!worked_hours.hasOwnProperty(docw.data().email)) {
+                      worked_hours[docw.data().email] = {
+                        week: formattedTotalTime,
+                      };
+                      worked_hours[docw.data().email] = {
+                        month: formattedTotalTimeM,
+                      };
+                    } else {
+                      worked_hours[docw.data().email]["week"] =
+                        formattedTotalTime;
+                      worked_hours[docw.data().email]["month"] =
+                        formattedTotalTimeM;
+                    }
 
                     if (!active_today) {
                       workerListDash.innerHTML += htmlCodeOffline;
@@ -1655,7 +1696,6 @@ let totalMinutesWorkedInMonth = 0;
                 var wLayover = document.getElementById("worker_layover");
 
                 // worked_hours[docw.data().email]["today"]
-                
 
                 const workerCollections = collection(companyDoc, "Users");
                 getDoc(doc(workerCollections, button.id)).then(
@@ -1666,100 +1706,117 @@ let totalMinutesWorkedInMonth = 0;
                       var nameW = dataW.name;
 
                       //delete button
-                      var del_bttn_W =
-                      document.getElementById("W_delete");
-                    del_bttn_W.addEventListener(
-                      "click",
-                      function clickHandler() {
-                        const confirmation = confirm(
-                          "Bist du sicher, dass du den Mitarbeiter löschen willst? Er/Sie kann im Nachhinein nicht mehr wiederhergestellt werden."
-                        );
+                      var del_bttn_W = document.getElementById("W_delete");
+                      del_bttn_W.addEventListener(
+                        "click",
+                        function clickHandler() {
+                          const confirmation = confirm(
+                            "Bist du sicher, dass du den Mitarbeiter löschen willst? Er/Sie kann im Nachhinein nicht mehr wiederhergestellt werden."
+                          );
 
-                        if (confirmation) {
-                          const docRef = doc(workerCollections, button.id);
+                          if (confirmation) {
+                            const docRef = doc(workerCollections, button.id);
 
-                          
+                            deleteDoc(docRef)
+                              .then(() => {
+                                const userCollection = collection(db, "Users");
 
-                          deleteDoc(docRef)
-                          .then(() => {
+                                const q = query(
+                                  userCollection,
+                                  where("email", "==", emailW)
+                                );
 
-                            const userCollection = collection(db,"Users");
-
-                            const q = query(userCollection, where("email", "==", emailW));
-
-                                      // Führe die Abfrage aus
-                                      getDocs(q)
-                                        .then((querySnapshot) => {
-                                          // Es wird erwartet, dass nur ein Dokument gefunden wird
-                                          if (!querySnapshot.empty) {
-                                            const doc = querySnapshot.docs[0];
-                                            // Dokument gefunden, lösche es
-                                            deleteDoc(doc.ref)
-                                              .then(() => {
-                                                console.log("Dokument erfolgreich gelöscht:", doc.id);
-                                              })
-                                              .catch((error) => {
-                                                console.error("Fehler beim Löschen des Dokuments:", error);
-                                              });
-                                          } else {
-                                            console.log("Es wurde kein Dokument mit der angegebenen E-Mail-Adresse gefunden.");
-                                          }
+                                getDocs(q)
+                                  .then((querySnapshot) => {
+                                    // Es wird erwartet, dass nur ein Dokument gefunden wird
+                                    if (!querySnapshot.empty) {
+                                      const doc = querySnapshot.docs[0];
+                                      // Dokument gefunden, lösche es
+                                      deleteDoc(doc.ref)
+                                        .then(() => {
+                                          console.log(
+                                            "Dokument erfolgreich gelöscht:",
+                                            doc.id
+                                          );
                                         })
                                         .catch((error) => {
-                                          console.error("Fehler beim Ausführen der Abfrage:", error);
+                                          console.error(
+                                            "Fehler beim Löschen des Dokuments:",
+                                            error
+                                          );
                                         });
-                           
-               
-                              const companiesDocRef = doc(collection(db, "Companies"), companyName);
-                              const accessesRef = collection(companiesDocRef, "Accesses");
-                              getDocs(accessesRef).then((querySnapshot) => {
-                                querySnapshot.forEach((doc) => {
-                                  let w_available = parseInt(doc.data().userAvailable); 
-                        
-                                  if (!isNaN(w_available)) {
-                                    w_available =w_available+1;
-                        
-                                    updateDoc(doc.ref, { userAvailable: w_available.toString() })
-                                      .then(() => {
-                                       
+                                    } else {
+                                      console.log(
+                                        "Es wurde kein Dokument mit der angegebenen E-Mail-Adresse gefunden."
+                                      );
+                                    }
+                                  })
+                                  .catch((error) => {
+                                    console.error(
+                                      "Fehler beim Ausführen der Abfrage:",
+                                      error
+                                    );
+                                  });
+
+                                const companiesDocRef = doc(
+                                  collection(db, "Companies"),
+                                  companyName
+                                );
+                                const accessesRef = collection(
+                                  companiesDocRef,
+                                  "Accesses"
+                                );
+                                getDocs(accessesRef).then((querySnapshot) => {
+                                  querySnapshot.forEach((doc) => {
+                                    let w_available = parseInt(
+                                      doc.data().userAvailable
+                                    );
+
+                                    if (!isNaN(w_available)) {
+                                      w_available = w_available + 1;
+
+                                      updateDoc(doc.ref, {
+                                        userAvailable: w_available.toString(),
                                       })
-                                      .catch((error) => {
-                                        console.error(
-                                          "Fehler beim Aktualisieren der Anzahl verfügbarer Benutzer:",
-                                          error
-                                        );
-                                      });
-                        
-                                   
-                                  }})});
+                                        .then(() => {})
+                                        .catch((error) => {
+                                          console.error(
+                                            "Fehler beim Aktualisieren der Anzahl verfügbarer Benutzer:",
+                                            error
+                                          );
+                                        });
+                                    }
+                                  });
+                                });
 
-                              alert(
-                                "Der/Die Mitarbeiter/in wurde erfolgreich gelöscht. Der Zugang wurde gesperrt."
-                              );
-                              window.location.reload();
-                            })
-                            .catch((error) => {
-                              alert(
-                                "Beim Löschen des Mitarbeiters ist ein Fehler aufgetreten: " +
-                                  error.message
-                              );
-                            });
-                        } else {
-                          alert("Das Löschen wurde abgebrochen.");
+                                alert(
+                                  "Der/Die Mitarbeiter/in wurde erfolgreich gelöscht. Der Zugang wurde gesperrt."
+                                );
+                                window.location.reload();
+                              })
+                              .catch((error) => {
+                                alert(
+                                  "Beim Löschen des Mitarbeiters ist ein Fehler aufgetreten: " +
+                                    error.message
+                                );
+                              });
+                          } else {
+                            alert("Das Löschen wurde abgebrochen.");
+                          }
+                          del_bttn_W.removeEventListener("click", clickHandler);
                         }
-                        del_bttn_W.removeEventListener("click", clickHandler);
-                      }
-                    );
-
-                   
+                      );
 
                       const workerHours = worked_hours[emailW] || {};
 
-                      document.getElementById("w_time_yesterday").innerHTML = workerHours["yesterday"] || "0h 00min";
-                      document.getElementById("w_time_today").innerHTML = workerHours["today"] || "0h 00min";
-                      document.getElementById("w_time_week").innerHTML = workerHours["week"] || "0h 00min";
-                      document.getElementById("w_time_month").innerHTML = workerHours["month"] || "0h 00min";
-
+                      document.getElementById("w_time_yesterday").innerHTML =
+                        workerHours["yesterday"] || "0h 00min";
+                      document.getElementById("w_time_today").innerHTML =
+                        workerHours["today"] || "0h 00min";
+                      document.getElementById("w_time_week").innerHTML =
+                        workerHours["week"] || "0h 00min";
+                      document.getElementById("w_time_month").innerHTML =
+                        workerHours["month"] || "0h 00min";
 
                       document.getElementById("w_name").innerHTML = nameW;
                       const taskHtmlArray =
@@ -1787,21 +1844,8 @@ let totalMinutesWorkedInMonth = 0;
         }
       });
     });
-    //const uid = user.uid;
-    // privateElements.forEach(function (element) {
-    //   element.style.display = "initial";
-    // });
-    // publicElements.forEach(function (element) {
-    //   element.style.display = "none";
-    // });
   } else {
     window.location.href = "/login";
-    // publicElements.forEach(function (element) {
-    //   element.style.display = "initial";
-    // });
-    // privateElements.forEach(function (element) {
-    //   element.style.display = "none";
-    // });
   }
 });
 
@@ -1916,7 +1960,6 @@ document.getElementById("geb_back").addEventListener("click", function () {
 
   document.getElementById("pdf_list").innerHTML = "";
 
-
   const popup = document.getElementById("geb_layover");
   popup.style.display = "none";
 });
@@ -2027,7 +2070,7 @@ document
           "worker_arbeitszeit",
           "worker_stundenzettel",
         ]);
-      }, 200); // Verzögerung von 200ms
+      }, 200); 
     }
   });
 
@@ -2050,7 +2093,7 @@ document.getElementById("bilder_expand").addEventListener("click", function () {
         "datei_widget",
       ]);
       document.getElementById("image_box_expand").style.height = "300px";
-    }, 200); // Verzögerung von 200ms
+    }, 200); 
   }
 });
 
@@ -2085,10 +2128,9 @@ function collapse_widget(expand_id, collapse_ids) {
       if (collapseElement) {
         setTimeout(function () {
           collapseElement.style.display = "block";
-        }, 500); // Verzögerung von 500ms
+        }, 500); 
       }
     });
   }
 }
 
-// onclick="document.getElementById('geb_layover').style.visibility = 'visible';
