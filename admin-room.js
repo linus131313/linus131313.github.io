@@ -49,6 +49,9 @@ var geb_image_map = {};
 
 var geb_image_map_info = {};
 
+//pdf map
+var geb_pdf_map={};
+
 //task done counter map for dahboard
 var taskDoneCounter = {};
 
@@ -905,6 +908,43 @@ onAuthStateChanged(auth, (user) => {
                 docz.data().zipcode +
                 ")/Evidence";
 
+                const filePathPdf =
+                docx.data().company +
+                "/" +
+                docz.data().address +
+                ", (" +
+                docz.data().zipcode +
+                ")/PDFs";
+
+                var pdfsRef = ref(storage, filePathPdf);
+
+
+                      pdfStorageRef.listAll().then((result) => {
+                        result.items.forEach((pdfRef) => {
+                          const pdfName = pdfRef.name;
+
+                          const innerHtmlPdf = `<a href="${pdfsRef.fullPath}" target="_blank" class="w-inline-block">
+                          <div class="div-block-34-copy">
+                            <div class="text-block-19-pdf">${pdfName}</div>
+                            <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/63ef532ba90a073195f4a6b6_Arrow%20Right.svg" loading="lazy" alt="" class="image-12">
+                          </div>
+                        </a>`;
+
+                          const map_key =
+                          docz.data().address + docz.data().zipcode;
+                        if (geb_pdf_map.hasOwnProperty(map_key)) {
+                          geb_pdf_map[map_key].push(innerHtmlPdf);
+                        } else {
+                          geb_pdf_map[map_key] = [innerHtmlPdf];
+                        }
+              
+                        });
+        
+
+                      }).catch((error) => {
+                        console.error("Fehler beim Auflisten der PDF-Dateien:", error);
+                      });
+
               var imagesRef = ref(storage, filePathImages); //storageRef.child(filePathImages);
 
               listAll(imagesRef)
@@ -1107,6 +1147,15 @@ onAuthStateChanged(auth, (user) => {
                   .then((docSnapshot) => {
                     if (docSnapshot.exists()) {
                       var dataG = docSnapshot.data();
+
+                      //pdfs
+                      const pdfListDiv = document.getElementById("pdf_list");
+
+                      if (geb_pdf_map.hasOwnProperty(map_key)) {
+                        geb_pdf_map[map_key].forEach((pdf_html) => {
+                          pdfListDiv.innerHTML+=pdf_html;
+
+                        })};
 
                       //add images to building layover
                       const gebImagesDiv =
