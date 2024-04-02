@@ -1147,6 +1147,7 @@ onAuthStateChanged(auth, (user) => {
                   .then((docSnapshot) => {
                     if (docSnapshot.exists()) {
                       var dataG = docSnapshot.data();
+                      const map_key = dataG.address + dataG.zipcode;
 
                       //pdfs
                       const pdfListDiv = document.getElementById("pdf_list");
@@ -1160,7 +1161,7 @@ onAuthStateChanged(auth, (user) => {
                       //add images to building layover
                       const gebImagesDiv =
                         document.getElementById("geb_images");
-                      const map_key = dataG.address + dataG.zipcode;
+                      
 
                       if (geb_image_map.hasOwnProperty(map_key)) {
                         geb_image_map[map_key].forEach((image_url) => {
