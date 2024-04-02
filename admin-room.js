@@ -919,31 +919,36 @@ onAuthStateChanged(auth, (user) => {
                 var pdfsRef = ref(storage, filePathPdf);
 
 
-                      listAll(pdfsRef).then((result) => {
-                        result.items.forEach((pdfRef) => {
-                          const pdfName = pdfRef.name;
+                listAll(pdfsRef).then((result) => {
+                  result.items.forEach((pdfRef) => {
+                    const pdfName = pdfRef.name;
+                
+                    getDownloadURL(pdfRef).then((url) => {
+                      const innerHtmlPdf = `<a href="${url}" target="_blank" class="w-inline-block">
+                                              <div class="div-block-34-copy">
+                                                <div class="text-block-19-pdf">${pdfName}</div>
+                                                <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/63ef532ba90a073195f4a6b6_Arrow%20Right.svg" loading="lazy" alt="" class="image-12">
+                                              </div>
+                                            </a>`;
+                    
+                    }).catch((error) => {
+                      console.error("Fehler beim Abrufen des Download-URLs:", error);
+                    });
 
-                          const innerHtmlPdf = `<a href="${pdfsRef.fullPath}" target="_blank" class="w-inline-block">
-                          <div class="div-block-34-copy">
-                            <div class="text-block-19-pdf">${pdfName}</div>
-                            <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/63ef532ba90a073195f4a6b6_Arrow%20Right.svg" loading="lazy" alt="" class="image-12">
-                          </div>
-                        </a>`;
-
-                          const map_key =
-                          docz.data().address + docz.data().zipcode;
-                        if (geb_pdf_map.hasOwnProperty(map_key)) {
-                          geb_pdf_map[map_key].push(innerHtmlPdf);
-                        } else {
-                          geb_pdf_map[map_key] = [innerHtmlPdf];
-                        }
-              
-                        });
+                    const map_key =
+                    docz.data().address + docz.data().zipcode;
+                  if (geb_pdf_map.hasOwnProperty(map_key)) {
+                    geb_pdf_map[map_key].push(innerHtmlPdf);
+                  } else {
+                    geb_pdf_map[map_key] = [innerHtmlPdf];
+                  }
         
+                  });
+                }).catch((error) => {
+                  console.error("Fehler beim Auflisten der PDF-Dateien:", error);
+                });
 
-                      }).catch((error) => {
-                        console.error("Fehler beim Auflisten der PDF-Dateien:", error);
-                      });
+
 
               var imagesRef = ref(storage, filePathImages); //storageRef.child(filePathImages);
 
