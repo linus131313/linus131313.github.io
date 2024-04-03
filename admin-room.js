@@ -1709,7 +1709,7 @@ onAuthStateChanged(auth, (user) => {
                       var del_bttn_W = document.getElementById("W_delete");
                       del_bttn_W.addEventListener(
                         "click",
-                        function clickHandler() {
+                        function clickHandlerW() {
                           const confirmation = confirm(
                             "Bist du sicher, dass du den Mitarbeiter löschen willst? Er/Sie kann im Nachhinein nicht mehr wiederhergestellt werden."
                           );
@@ -1803,7 +1803,7 @@ onAuthStateChanged(auth, (user) => {
                           } else {
                             alert("Das Löschen wurde abgebrochen.");
                           }
-                          del_bttn_W.removeEventListener("click", clickHandler);
+                          del_bttn_W.removeEventListener("click", clickHandlerW);
                         }
                       );
 
