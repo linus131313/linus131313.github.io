@@ -1751,106 +1751,209 @@ onAuthStateChanged(auth, (user) => {
                       var nameW = dataW.name;
 
                       //delete button
-                      var del_bttn_W = document.getElementById("W_delete");
-                      del_bttn_W.addEventListener(
-                        "click",
-                        function clickHandlerW() {
-                          const confirmation = confirm(
-                            "Bist du sicher, dass du den Mitarbeiter löschen willst? Er/Sie kann im Nachhinein nicht mehr wiederhergestellt werden."
-                          );
+                      // var del_bttn_W = document.getElementById("W_delete");
+                      // del_bttn_W.addEventListener(
+                      //   "click",
+                      //   function clickHandlerW() {
+                      //     const confirmation = confirm(
+                      //       "Bist du sicher, dass du den Mitarbeiter löschen willst? Er/Sie kann im Nachhinein nicht mehr wiederhergestellt werden."
+                      //     );
 
-                          if (confirmation) {
-                            const docRef = doc(workerCollections, button.id);
+                      //     if (confirmation) {
+                      //       const docRef = doc(workerCollections, button.id);
 
-                            deleteDoc(docRef)
-                              .then(() => {
-                                const userCollection = collection(db, "Users");
+                      //       deleteDoc(docRef)
+                      //         .then(() => {
+                      //           const userCollection = collection(db, "Users");
 
-                                const q = query(
-                                  userCollection,
-                                  where("email", "==", emailW)
-                                );
+                      //           const q = query(
+                      //             userCollection,
+                      //             where("email", "==", emailW)
+                      //           );
 
-                                getDocs(q)
-                                  .then((querySnapshot) => {
-                                    // Es wird erwartet, dass nur ein Dokument gefunden wird
-                                    if (!querySnapshot.empty) {
-                                      const doc = querySnapshot.docs[0];
-                                      // Dokument gefunden, lösche es
-                                      deleteDoc(doc.ref)
-                                        .then(() => {
-                                          console.log(
-                                            "Dokument erfolgreich gelöscht:",
-                                            doc.id
-                                          );
-                                        })
-                                        .catch((error) => {
-                                          console.error(
-                                            "Fehler beim Löschen des Dokuments:",
-                                            error
-                                          );
-                                        });
-                                    } else {
-                                      console.log(
-                                        "Es wurde kein Dokument mit der angegebenen E-Mail-Adresse gefunden."
-                                      );
-                                    }
-                                  })
-                                  .catch((error) => {
-                                    console.error(
-                                      "Fehler beim Ausführen der Abfrage:",
-                                      error
-                                    );
-                                  });
+                      //           getDocs(q)
+                      //             .then((querySnapshot) => {
+                      //               // Es wird erwartet, dass nur ein Dokument gefunden wird
+                      //               if (!querySnapshot.empty) {
+                      //                 const doc = querySnapshot.docs[0];
+                      //                 // Dokument gefunden, lösche es
+                      //                 deleteDoc(doc.ref)
+                      //                   .then(() => {
+                      //                     console.log(
+                      //                       "Dokument erfolgreich gelöscht:",
+                      //                       doc.id
+                      //                     );
+                      //                   })
+                      //                   .catch((error) => {
+                      //                     console.error(
+                      //                       "Fehler beim Löschen des Dokuments:",
+                      //                       error
+                      //                     );
+                      //                   });
+                      //               } else {
+                      //                 console.log(
+                      //                   "Es wurde kein Dokument mit der angegebenen E-Mail-Adresse gefunden."
+                      //                 );
+                      //               }
+                      //             })
+                      //             .catch((error) => {
+                      //               console.error(
+                      //                 "Fehler beim Ausführen der Abfrage:",
+                      //                 error
+                      //               );
+                      //             });
 
-                                const companiesDocRef = doc(
-                                  collection(db, "Companies"),
-                                  companyName
-                                );
-                                const accessesRef = collection(
-                                  companiesDocRef,
-                                  "Accesses"
-                                );
-                                getDocs(accessesRef).then((querySnapshot) => {
-                                  querySnapshot.forEach((doc) => {
-                                    let w_available = parseInt(
-                                      doc.data().userAvailable
-                                    );
+                      //           const companiesDocRef = doc(
+                      //             collection(db, "Companies"),
+                      //             companyName
+                      //           );
+                      //           const accessesRef = collection(
+                      //             companiesDocRef,
+                      //             "Accesses"
+                      //           );
+                      //           getDocs(accessesRef).then((querySnapshot) => {
+                      //             querySnapshot.forEach((doc) => {
+                      //               let w_available = parseInt(
+                      //                 doc.data().userAvailable
+                      //               );
 
-                                    if (!isNaN(w_available)) {
-                                      w_available = w_available + 1;
+                      //               if (!isNaN(w_available)) {
+                      //                 w_available = w_available + 1;
 
-                                      updateDoc(doc.ref, {
-                                        userAvailable: w_available.toString(),
+                      //                 updateDoc(doc.ref, {
+                      //                   userAvailable: w_available.toString(),
+                      //                 })
+                      //                   .then(() => {})
+                      //                   .catch((error) => {
+                      //                     console.error(
+                      //                       "Fehler beim Aktualisieren der Anzahl verfügbarer Benutzer:",
+                      //                       error
+                      //                     );
+                      //                   });
+                      //               }
+                      //             });
+                      //           });
+
+                      //           alert(
+                      //             "Der/Die Mitarbeiter/in wurde erfolgreich gelöscht. Der Zugang wurde gesperrt."
+                      //           );
+                      //           window.location.reload();
+                      //         })
+                      //         .catch((error) => {
+                      //           alert(
+                      //             "Beim Löschen des Mitarbeiters ist ein Fehler aufgetreten: " +
+                      //               error.message
+                      //           );
+                      //         });
+                      //     } else {
+                      //       alert("Das Löschen wurde abgebrochen.");
+                      //     }
+                      //   }
+                      // );
+
+                      var clickHandlerW = function() {
+                        const confirmation = confirm(
+                          "Bist du sicher, dass du den Mitarbeiter löschen willst? Er/Sie kann im Nachhinein nicht mehr wiederhergestellt werden."
+                        );
+                      
+                        if (confirmation) {
+                          const docRef = doc(workerCollections, button.id);
+                      
+                          deleteDoc(docRef)
+                            .then(() => {
+                              const userCollection = collection(db, "Users");
+                      
+                              const q = query(
+                                userCollection,
+                                where("email", "==", emailW)
+                              );
+                      
+                              getDocs(q)
+                                .then((querySnapshot) => {
+                                  // Es wird erwartet, dass nur ein Dokument gefunden wird
+                                  if (!querySnapshot.empty) {
+                                    const doc = querySnapshot.docs[0];
+                                    // Dokument gefunden, lösche es
+                                    deleteDoc(doc.ref)
+                                      .then(() => {
+                                        console.log(
+                                          "Dokument erfolgreich gelöscht:",
+                                          doc.id
+                                        );
                                       })
-                                        .then(() => {})
-                                        .catch((error) => {
-                                          console.error(
-                                            "Fehler beim Aktualisieren der Anzahl verfügbarer Benutzer:",
-                                            error
-                                          );
-                                        });
-                                    }
-                                  });
+                                      .catch((error) => {
+                                        console.error(
+                                          "Fehler beim Löschen des Dokuments:",
+                                          error
+                                        );
+                                      });
+                                  } else {
+                                    console.log(
+                                      "Es wurde kein Dokument mit der angegebenen E-Mail-Adresse gefunden."
+                                    );
+                                  }
+                                })
+                                .catch((error) => {
+                                  console.error(
+                                    "Fehler beim Ausführen der Abfrage:",
+                                    error
+                                  );
                                 });
-
-                                alert(
-                                  "Der/Die Mitarbeiter/in wurde erfolgreich gelöscht. Der Zugang wurde gesperrt."
-                                );
-                                window.location.reload();
-                              })
-                              .catch((error) => {
-                                alert(
-                                  "Beim Löschen des Mitarbeiters ist ein Fehler aufgetreten: " +
-                                    error.message
-                                );
+                      
+                              const companiesDocRef = doc(
+                                collection(db, "Companies"),
+                                companyName
+                              );
+                              const accessesRef = collection(
+                                companiesDocRef,
+                                "Accesses"
+                              );
+                              getDocs(accessesRef).then((querySnapshot) => {
+                                querySnapshot.forEach((doc) => {
+                                  let w_available = parseInt(
+                                    doc.data().userAvailable
+                                  );
+                      
+                                  if (!isNaN(w_available)) {
+                                    w_available = w_available + 1;
+                      
+                                    updateDoc(doc.ref, {
+                                      userAvailable: w_available.toString(),
+                                    })
+                                      .then(() => {})
+                                      .catch((error) => {
+                                        console.error(
+                                          "Fehler beim Aktualisieren der Anzahl verfügbarer Benutzer:",
+                                          error
+                                        );
+                                      });
+                                  }
+                                });
                               });
-                          } else {
-                            alert("Das Löschen wurde abgebrochen.");
-                          }
-                          del_bttn_W.removeEventListener("click", clickHandlerW);
+                      
+                              alert(
+                                "Der/Die Mitarbeiter/in wurde erfolgreich gelöscht. Der Zugang wurde gesperrt."
+                              );
+                              window.location.reload();
+                            })
+                            .catch((error) => {
+                              alert(
+                                "Beim Löschen des Mitarbeiters ist ein Fehler aufgetreten: " +
+                                  error.message
+                              );
+                            });
+                        } else {
+                          alert("Das Löschen wurde abgebrochen.");
                         }
-                      );
+                      };
+                      
+                      var del_bttn_W = document.getElementById("W_delete");
+                      del_bttn_W.addEventListener("click", clickHandlerW);
+                      
+                      document.getElementById("worker_back").addEventListener("click", function () {
+                        del_bttn_W.removeEventListener("click", clickHandlerW);
+                      });
+                      
 
                       const workerHours = worked_hours[emailW] || {};
 
