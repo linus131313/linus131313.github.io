@@ -452,10 +452,11 @@ function handleAForm(e) {
 }
 
 onAuthStateChanged(auth, (user) => {
-var admin_true=false;
+
   if (user) {
     const adminsRef = collection(db, "Admins");
     getDocs(adminsRef).then((querySnapshot) => {
+      let admin_true = false;
       querySnapshot.forEach((docx) => {
         if (docx.data().email === user.email) {
           admin_true=true;
@@ -1848,13 +1849,14 @@ var admin_true=false;
           });
         }
       });
+      if (!admin_true) {
+        window.location.href = "/login";
+      } 
     });
   } else {
     window.location.href = "/login";
   }
-  if (!admin_true){
-    window.location.href = "/login";
-  }
+
 });
 
 document.getElementById("calendar-tab").addEventListener("click", function () {
