@@ -452,13 +452,13 @@ function handleAForm(e) {
 }
 
 onAuthStateChanged(auth, (user) => {
-  let publicElements = document.querySelectorAll("[data-onlogin='hide']");
-  let privateElements = document.querySelectorAll("[data-onlogin='show']");
+var admin_true=false;
   if (user) {
     const adminsRef = collection(db, "Admins");
     getDocs(adminsRef).then((querySnapshot) => {
       querySnapshot.forEach((docx) => {
         if (docx.data().email === user.email) {
+          admin_true=true;
           document.getElementById("user_name").innerHTML = docx.data().surname;
 
           document.getElementById("user_email").innerHTML = docx.data().email;
@@ -1270,7 +1270,7 @@ onAuthStateChanged(auth, (user) => {
                           } else {
                             alert("Das Löschen wurde abgebrochen.");
                           }
-                          del_bttn.removeEventListener("click", clickHandler);
+                          
                         }
                       );
 
@@ -1852,6 +1852,9 @@ onAuthStateChanged(auth, (user) => {
   } else {
     window.location.href = "/login";
   }
+  if (!admin_true){
+    window.location.href = "/login";
+  }
 });
 
 document.getElementById("calendar-tab").addEventListener("click", function () {
@@ -1960,6 +1963,9 @@ document.getElementById("close_popup").addEventListener("click", function () {
 });
 
 document.getElementById("geb_back").addEventListener("click", function () {
+  var del_bttn =
+  document.getElementById("Button_Geb_Delete");
+  del_bttn.removeEventListener("click", clickHandler);
   document.getElementById("geb_images_info").innerHTML = "";
   document.getElementById("geb_images").innerHTML = "";
 
