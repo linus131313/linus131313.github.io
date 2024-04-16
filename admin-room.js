@@ -321,7 +321,7 @@ function handleWForm(e) {
       addDoc(newSubcollectionRef, newDocumentData2);
 
       alert(`Mitarbeiter erfolgreich hinzugefügt! Du wirst aus Sicherheitsgründen ausgeloggt und kannst dich gleich danach wieder einloggen.`);
-      window.location.href = "/adminroom?tab=mitarbeiter-tab";
+      window.location.href = "/login";
     })
     .catch((error) => {
       // Fehler beim Erstellen des Benutzers
@@ -456,10 +456,9 @@ onAuthStateChanged(auth, (user) => {
   if (user) {
     const adminsRef = collection(db, "Admins");
     getDocs(adminsRef).then((querySnapshot) => {
-      let admin_true = false;
+
       querySnapshot.forEach((docx) => {
         if (docx.data().email === user.email) {
-          admin_true=true;
           document.getElementById("user_name").innerHTML = docx.data().surname;
 
           document.getElementById("user_email").innerHTML = docx.data().email;
@@ -1849,9 +1848,7 @@ onAuthStateChanged(auth, (user) => {
           });
         }
       });
-      if (!admin_true) {
-        window.location.href = "/login";
-      } 
+     
     });
   } else {
     window.location.href = "/login";
