@@ -1242,45 +1242,77 @@ onAuthStateChanged(auth, (user) => {
                       var telefon = dataG.Telefon;
                       var email = dataG["E-Mail"];
 
-                      var del_bttn =
-                        document.getElementById("Button_Geb_Delete");
-                      del_bttn.addEventListener(
-                        "click",
-                        function clickHandler() {
-                          const confirmation = confirm(
-                            "Bist du sicher, dass du das Gebäude löschen willst? Es kann im Nachhinein nicht mehr wiederhergestellt werden."
-                          );
+                      // var del_bttn =
+                      //   document.getElementById("Button_Geb_Delete");
+                      // del_bttn.addEventListener(
+                      //   "click",
+                      //   function clickHandler() {
+                      //     const confirmation = confirm(
+                      //       "Bist du sicher, dass du das Gebäude löschen willst? Es kann im Nachhinein nicht mehr wiederhergestellt werden."
+                      //     );
 
-                          if (confirmation) {
-                            const docRef = doc(facilityCollections, button.id);
+                      //     if (confirmation) {
+                      //       const docRef = doc(facilityCollections, button.id);
 
-                            deleteDoc(docRef)
-                              .then(() => {
-                                alert(
-                                  "Das Gebäude wurde erfolgreich gelöscht."
-                                );
-                                window.location.reload();
-                              })
-                              .catch((error) => {
-                                alert(
-                                  "Beim Löschen des Gebäudes ist ein Fehler aufgetreten: " +
-                                    error.message
-                                );
-                              });
-                          } else {
-                            alert("Das Löschen wurde abgebrochen.");
-                          }
+                      //       deleteDoc(docRef)
+                      //         .then(() => {
+                      //           alert(
+                      //             "Das Gebäude wurde erfolgreich gelöscht."
+                      //           );
+                      //           window.location.reload();
+                      //         })
+                      //         .catch((error) => {
+                      //           alert(
+                      //             "Beim Löschen des Gebäudes ist ein Fehler aufgetreten: " +
+                      //               error.message
+                      //           );
+                      //         });
+                      //     } else {
+                      //       alert("Das Löschen wurde abgebrochen.");
+                      //     }
                           
-                        }
-                      );
+                      //   }
+                      // );
 
-                      document.getElementById("geb_back").addEventListener("click", function () {
-                        var del_bttn =
-                        document.getElementById("Button_Geb_Delete");
-                        del_bttn.removeEventListener("click", clickHandler);
+                      // document.getElementById("geb_back").addEventListener("click", function () {
+                      //   var del_bttn =
+                      //   document.getElementById("Button_Geb_Delete");
+                      //   del_bttn.removeEventListener("click", clickHandler);
                        
-                      });
+                      // });
                       
+                      var clickHandler = function() {
+                        const confirmation = confirm(
+                          "Bist du sicher, dass du das Gebäude löschen willst? Es kann im Nachhinein nicht mehr wiederhergestellt werden."
+                        );
+                      
+                        if (confirmation) {
+                          const docRef = doc(facilityCollections, button.id);
+                      
+                          deleteDoc(docRef)
+                            .then(() => {
+                              alert("Das Gebäude wurde erfolgreich gelöscht.");
+                              window.location.reload();
+                            })
+                            .catch((error) => {
+                              alert(
+                                "Beim Löschen des Gebäudes ist ein Fehler aufgetreten: " +
+                                  error.message
+                              );
+                            });
+                        } else {
+                          alert("Das Löschen wurde abgebrochen.");
+                        }
+                      };
+                      
+                      document.addEventListener("DOMContentLoaded", function() {
+                        var del_bttn = document.getElementById("Button_Geb_Delete");
+                        del_bttn.addEventListener("click", clickHandler);
+                      
+                        document.getElementById("geb_back").addEventListener("click", function () {
+                          del_bttn.removeEventListener("click", clickHandler);
+                        });
+                      });
 
                       document.getElementById("kunde_tel").innerHTML =
                         "<a href='tel:" + telefon + "'>" + telefon + "</a>";
