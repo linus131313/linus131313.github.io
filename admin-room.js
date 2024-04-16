@@ -1274,6 +1274,14 @@ onAuthStateChanged(auth, (user) => {
                         }
                       );
 
+                      document.getElementById("geb_back").addEventListener("click", function () {
+                        var del_bttn =
+                        document.getElementById("Button_Geb_Delete");
+                        del_bttn.removeEventListener("click", clickHandler);
+                       
+                      });
+                      
+
                       document.getElementById("kunde_tel").innerHTML =
                         "<a href='tel:" + telefon + "'>" + telefon + "</a>";
 
@@ -1962,9 +1970,6 @@ document.getElementById("close_popup").addEventListener("click", function () {
 });
 
 document.getElementById("geb_back").addEventListener("click", function () {
-  var del_bttn =
-  document.getElementById("Button_Geb_Delete");
-  del_bttn.removeEventListener("click", clickHandler);
   document.getElementById("geb_images_info").innerHTML = "";
   document.getElementById("geb_images").innerHTML = "";
 
