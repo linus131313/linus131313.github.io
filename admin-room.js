@@ -320,16 +320,8 @@ function handleWForm(e) {
       };
       addDoc(newSubcollectionRef, newDocumentData2);
 
-      // Ausloggen des Benutzers
-      auth.signOut()
-        .then(() => {
-          alert(`Mitarbeiter erfolgreich hinzugefügt! Du wirst aus Sicherheitsgründen ausgeloggt und kannst dich gleich wieder einloggen.`);
-          window.location.href = "/login";
-        })
-        .catch((error) => {
-          console.error("Fehler beim Ausloggen:", error);
-          alert("Fehler beim Ausloggen des Benutzers");
-        });
+      alert(`Mitarbeiter erfolgreich hinzugefügt! Du wirst aus Sicherheitsgründen ausgeloggt und kannst dich gleich danach wieder einloggen.`);
+      window.location.href = "/adminroom?tab=mitarbeiter-tab";
     })
     .catch((error) => {
       // Fehler beim Erstellen des Benutzers
