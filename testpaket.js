@@ -173,6 +173,8 @@ function handleSignUp(e) {
 
               const adminsRef = collection(db, "Admins");
               addDoc(adminsRef, newDocumentData);
+
+              window.location.href ="/adminroom";
             }
           });
         })
