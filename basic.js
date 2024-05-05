@@ -143,7 +143,6 @@ function handleSignUp(e) {
                 companiesDocRef,
                 "Accesses"
               );
-              addDoc(newSubcollectionRef, newDocumentData2);
 
               const newDocumentData = {
                 company: document.getElementById("iFirma").value,
@@ -160,14 +159,30 @@ function handleSignUp(e) {
               };
 
               const adminsRef = collection(db, "Admins");
-              addDoc(adminsRef, newDocumentData);
 
+              // addDoc(newSubcollectionRef, newDocumentData2);
 
-              // https://buy.stripe.com/00gdRL8Bfc9EaE8eUU
-              
+           
+
+             
+              // addDoc(adminsRef, newDocumentData);
+
               // window.location.href =
               //   "https://buy.stripe.com/00gdRL8Bfc9EaE8eUU?client_reference_id=" +
               //   clientReference;
+
+
+
+              addDoc(newSubcollectionRef, newDocumentData2)
+  .then(() => {
+    return addDoc(adminsRef, newDocumentData);
+  })
+  .then(() => {
+    window.location.href = "https://buy.stripe.com/00gdRL8Bfc9EaE8eUU?client_reference_id=" + clientReference;
+  });
+
+
+  
             }
           });
         })
