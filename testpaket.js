@@ -124,7 +124,7 @@ function handleSignUp(e) {
             collection(db, "Companies"),
             document.getElementById("iFirma").value
           );
-          const docSnap = getDoc(companiesDocRef);
+          // const docSnap = getDoc(companiesDocRef);
 
           getDoc(companiesDocRef).then((docSnap) => {
             if (docSnap.exists()) {

@@ -1231,7 +1231,7 @@ onAuthStateChanged(auth, (user) => {
                       document.getElementById("city_name_layover").innerHTML =
                         dataG.zipcode + " " + dataG.city;
                       document.getElementById("kunde_name").innerHTML =
-                        dataG.Eigentümer;
+                        dataG.owner;
                       document.getElementById("counter_wasser").innerHTML =
                         dataG.counterwater;
                       document.getElementById("counter_gas").innerHTML =
@@ -1239,8 +1239,8 @@ onAuthStateChanged(auth, (user) => {
                       document.getElementById("counter_strom").innerHTML =
                         dataG.counterelectricity;
 
-                      var telefon = dataG.Telefon;
-                      var email = dataG["E-Mail"];
+                      var telefon = dataG.phone;
+                      var email = dataG["mail"];
 
                       // var del_bttn =
                       //   document.getElementById("Button_Geb_Delete");

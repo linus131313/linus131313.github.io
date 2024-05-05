@@ -162,10 +162,12 @@ function handleSignUp(e) {
               const adminsRef = collection(db, "Admins");
               addDoc(adminsRef, newDocumentData);
 
+
               // https://buy.stripe.com/00gdRL8Bfc9EaE8eUU
-              window.location.href =
-                "https://buy.stripe.com/00gdRL8Bfc9EaE8eUU?client_reference_id=" +
-                clientReference;
+              
+              // window.location.href =
+              //   "https://buy.stripe.com/00gdRL8Bfc9EaE8eUU?client_reference_id=" +
+              //   clientReference;
             }
           });
         })
