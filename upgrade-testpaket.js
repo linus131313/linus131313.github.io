@@ -117,7 +117,13 @@ onAuthStateChanged(auth, (user) => {
                             };
 
                             updateDoc(firstDocument.ref, newData)
-                              .then(() => {})
+                              .then(() => {
+
+                                
+                        window.location.href = "https://buy.stripe.com/00gdRL8Bfc9EaE8eUU?client_reference_id=" +
+                        clientReference;
+
+                              })
                               .catch((error) => {});
                           }
                         })
@@ -129,8 +135,6 @@ onAuthStateChanged(auth, (user) => {
                       //   clientReference;
                         // window.reload ()
 
-                        // window.location.href = "https://buy.stripe.com/00gdRL8Bfc9EaE8eUU?client_reference_id=" +
-                        // clientReference;
                     });
 
                   document
@@ -171,16 +175,23 @@ onAuthStateChanged(auth, (user) => {
                             };
 
                             updateDoc(firstDocument.ref, newData)
-                              .then(() => {})
+                              .then(() => {
+                                
+                        window.location.href =  "https://buy.stripe.com/4gwfZT8Bf6PkaE84gh?client_reference_id=" +
+                        clientReference;
+
+                              })
                               .catch((error) => {});
                           }
                         })
                         .catch((error) => {});
 
-                      const link2 = document.getElementById("linkPremium");
-                      link2.href =
-                        "https://buy.stripe.com/4gwfZT8Bf6PkaE84gh?client_reference_id=" +
-                        clientReference;
+                      // const link2 = document.getElementById("linkPremium");
+                      // link2.href =
+                      //   "https://buy.stripe.com/4gwfZT8Bf6PkaE84gh?client_reference_id=" +
+                      //   clientReference;
+
+
                     });
 
                   document
@@ -205,16 +216,18 @@ onAuthStateChanged(auth, (user) => {
                             };
 
                             updateDoc(firstDocument.ref, newData)
-                              .then(() => {})
+                              .then(() => { 
+                                
+                        window.location.href =   "https://buy.stripe.com/7sIbJD04J1v0fYsfZ0?client_reference_id=" +
+                        clientReference;
+
+                              })
                               .catch((error) => {});
                           }
                         })
                         .catch((error) => {});
 
-                      const link3 = document.getElementById("linkUnlimited");
-                      link3.href =
-                        "https://buy.stripe.com/7sIbJD04J1v0fYsfZ0?client_reference_id=" +
-                        clientReference;
+                      
                     });
                 }
               });
