@@ -177,7 +177,7 @@ onAuthStateChanged(auth, (user) => {
                             updateDoc(firstDocument.ref, newData)
                               .then(() => {
                                 
-                        window.location.href =  "https://buy.stripe.com/4gwfZT8Bf6PkaE84gh?client_reference_id=" +
+                        window.location.href = "https://buy.stripe.com/4gwfZT8Bf6PkaE84gh?client_reference_id=" +
                         clientReference;
 
                               })
