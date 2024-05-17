@@ -1335,22 +1335,22 @@ onAuthStateChanged(auth, (user) => {
                             .then((docSnapshot) => {
                               if (docSnapshot.exists()) {
                                 const dataG = docSnapshot.data();
-                                const filePathPdf =
+                                const folderPath =
                                   companyName +
                                   "/" +
                                   dataG.address +
                                   ", (" +
                                   dataG.zipcode +
-                                  ")/PDFs";
-                                console.log(filePathPdf);
+                                  ")/PDFs/";
+                                console.log(folderPath);
                         
                                 // Input-Element für Dateiauswahl erstellen
                                 const fileInput = document.createElement('input');
                                 fileInput.type = 'file';
                                 fileInput.onchange = function(event) {
                                   const file = event.target.files[0];
-                                  // Referenz auf die Datei im Speicher erstellen
-                                  const storageRef = ref(storage, filePathPdf);
+                                  const fileName = file.name;
+                                  const storageRef = ref(storage, folderPath + fileName);
                         
                                   // Datei hochladen
                                   uploadBytes(storageRef, file).then((snapshot) => {
@@ -1370,6 +1370,7 @@ onAuthStateChanged(auth, (user) => {
                               console.log("Fehler beim Abrufen des Dokuments:", error);
                             });
                         };
+                        
 
                         
 
