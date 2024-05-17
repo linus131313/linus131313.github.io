@@ -1299,14 +1299,22 @@ onAuthStateChanged(auth, (user) => {
 
                         var clickHandlerDataUp = function() {
                          
-                            const docRef = doc(facilityCollections, button.id);
+                            // const docRef = doc(facilityCollections, button.id);
 
                             getDoc(doc(facilityCollections, button.id))
                             .then((docSnapshot) => {
                               if (docSnapshot.exists()) {
                                 const dataG = docSnapshot.data();
-                                const map_key = dataG.address + dataG.zipcode;
-                                console.log(map_key);
+                                
+
+                                const filePathPdf =
+                                companyName +
+                                    "/" +
+                                    dataG.address +
+                                    ", (" +
+                                    dataG.zipcode +
+                                    ")/PDFs";
+                                console.log(filePathPdf);
                                 // Weiterer Code, der mit map_key arbeitet...
                               } else {
                                 console.log("Das Dokument existiert nicht.");
@@ -1316,13 +1324,7 @@ onAuthStateChanged(auth, (user) => {
                               console.log("Fehler beim Abrufen des Dokuments:", error);
                             });
                           
-                //             const filePathPdf =
-                // docx.data().company +
-                // "/" +
-                // docz.data().address +
-                // ", (" +
-                // docz.data().zipcode +
-                // ")/PDFs";
+         
                         
                            
                           
