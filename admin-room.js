@@ -1299,6 +1299,8 @@ onAuthStateChanged(auth, (user) => {
 
                      
 
+                        
+
                         // var clickHandlerDataUp = function() {
                         //   getDoc(doc(facilityCollections, button.id))
                         //     .then((docSnapshot) => {
@@ -1323,7 +1325,8 @@ onAuthStateChanged(auth, (user) => {
                         
                         //           // Datei hochladen
                         //           uploadBytes(storageRef, file).then((snapshot) => {
-                        //             console.log("Datei erfolgreich hochgeladen.");
+                        //             alert("Die Datei wurde erfolgreich hochgeladen.");
+                        //             window.location.reload();
                         //           }).catch((error) => {
                         //             console.error("Fehler beim Hochladen der Datei:", error);
                         //           });
@@ -1360,7 +1363,12 @@ onAuthStateChanged(auth, (user) => {
                                 fileInput.type = 'file';
                                 fileInput.onchange = function(event) {
                                   const file = event.target.files[0];
+                                  const fileSize = file.size / (1024 * 1024); // Umrechnung in Megabyte
                                   const fileName = file.name;
+                                  if (fileSize > 100) {
+                                    alert("Die Datei ist zu groß. Es sind nur Dateien bis 100 MB zulässig.");
+                                    return;
+                                  }
                                   const storageRef = ref(storage, folderPath + fileName);
                         
                                   // Datei hochladen
