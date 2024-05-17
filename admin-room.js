@@ -1144,6 +1144,10 @@ onAuthStateChanged(auth, (user) => {
                   }
                 });
               });
+
+              
+              document.getElementById("abf_none_txt").style.display = "none";
+
               button.appendChild(userInput);
               buttonContainer.appendChild(button);
               // gebäude list item
