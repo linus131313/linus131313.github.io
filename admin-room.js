@@ -646,6 +646,8 @@ onAuthStateChanged(auth, (user) => {
                 </div><br>`;
 
                   if (taskDone > january1st2010) {
+                    //delete no current task text
+                    document.getElementById("task_current_none_txt").style.display = "none";
                     taskListTab.innerHTML += htmlGreen;
                     if (
                       Math.abs(new Date() - taskIssued) <=
@@ -1400,6 +1402,9 @@ onAuthStateChanged(auth, (user) => {
             querySnapshot.forEach((docw) => {
               //detete no workers text
               document.getElementById("mitarbeiter_none_txt").style.display = "none";
+
+              
+              
 
               var dd_m_child = getWorkerChild(docw);
               mitarbeiterList_main.innerHTML += dd_m_child;
