@@ -658,6 +658,8 @@ onAuthStateChanged(auth, (user) => {
                     }
                   } else {
                     document.getElementById("task_all_none_txt").style.display = "none";
+
+                    
                     if ((new Date() - taskIssued) / (1000 * 60 * 60) > 1) {
                       //wenn aufgabe nach einer stunde immernoch nicht bearbeitet wurde
                       taskListTab.innerHTML += htmlRed;
@@ -1402,8 +1404,11 @@ onAuthStateChanged(auth, (user) => {
             );
 
             querySnapshot.forEach((docw) => {
+
               //detete no workers text
               document.getElementById("mitarbeiter_none_txt").style.display = "none";
+              document.getElementById("workers_tab_none_txt").style.display = "none";
+
 
               
               
