@@ -1297,25 +1297,40 @@ onAuthStateChanged(auth, (user) => {
                         });
 
 
-                        // var clickHandlerDataUp = function() {
-                         
-                        //     // const docRef = doc(facilityCollections, button.id);
+                     
 
-                        //     getDoc(doc(facilityCollections, button.id))
+                        // var clickHandlerDataUp = function() {
+                        //   getDoc(doc(facilityCollections, button.id))
                         //     .then((docSnapshot) => {
                         //       if (docSnapshot.exists()) {
                         //         const dataG = docSnapshot.data();
-                                
-
-                        //         const filePathPdf =
-                        //         companyName +
-                        //             "/" +
-                        //             dataG.address +
-                        //             ", (" +
-                        //             dataG.zipcode +
-                        //             ")/PDFs";
-                        //         console.log(filePathPdf);
-                        //         // Weiterer Code, der mit map_key arbeitet...
+                        //         const folderPath =
+                        //           companyName +
+                        //           "/" +
+                        //           dataG.address +
+                        //           ", (" +
+                        //           dataG.zipcode +
+                        //           ")/PDFs/";
+                        //         console.log(folderPath);
+                        
+                        //         // Input-Element für Dateiauswahl erstellen
+                        //         const fileInput = document.createElement('input');
+                        //         fileInput.type = 'file';
+                        //         fileInput.onchange = function(event) {
+                        //           const file = event.target.files[0];
+                        //           const fileName = file.name;
+                        //           const storageRef = ref(storage, folderPath + fileName);
+                        
+                        //           // Datei hochladen
+                        //           uploadBytes(storageRef, file).then((snapshot) => {
+                        //             console.log("Datei erfolgreich hochgeladen.");
+                        //           }).catch((error) => {
+                        //             console.error("Fehler beim Hochladen der Datei:", error);
+                        //           });
+                        //         };
+                        
+                        //         // Das Input-Element klicken, um die Dateiauswahl zu starten
+                        //         fileInput.click();
                         //       } else {
                         //         console.log("Das Dokument existiert nicht.");
                         //       }
@@ -1323,12 +1338,8 @@ onAuthStateChanged(auth, (user) => {
                         //     .catch((error) => {
                         //       console.log("Fehler beim Abrufen des Dokuments:", error);
                         //     });
-                          
-         
-                        
-                           
-                          
                         // };
+                        
 
                         var clickHandlerDataUp = function() {
                           getDoc(doc(facilityCollections, button.id))
@@ -1354,7 +1365,8 @@ onAuthStateChanged(auth, (user) => {
                         
                                   // Datei hochladen
                                   uploadBytes(storageRef, file).then((snapshot) => {
-                                    console.log("Datei erfolgreich hochgeladen.");
+                                    alert("Die Datei wurde erfolgreich hochgeladen.");
+                                    window.location.reload();
                                   }).catch((error) => {
                                     console.error("Fehler beim Hochladen der Datei:", error);
                                   });
