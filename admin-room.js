@@ -2066,6 +2066,9 @@ document.getElementById("close_popup").addEventListener("click", function () {
 });
 
 document.getElementById("geb_back").addEventListener("click", function () {
+
+  document.getElementById("data_upload_none_txt").style.display = "block";
+
   document.getElementById("geb_images_info").innerHTML = "";
   document.getElementById("geb_images").innerHTML = "";
 
