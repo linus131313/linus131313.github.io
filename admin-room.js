@@ -1300,20 +1300,22 @@ onAuthStateChanged(auth, (user) => {
                         var clickHandlerDataUp = function() {
                          
                             const docRef = doc(facilityCollections, button.id);
-                           
 
-                            docRef.get().then((doc) => {
-                              if (doc.exists) {
-                                  const data = doc.data();
-                                  console.log(data.address);
-                                  console.log(data.zipcode);
+                            getDoc(doc(facilityCollections, button.id))
+                            .then((docSnapshot) => {
+                              if (docSnapshot.exists()) {
+                                const dataG = docSnapshot.data();
+                                const map_key = dataG.address + dataG.zipcode;
+                                console.log(map_key);
+                                // Weiterer Code, der mit map_key arbeitet...
                               } else {
-                                  console.log("Das Dokument existiert nicht.");
+                                console.log("Das Dokument existiert nicht.");
                               }
-                          }).catch((error) => {
+                            })
+                            .catch((error) => {
                               console.log("Fehler beim Abrufen des Dokuments:", error);
-                          });
-
+                            });
+                          
                 //             const filePathPdf =
                 // docx.data().company +
                 // "/" +
