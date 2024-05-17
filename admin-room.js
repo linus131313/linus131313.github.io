@@ -1262,44 +1262,7 @@ onAuthStateChanged(auth, (user) => {
                       var telefon = dataG.phone;
                       var email = dataG["mail"];
 
-                      // var del_bttn =
-                      //   document.getElementById("Button_Geb_Delete");
-                      // del_bttn.addEventListener(
-                      //   "click",
-                      //   function clickHandler() {
-                      //     const confirmation = confirm(
-                      //       "Bist du sicher, dass du das Gebäude löschen willst? Es kann im Nachhinein nicht mehr wiederhergestellt werden."
-                      //     );
-
-                      //     if (confirmation) {
-                      //       const docRef = doc(facilityCollections, button.id);
-
-                      //       deleteDoc(docRef)
-                      //         .then(() => {
-                      //           alert(
-                      //             "Das Gebäude wurde erfolgreich gelöscht."
-                      //           );
-                      //           window.location.reload();
-                      //         })
-                      //         .catch((error) => {
-                      //           alert(
-                      //             "Beim Löschen des Gebäudes ist ein Fehler aufgetreten: " +
-                      //               error.message
-                      //           );
-                      //         });
-                      //     } else {
-                      //       alert("Das Löschen wurde abgebrochen.");
-                      //     }
-                          
-                      //   }
-                      // );
-
-                      // document.getElementById("geb_back").addEventListener("click", function () {
-                      //   var del_bttn =
-                      //   document.getElementById("Button_Geb_Delete");
-                      //   del_bttn.removeEventListener("click", clickHandler);
-                       
-                      // });
+                     
                       
                       var clickHandler = function() {
                         const confirmation = confirm(
@@ -1331,6 +1294,44 @@ onAuthStateChanged(auth, (user) => {
                       
                         document.getElementById("geb_back").addEventListener("click", function () {
                           del_bttn.removeEventListener("click", clickHandler);
+                        });
+
+
+                        var clickHandlerDataUp = function() {
+                         
+                            const docRef = doc(facilityCollections, button.id);
+                           
+
+                            docRef.get().then((doc) => {
+                              if (doc.exists) {
+                                  const data = doc.data();
+                                  console.log(data.address);
+                                  console.log(data.zipcode);
+                              } else {
+                                  console.log("Das Dokument existiert nicht.");
+                              }
+                          }).catch((error) => {
+                              console.log("Fehler beim Abrufen des Dokuments:", error);
+                          });
+
+                //             const filePathPdf =
+                // docx.data().company +
+                // "/" +
+                // docz.data().address +
+                // ", (" +
+                // docz.data().zipcode +
+                // ")/PDFs";
+                        
+                           
+                          
+                        };
+
+
+                        var data_up_bttn = document.getElementById("data_upload_bttn");
+                        data_up_bttn.addEventListener("click", clickHandlerDataUp);
+                      
+                        document.getElementById("geb_back").addEventListener("click", function () {
+                          data_up_bttn.removeEventListener("click", clickHandlerDataUp);
                         });
                      
 
@@ -1781,107 +1782,8 @@ onAuthStateChanged(auth, (user) => {
                       var emailW = dataW.email;
                       var nameW = dataW.name;
 
-                      //delete button
-                      // var del_bttn_W = document.getElementById("W_delete");
-                      // del_bttn_W.addEventListener(
-                      //   "click",
-                      //   function clickHandlerW() {
-                      //     const confirmation = confirm(
-                      //       "Bist du sicher, dass du den Mitarbeiter löschen willst? Er/Sie kann im Nachhinein nicht mehr wiederhergestellt werden."
-                      //     );
 
-                      //     if (confirmation) {
-                      //       const docRef = doc(workerCollections, button.id);
-
-                      //       deleteDoc(docRef)
-                      //         .then(() => {
-                      //           const userCollection = collection(db, "Users");
-
-                      //           const q = query(
-                      //             userCollection,
-                      //             where("email", "==", emailW)
-                      //           );
-
-                      //           getDocs(q)
-                      //             .then((querySnapshot) => {
-                      //               // Es wird erwartet, dass nur ein Dokument gefunden wird
-                      //               if (!querySnapshot.empty) {
-                      //                 const doc = querySnapshot.docs[0];
-                      //                 // Dokument gefunden, lösche es
-                      //                 deleteDoc(doc.ref)
-                      //                   .then(() => {
-                      //                     console.log(
-                      //                       "Dokument erfolgreich gelöscht:",
-                      //                       doc.id
-                      //                     );
-                      //                   })
-                      //                   .catch((error) => {
-                      //                     console.error(
-                      //                       "Fehler beim Löschen des Dokuments:",
-                      //                       error
-                      //                     );
-                      //                   });
-                      //               } else {
-                      //                 console.log(
-                      //                   "Es wurde kein Dokument mit der angegebenen E-Mail-Adresse gefunden."
-                      //                 );
-                      //               }
-                      //             })
-                      //             .catch((error) => {
-                      //               console.error(
-                      //                 "Fehler beim Ausführen der Abfrage:",
-                      //                 error
-                      //               );
-                      //             });
-
-                      //           const companiesDocRef = doc(
-                      //             collection(db, "Companies"),
-                      //             companyName
-                      //           );
-                      //           const accessesRef = collection(
-                      //             companiesDocRef,
-                      //             "Accesses"
-                      //           );
-                      //           getDocs(accessesRef).then((querySnapshot) => {
-                      //             querySnapshot.forEach((doc) => {
-                      //               let w_available = parseInt(
-                      //                 doc.data().userAvailable
-                      //               );
-
-                      //               if (!isNaN(w_available)) {
-                      //                 w_available = w_available + 1;
-
-                      //                 updateDoc(doc.ref, {
-                      //                   userAvailable: w_available.toString(),
-                      //                 })
-                      //                   .then(() => {})
-                      //                   .catch((error) => {
-                      //                     console.error(
-                      //                       "Fehler beim Aktualisieren der Anzahl verfügbarer Benutzer:",
-                      //                       error
-                      //                     );
-                      //                   });
-                      //               }
-                      //             });
-                      //           });
-
-                      //           alert(
-                      //             "Der/Die Mitarbeiter/in wurde erfolgreich gelöscht. Der Zugang wurde gesperrt."
-                      //           );
-                      //           window.location.reload();
-                      //         })
-                      //         .catch((error) => {
-                      //           alert(
-                      //             "Beim Löschen des Mitarbeiters ist ein Fehler aufgetreten: " +
-                      //               error.message
-                      //           );
-                      //         });
-                      //     } else {
-                      //       alert("Das Löschen wurde abgebrochen.");
-                      //     }
-                      //   }
-                      // );
-
+                 
                       var clickHandlerW = function() {
                         const confirmation = confirm(
                           "Bist du sicher, dass du den Mitarbeiter löschen willst? Er/Sie kann im Nachhinein nicht mehr wiederhergestellt werden."
@@ -2314,4 +2216,7 @@ function collapse_widget(expand_id, collapse_ids) {
     });
   }
 }
+
+
+
 
