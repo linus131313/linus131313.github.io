@@ -1194,7 +1194,7 @@ onAuthStateChanged(auth, (user) => {
                       const pdfListDiv = document.getElementById("pdf_list");
 
                       if (geb_pdf_map.hasOwnProperty(map_key)) {
-                        document.getElementById("data_upload_none_txt").innerHTML=" ";
+                        document.getElementById("data_upload_none_txt").innerHTML=" Daten da ";
                         geb_pdf_map[map_key].forEach((pdf_html) => {
                           pdfListDiv.innerHTML += pdf_html;
                         });
