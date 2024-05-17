@@ -646,6 +646,7 @@ onAuthStateChanged(auth, (user) => {
                 </div><br>`;
 
                   if (taskDone > january1st2010) {
+                    document.getElementById("task_all_none_txt").style.display = "none";
                     //delete no current task text
                     document.getElementById("task_current_none_txt").style.display = "none";
                     taskListTab.innerHTML += htmlGreen;
@@ -656,6 +657,7 @@ onAuthStateChanged(auth, (user) => {
                       taskListTabWeek.innerHTML += htmlGreen;
                     }
                   } else {
+                    document.getElementById("task_all_none_txt").style.display = "none";
                     if ((new Date() - taskIssued) / (1000 * 60 * 60) > 1) {
                       //wenn aufgabe nach einer stunde immernoch nicht bearbeitet wurde
                       taskListTab.innerHTML += htmlRed;
