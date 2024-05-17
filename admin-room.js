@@ -1192,14 +1192,15 @@ onAuthStateChanged(auth, (user) => {
 
                       //pdfs
                       const pdfListDiv = document.getElementById("pdf_list");
+                      const no_txt=document.getElementById("data_upload_none_txt");
 
                       if (geb_pdf_map.hasOwnProperty(map_key)) {
-                        document.getElementById("data_upload_none_txt").innerHTML=" Daten da ";
+                        no_txt.innerHTML=" Daten da ";
                         geb_pdf_map[map_key].forEach((pdf_html) => {
                           pdfListDiv.innerHTML += pdf_html;
                         });
                       }else{
-                        document.getElementById("data_upload_none_txt").innerHTML="Es sind noch keine Dateien hochgeladen!";
+                        no_txt.innerHTML="Es sind noch keine Dateien hochgeladen!";
                       }
 
                       //add images to building layover
