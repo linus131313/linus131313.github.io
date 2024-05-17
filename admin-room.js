@@ -942,7 +942,9 @@ onAuthStateChanged(auth, (user) => {
               listAll(pdfsRef)
                 .then((result) => {
                   result.items.forEach((pdfRef) => {
-                    document.getElementById("data_upload_none_txt").style.display = "none";
+                    
+                    document.getElementById("data_upload_none_txt").hidden = true;
+
 
                     const pdfName = pdfRef.name;
 
@@ -2067,7 +2069,8 @@ document.getElementById("close_popup").addEventListener("click", function () {
 
 document.getElementById("geb_back").addEventListener("click", function () {
 
-  document.getElementById("data_upload_none_txt").style.display = "block";
+  document.getElementById("data_upload_none_txt").hidden = false;
+
 
   document.getElementById("geb_images_info").innerHTML = "";
   document.getElementById("geb_images").innerHTML = "";
