@@ -1241,7 +1241,11 @@ onAuthStateChanged(auth, (user) => {
                       const gebImagesInfoDiv =
                         document.getElementById("geb_images_info");
 
+                        const no_info_image_txt=document.getElementById("images_info_none_txt");
+
+
                       if (geb_image_map_info.hasOwnProperty(map_key)) {
+                        no_info_image_txt.style.display = "none";
                         geb_image_map_info[map_key].forEach((image_url) => {
                           // Erstellen des <a>-Elements
                           const imageLink = document.createElement("a");
@@ -1262,6 +1266,9 @@ onAuthStateChanged(auth, (user) => {
                           // Hinzufügen des <a>-Elements zum gebImagesDiv
                           gebImagesInfoDiv.appendChild(imageLink);
                         });
+                      }else{
+                        no_info_image_txt.style.display = "block";
+
                       }
 
                       document.getElementById("geb_name_layover").innerHTML =
