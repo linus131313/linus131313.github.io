@@ -1297,25 +1297,71 @@ onAuthStateChanged(auth, (user) => {
                         });
 
 
-                        var clickHandlerDataUp = function() {
+                        // var clickHandlerDataUp = function() {
                          
-                            // const docRef = doc(facilityCollections, button.id);
+                        //     // const docRef = doc(facilityCollections, button.id);
 
-                            getDoc(doc(facilityCollections, button.id))
+                        //     getDoc(doc(facilityCollections, button.id))
+                        //     .then((docSnapshot) => {
+                        //       if (docSnapshot.exists()) {
+                        //         const dataG = docSnapshot.data();
+                                
+
+                        //         const filePathPdf =
+                        //         companyName +
+                        //             "/" +
+                        //             dataG.address +
+                        //             ", (" +
+                        //             dataG.zipcode +
+                        //             ")/PDFs";
+                        //         console.log(filePathPdf);
+                        //         // Weiterer Code, der mit map_key arbeitet...
+                        //       } else {
+                        //         console.log("Das Dokument existiert nicht.");
+                        //       }
+                        //     })
+                        //     .catch((error) => {
+                        //       console.log("Fehler beim Abrufen des Dokuments:", error);
+                        //     });
+                          
+         
+                        
+                           
+                          
+                        // };
+
+                        var clickHandlerDataUp = function() {
+                          getDoc(doc(facilityCollections, button.id))
                             .then((docSnapshot) => {
                               if (docSnapshot.exists()) {
                                 const dataG = docSnapshot.data();
-                                
-
                                 const filePathPdf =
-                                companyName +
-                                    "/" +
-                                    dataG.address +
-                                    ", (" +
-                                    dataG.zipcode +
-                                    ")/PDFs";
+                                  companyName +
+                                  "/" +
+                                  dataG.address +
+                                  ", (" +
+                                  dataG.zipcode +
+                                  ")/PDFs";
                                 console.log(filePathPdf);
-                                // Weiterer Code, der mit map_key arbeitet...
+                        
+                                // Input-Element für Dateiauswahl erstellen
+                                const fileInput = document.createElement('input');
+                                fileInput.type = 'file';
+                                fileInput.onchange = function(event) {
+                                  const file = event.target.files[0];
+                                  // Referenz auf die Datei im Speicher erstellen
+                                  const storageRef = ref(storage, filePathPdf);
+                        
+                                  // Datei hochladen
+                                  uploadBytes(storageRef, file).then((snapshot) => {
+                                    console.log("Datei erfolgreich hochgeladen.");
+                                  }).catch((error) => {
+                                    console.error("Fehler beim Hochladen der Datei:", error);
+                                  });
+                                };
+                        
+                                // Das Input-Element klicken, um die Dateiauswahl zu starten
+                                fileInput.click();
                               } else {
                                 console.log("Das Dokument existiert nicht.");
                               }
@@ -1323,12 +1369,9 @@ onAuthStateChanged(auth, (user) => {
                             .catch((error) => {
                               console.log("Fehler beim Abrufen des Dokuments:", error);
                             });
-                          
-         
-                        
-                           
-                          
                         };
+
+                        
 
 
                         var data_up_bttn = document.getElementById("data_upload_bttn");
