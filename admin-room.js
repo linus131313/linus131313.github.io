@@ -879,6 +879,10 @@ onAuthStateChanged(auth, (user) => {
               var dd_child = getFacilityChild(docz);
               facility_dropdown.innerHTML += dd_child;
 
+              //delete no facility text
+              document.getElementById("geb_tab_none_txt").style.display = "none";
+
+
               //gebaude options vor a form
               var opt3 = document.createElement("option");
               const addressString =
@@ -1408,6 +1412,8 @@ onAuthStateChanged(auth, (user) => {
               //detete no workers text
               document.getElementById("mitarbeiter_none_txt").style.display = "none";
               document.getElementById("workers_tab_none_txt").style.display = "none";
+
+
 
 
               
