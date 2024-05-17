@@ -678,6 +678,10 @@ onAuthStateChanged(auth, (user) => {
                   if (
                     dateFromTimestamp.toDateString() === today.toDateString()
                   ) {
+                    //task none text löschen
+                    
+                    document.getElementById("tasks_today_none_txt").style.display = "none";
+
                     if (taskDone > january1st2010) {
                       var task_done_html = `
                       <div class="columns-14 w-row">
