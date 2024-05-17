@@ -682,6 +682,8 @@ onAuthStateChanged(auth, (user) => {
                     
                     document.getElementById("tasks_today_none_txt").style.display = "none";
 
+                    
+
                     if (taskDone > january1st2010) {
                       var task_done_html = `
                       <div class="columns-14 w-row">
@@ -1396,6 +1398,9 @@ onAuthStateChanged(auth, (user) => {
             );
 
             querySnapshot.forEach((docw) => {
+              //detete no workers text
+              document.getElementById("mitarbeiter_none_txt").style.display = "none";
+
               var dd_m_child = getWorkerChild(docw);
               mitarbeiterList_main.innerHTML += dd_m_child;
 
