@@ -1194,6 +1194,7 @@ onAuthStateChanged(auth, (user) => {
                       const pdfListDiv = document.getElementById("pdf_list");
                       const no_txt=document.getElementById("data_upload_none_txt");
 
+
                       if (geb_pdf_map.hasOwnProperty(map_key)) {
                         no_txt.style.display = "none";
                         geb_pdf_map[map_key].forEach((pdf_html) => {
@@ -1206,8 +1207,12 @@ onAuthStateChanged(auth, (user) => {
                       //add images to building layover
                       const gebImagesDiv =
                         document.getElementById("geb_images");
+                      const no_image_txt=document.getElementById("images_none_txt");
+
 
                       if (geb_image_map.hasOwnProperty(map_key)) {
+                        no_image_txt.style.display = "none";
+
                         geb_image_map[map_key].forEach((image_url) => {
                           // Erstellen des <a>-Elements
                           const imageLink = document.createElement("a");
@@ -1228,6 +1233,9 @@ onAuthStateChanged(auth, (user) => {
                           // Hinzufügen des <a>-Elements zum gebImagesDiv
                           gebImagesDiv.appendChild(imageLink);
                         });
+                      }else{
+                        no_image_txt.style.display = "block";
+
                       }
 
                       const gebImagesInfoDiv =
