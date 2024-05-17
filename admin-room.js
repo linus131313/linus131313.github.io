@@ -938,14 +938,14 @@ onAuthStateChanged(auth, (user) => {
                 ")/PDFs";
 
               var pdfsRef = ref(storage, filePathPdf);
-              document.getElementById("data_upload_none_txt").innerHTML="Es sind noch keine Dateien hochgeladen!";
+              
 
 
               listAll(pdfsRef)
                 .then((result) => {
                   result.items.forEach((pdfRef) => {
                     
-                    document.getElementById("data_upload_none_txt").innerHTML="";
+                  
 
 
                     const pdfName = pdfRef.name;
@@ -1194,9 +1194,12 @@ onAuthStateChanged(auth, (user) => {
                       const pdfListDiv = document.getElementById("pdf_list");
 
                       if (geb_pdf_map.hasOwnProperty(map_key)) {
+                        document.getElementById("data_upload_none_txt").innerHTML="";
                         geb_pdf_map[map_key].forEach((pdf_html) => {
                           pdfListDiv.innerHTML += pdf_html;
                         });
+                      }else{
+                        document.getElementById("data_upload_none_txt").innerHTML="Es sind noch keine Dateien hochgeladen!";
                       }
 
                       //add images to building layover
