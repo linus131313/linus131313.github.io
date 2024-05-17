@@ -938,6 +938,8 @@ onAuthStateChanged(auth, (user) => {
                 ")/PDFs";
 
               var pdfsRef = ref(storage, filePathPdf);
+              document.getElementById("data_upload_none_txt").innerHTML="Es sind noch keine Dateien hochgeladen!";
+
 
               listAll(pdfsRef)
                 .then((result) => {
@@ -2069,7 +2071,6 @@ document.getElementById("close_popup").addEventListener("click", function () {
 
 document.getElementById("geb_back").addEventListener("click", function () {
 
-  document.getElementById("data_upload_none_txt").innerHTML="Es sind noch keine Dateien hochgeladen!";
 
 
   document.getElementById("geb_images_info").innerHTML = "";
