@@ -1310,7 +1310,7 @@ onAuthStateChanged(auth, (user) => {
                         var gebLayover = document.getElementById("folder_box");
                         
                         var folderID = button.getAttribute("id");
-                        const originalFolderName = decodeURIComponent(id);
+                        const originalFolderName = decodeURIComponent(folderID);
 
 
                         gebLayover.style.display = "flex";
