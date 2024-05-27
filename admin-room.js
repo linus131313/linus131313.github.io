@@ -964,7 +964,9 @@ onAuthStateChanged(auth, (user) => {
                      
                       result.prefixes.forEach((folderRef) => {
                         // Um nur den Namen des Ordners zu erhalten, extrahieren Sie ihn aus dem fullPath
-                        const folderName = folderRef.fullPath.split('/').pop();
+                        // const folderName = folderRef.fullPath.split('/').pop();
+                        const folderPathSegments = folderRef.fullPath.split('/');
+                        const folderName = folderPathSegments[folderPathSegments.length - 1];
                        
                         const forbidden_folders=["Information", "Calendar","Evidence", "counterelectricity","countergas","counterwater"]
                         if (!forbidden_folders.includes(folderName)) {
