@@ -1000,6 +1000,9 @@ onAuthStateChanged(auth, (user) => {
                     //list all folders except Calendar, Evidence, Information, counterelectricity, countergas
 
 
+
+
+
                    
                   
 
@@ -1288,6 +1291,23 @@ onAuthStateChanged(auth, (user) => {
                         no_txt.style.display = "block";
                       }
 
+                      
+                    //add event listeners to folders, here they are already rendered
+
+                    var buttons_folderlayover = document.querySelectorAll(
+                      "folder_button"
+                    );
+
+                    // Iteriere über alle gefundenen Buttons und füge den Eventlistener hinzu
+                    buttons_folderlayover.forEach(function (button) {
+                      button.addEventListener("click", function () {
+                        // Mache das Div mit der ID "geb_layover" sichtbar
+                        var gebLayover = document.getElementById("folder_box");
+
+                        gebLayover.style.display = "flex";
+
+                      })});
+
                       //add images to building layover
                       const gebImagesDiv =
                         document.getElementById("geb_images");
@@ -1485,21 +1505,7 @@ onAuthStateChanged(auth, (user) => {
             });
           });
 
-          //ordnerlayover buttons
-          var buttons_folderlayover = document.querySelectorAll(
-            "folder_button"
-          );
-
-          // Iteriere über alle gefundenen Buttons und füge den Eventlistener hinzu
-          buttons_folderlayover.forEach(function (button) {
-            button.addEventListener("click", function () {
-              // Mache das Div mit der ID "geb_layover" sichtbar
-              var gebLayover = document.getElementById("folder_box");
-
-              gebLayover.style.display = "flex";
-
-            })});
-
+          
           const companyCollections = collection(companyDoc, "Accesses");
           getDocs(companyCollections).then((querySnapshot) => {
             querySnapshot.forEach((docy) => {
