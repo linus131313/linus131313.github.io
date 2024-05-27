@@ -1424,6 +1424,72 @@ onAuthStateChanged(auth, (user) => {
                             delf_bttn.removeEventListener("click", clickHandlerFDel);
                           });
 
+
+                          var clickHandlerDataUp = function() {
+                            getDoc(doc(facilityCollections, button.id))
+                              .then((docSnapshot) => {
+                                if (docSnapshot.exists()) {
+                                  const dataG = docSnapshot.data();
+                                  const folderPath =
+                                    companyName +
+                                    "/" +
+                                    dataG.address +
+                                    ", (" +
+                                    dataG.zipcode +
+                                    ")/"+originalFolderName;
+                          
+                                  const fileInput = document.createElement('input');
+                                  fileInput.type = 'file';
+                                  fileInput.accept = '.pdf, .txt'; // Akzeptiere nur .pdf oder .txt Dateien
+                                  fileInput.onchange = function(event) {
+                                    const file = event.target.files[0];
+                                    const fileName = file.name;
+                                    const fileExtension = fileName.split('.').pop().toLowerCase();
+                                    
+                                    // Überprüfen Sie die Dateierweiterung
+                                    if (!(fileExtension === 'pdf' || fileExtension === 'txt')) {
+                                      alert("Es können nur Dateien im .pdf oder .txt Format hochgeladen werden.");
+                                      return;
+                                    }
+                          
+                                    const fileSize = file.size / (1024 * 1024); // Umrechnung in Megabyte
+                                    if (fileSize > 100) {
+                                      alert("Die Datei ist zu groß. Es sind nur Dateien bis 100 MB zulässig.");
+                                      return;
+                                    }
+                                    const storageRef = ref(storage, folderPath + fileName);
+                          
+                                    // Datei hochladen
+                                    uploadBytes(storageRef, file).then((snapshot) => {
+                                      alert("Die Datei wurde erfolgreich hochgeladen.");
+                                      window.location.reload();
+                                    }).catch((error) => {
+                                      console.error("Fehler beim Hochladen der Datei:", error);
+                                    });
+                                  };
+                          
+                                  fileInput.click();
+                                } else {
+                                  console.log("Das Dokument existiert nicht.");
+                                }
+                              })
+                              .catch((error) => {
+                                console.log("Fehler beim Abrufen des Dokuments:", error);
+                              });
+                          };
+                          
+                          
+  
+                          
+  
+  
+                          var data_up_bttn = document.getElementById("file_upload_bttn");
+                          data_up_bttn.addEventListener("click", clickHandlerDataUp);
+                        
+                          document.getElementById("folder_back").addEventListener("click", function () {
+                            data_up_bttn.removeEventListener("click", clickHandlerDataUp);
+                          });
+
                       })});
 
 
