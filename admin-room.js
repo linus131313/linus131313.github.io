@@ -946,6 +946,33 @@ onAuthStateChanged(auth, (user) => {
                 docz.data().zipcode +
                 ")/Calendar";
 
+
+                //base path für alle dateien
+
+                const basePath =
+                    docx.data().company +
+                    "/" +
+                    docz.data().address +
+                    ", (" +
+                    docz.data().zipcode +
+                    ")";
+
+                  var baseRef = ref(storage, basePath);
+
+                  listAll(baseRef)
+                    .then((result) => {
+                      console.log("Ordner unter " + basePath + ":");
+                      result.prefixes.forEach((folderRef) => {
+                        // Um nur den Namen des Ordners zu erhalten, extrahieren Sie ihn aus dem fullPath
+                        const folderName = folderRef.fullPath.split('/').pop();
+                        console.log(folderName);
+                      });
+                    })
+                    .catch((error) => {
+                      console.error("Fehler beim Auflisten der Ordner:", error);
+                    });
+
+
               //images for gebäude layover
               const filePathImages =
                 docx.data().company +
