@@ -1279,7 +1279,7 @@ onAuthStateChanged(auth, (user) => {
                   .then((docSnapshot) => {
                     if (docSnapshot.exists()) {
                       var dataG = docSnapshot.data();
-                      const map_key = dataG.address + dataG.zipcode;
+                      const map_key = dataG.address+", (" + dataG.zipcode+")";
 
                       //pdfs
                       const pdfListDiv = document.getElementById("pdf_list");
