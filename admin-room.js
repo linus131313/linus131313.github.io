@@ -969,12 +969,12 @@ onAuthStateChanged(auth, (user) => {
                         const forbidden_folders=["Information", "Calendar","Evidence", "counterelectricity","countergas","counterwater"]
                         if (!forbidden_folders.includes(folderName)) {
 
-                          const innerHTMLFolders=`<div class="div-block-34-copy">
+                          const innerHTMLFolders=`<div class="folder_button">
                           <div class="div-block-35">
                           <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/664f6f7f337551434c3c3751_Book_fill.png" loading="lazy" alt="">
                           <div class="text-block-19-pdf">${folderName}</div></div>
-                          <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" loading="lazy" alt="" 
-                          class="image-12"></div>`
+                          <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/63ef532ba90a073195f4a6b6_Arrow%20Right.svg" loading="lazy" 
+                          alt="" class="image-12"></div>`;
   
   
                           const map_key =
@@ -1484,6 +1484,22 @@ onAuthStateChanged(auth, (user) => {
               });
             });
           });
+
+          //ordnerlayover buttons
+          var buttons_folderlayover = document.querySelectorAll(
+            "folder_button"
+          );
+
+          // Iteriere über alle gefundenen Buttons und füge den Eventlistener hinzu
+          buttons_folderlayover.forEach(function (button) {
+            button.addEventListener("click", function () {
+              // Mache das Div mit der ID "geb_layover" sichtbar
+              var gebLayover = document.getElementById("folder_box");
+
+              gebLayover.style.display = "flex";
+
+            })});
+
           const companyCollections = collection(companyDoc, "Accesses");
           getDocs(companyCollections).then((querySnapshot) => {
             querySnapshot.forEach((docy) => {
