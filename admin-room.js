@@ -965,7 +965,7 @@ onAuthStateChanged(auth, (user) => {
                       result.prefixes.forEach((folderRef) => {
                         // Um nur den Namen des Ordners zu erhalten, extrahieren Sie ihn aus dem fullPath
                         const folderName = folderRef.fullPath.split('/').pop();
-                        console.log(folderName);
+                       
                         const forbidden_folders=["Information", "Calendar","Evidence", "counterelectricity","countergas","counterwater"]
                         if (!forbidden_folders.includes(folderName)) {
 
@@ -1295,7 +1295,7 @@ onAuthStateChanged(auth, (user) => {
                     //add event listeners to folders, here they are already rendered
 
                     var buttons_folderlayover = document.querySelectorAll(
-                      "folder_button"
+                      ".folder_button"
                     );
 
                     // Iteriere über alle gefundenen Buttons und füge den Eventlistener hinzu
@@ -1303,6 +1303,7 @@ onAuthStateChanged(auth, (user) => {
                       button.addEventListener("click", function () {
                         // Mache das Div mit der ID "geb_layover" sichtbar
                         var gebLayover = document.getElementById("folder_box");
+                        console.log("Listener auf Detie");
 
                         gebLayover.style.display = "flex";
 
