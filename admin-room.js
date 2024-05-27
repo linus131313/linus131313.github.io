@@ -1325,11 +1325,23 @@ onAuthStateChanged(auth, (user) => {
                           if (confirmation) {
                             
                             console.log("Löschen von:");
-                            console.log(companyName);
-                            console.log(dataG.address+", (" + dataG.zipcode+")");
+                          
+                            const del_path=companyName+"/"+dataG.address+", (" + dataG.zipcode+")/"+originalFolderName;
+
+                            const folderRef = ref(storage, del_path);
+  
+                              // Löschen des Ordners
+                              deleteObject(folderRef)
+                                .then(() => {
+                                  console.log("Ordner erfolgreich gelöscht:", del_path);
+                                  // Fügen Sie hier ggf. weitere Aktionen nach dem Löschen hinzu
+                                })
+                                .catch((error) => {
+                                  console.error("Fehler beim Löschen des Ordners:", error);
+                                  // Hier können Sie Fehlerbehandlung durchführen, z.B. dem Benutzer eine Fehlermeldung anzeigen
+                                });
+
                       
-                            
-                            console.log(map_key + "/" + originalFolderName);
                           } else {
                             alert("Das Löschen wurde abgebrochen.");
                           }
