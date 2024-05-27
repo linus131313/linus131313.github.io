@@ -318,7 +318,32 @@ function handleWForm(e) {
         name: nameW,
         email: emailW,
       };
-      addDoc(newSubcollectionRef, newDocumentData2);
+      // addDoc(newSubcollectionRef, newDocumentData2);
+
+      const requestBody = {
+        name: "Hansi",
+        email: "hansi@stratek.eu",
+        password: "Passwort",
+        company: "Stratek GbR",
+      };
+      
+      fetch("https://haushelper-bot-4584298bee33.herokuapp.com/register_user", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      })
+      .then(response => {
+        if (response.ok) {
+          console.log("Registrierung erfolgreich!");
+        } else {
+          console.error("Fehler beim Registrieren:", response.statusText);
+        }
+      })
+      .catch(error => {
+        console.error("Fehler beim Registrieren:", error);
+      });
 
       alert(`Mitarbeiter erfolgreich hinzugefügt! Du wirst aus Sicherheitsgründen ausgeloggt und kannst dich gleich danach wieder einloggen.`);
       window.location.href = "/login";
