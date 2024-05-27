@@ -978,9 +978,9 @@ onAuthStateChanged(auth, (user) => {
                         const map_key =
                         docz.data().address + docz.data().zipcode;
                       if (geb_pdf_map.hasOwnProperty(map_key)) {
-                        geb_pdf_map[map_key].push(innerHtmlFolders);
+                        geb_pdf_map[map_key].push(innerHTMLFolders);
                       } else {
-                        geb_pdf_map[map_key] = [innerHtmlFolders];
+                        geb_pdf_map[map_key] = [innerHTMLFolders];
                       }
 
 
