@@ -1438,7 +1438,7 @@ onAuthStateChanged(auth, (user) => {
                                     dataG.address +
                                     ", (" +
                                     dataG.zipcode +
-                                    ")/"+originalFolderName;
+                                    ")/"+originalFolderName+"/";
                           
                                   const fileInput = document.createElement('input');
                                   fileInput.type = 'file';
