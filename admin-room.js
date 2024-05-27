@@ -961,7 +961,7 @@ onAuthStateChanged(auth, (user) => {
 
                   listAll(baseRef)
                     .then((result) => {
-                      console.log("Ordner unter " + basePath + ":");
+                     
                       result.prefixes.forEach((folderRef) => {
                         // Um nur den Namen des Ordners zu erhalten, extrahieren Sie ihn aus dem fullPath
                         const folderName = folderRef.fullPath.split('/').pop();
@@ -2193,6 +2193,13 @@ function renderCalendar(events) {
 document.getElementById("close_popup").addEventListener("click", function () {
   const popup = document.getElementById("kalender_popup");
   popup.style.display = "none";
+});
+
+
+document.getElementById("folder_back").addEventListener("click",function(){
+  const popup = document.getElementById("folder_box");
+  popup.style.display = "none";
+
 });
 
 document.getElementById("geb_back").addEventListener("click", function () {
