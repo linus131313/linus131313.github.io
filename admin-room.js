@@ -971,6 +971,60 @@ onAuthStateChanged(auth, (user) => {
                         const forbidden_folders=["Information", "Calendar","Evidence", "counterelectricity","countergas","counterwater"]
                         if (!forbidden_folders.includes(folderName)) {
 
+                          //add map key values to list pdfs in folder
+
+                          const filePathFolder =
+                            docx.data().company +
+                            "/" +
+                            docz.data().address +
+                            ", (" +
+                            docz.data().zipcode +
+                            ")/"+folderName;
+
+                          var filesRef = ref(storage, filePathFolder);
+                          
+
+
+                          listAll(filesRef)
+                            .then((result) => {
+                              result.items.forEach((pdfRef) => {
+                                
+                                const pdfName = pdfRef.name;
+
+                                getDownloadURL(pdfRef)
+                                  .then((url) => {
+                                    const innerHtmlPdf = `<a href="${url}" target="_blank" class="filename">
+                                                        <div class="div-block-35">
+                                                        <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/664f6e03f96e15b4d3554801_Order.png" 
+                                                        loading="lazy" alt="">
+                                                        <div class="text-block-19-pdf">${pdfName}</div>
+                                                        </div>
+                                                        <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" loading="lazy" alt="" class="image-12">
+                                                        </a>`;
+                                    const map_key =
+                                      docz.data().address + docz.data().zipcode+folderName;
+                                    if (geb_pdf_map.hasOwnProperty(map_key)) {
+                                      geb_pdf_map[map_key].push(innerHtmlPdf);
+                                    } else {
+                                      geb_pdf_map[map_key] = [innerHtmlPdf];
+                                    }
+                                  })
+                                  .catch((error) => {
+                                    console.error(
+                                      "Fehler beim Abrufen des Download-URLs:",
+                                      error
+                                    );
+                                  });
+                              });
+                            })
+                            .catch((error) => {
+                              console.error(
+                                "Fehler beim Auflisten der PDF-Dateien:",
+                                error
+                              );
+                            });
+
+
                           const id = encodeURIComponent(folderName);
 
                           const innerHTMLFolders=`<div class="folder_button" id=${id}>
@@ -1305,6 +1359,7 @@ onAuthStateChanged(auth, (user) => {
                     // Iteriere über alle gefundenen Buttons und füge den Eventlistener hinzu
                     buttons_folderlayover.forEach(function (button) {
                       button.addEventListener("click", function () {
+                      
                         // Mache das Div mit der ID "geb_layover" sichtbar
                         var gebLayover = document.getElementById("folder_box");
                         
@@ -1316,7 +1371,21 @@ onAuthStateChanged(auth, (user) => {
 
                         document.getElementById("folder_name_layover").innerHTML=originalFolderName;
 
+                        const filesList= document.getElementById("files_list");
+                        const file_no_txt=document.getElementById("file_none_txt");
 
+                        
+                        
+                        const map_key_files=dataG.address + dataG.zipcode+folderName;
+                        if (geb_pdf_map.hasOwnProperty(map_key_files)) {
+                          file_no_txt.style.display = "none";
+                          geb_pdf_map[map_key_files].forEach((pdf_html) => {
+                            filesList.innerHTML += pdf_html;
+                          });
+                        }else{
+                          file_no_txt.style.display = "block";
+                        }
+                        
                         var clickHandlerFDel = function() {
                           const confirmation = confirm(
                             "Bist du sicher, dass du den Ordner löschen willst? Er kann im Nachhinein nicht mehr wiederhergestellt werden."
@@ -1483,6 +1552,52 @@ onAuthStateChanged(auth, (user) => {
                       
                         
 
+                        // var clickHandlerDataUp = function() {
+                        //   getDoc(doc(facilityCollections, button.id))
+                        //     .then((docSnapshot) => {
+                        //       if (docSnapshot.exists()) {
+                        //         const dataG = docSnapshot.data();
+                        //         const folderPath =
+                        //           companyName +
+                        //           "/" +
+                        //           dataG.address +
+                        //           ", (" +
+                        //           dataG.zipcode +
+                        //           ")/PDFs/";
+                              
+                        
+                        //         const fileInput = document.createElement('input');
+                        //         fileInput.type = 'file';
+                        //         fileInput.onchange = function(event) {
+                        //           const file = event.target.files[0];
+                        //           const fileSize = file.size / (1024 * 1024); // Umrechnung in Megabyte
+                        //           const fileName = file.name;
+                        //           if (fileSize > 100) {
+                        //             alert("Die Datei ist zu groß. Es sind nur Dateien bis 100 MB zulässig.");
+                        //             return;
+                        //           }
+                        //           const storageRef = ref(storage, folderPath + fileName);
+                        
+                        //           // Datei hochladen
+                        //           uploadBytes(storageRef, file).then((snapshot) => {
+                        //             alert("Die Datei wurde erfolgreich hochgeladen.");
+                        //             window.location.reload();
+                        //           }).catch((error) => {
+                        //             console.error("Fehler beim Hochladen der Datei:", error);
+                        //           });
+                        //         };
+                        
+                        //         fileInput.click();
+                        //       } else {
+                        //         console.log("Das Dokument existiert nicht.");
+                        //       }
+                        //     })
+                        //     .catch((error) => {
+                        //       console.log("Fehler beim Abrufen des Dokuments:", error);
+                        //     });
+                        // };
+
+                        //only pdf or txt
                         var clickHandlerDataUp = function() {
                           getDoc(doc(facilityCollections, button.id))
                             .then((docSnapshot) => {
@@ -1495,14 +1610,22 @@ onAuthStateChanged(auth, (user) => {
                                   ", (" +
                                   dataG.zipcode +
                                   ")/PDFs/";
-                              
                         
                                 const fileInput = document.createElement('input');
                                 fileInput.type = 'file';
+                                fileInput.accept = '.pdf, .txt'; // Akzeptiere nur .pdf oder .txt Dateien
                                 fileInput.onchange = function(event) {
                                   const file = event.target.files[0];
-                                  const fileSize = file.size / (1024 * 1024); // Umrechnung in Megabyte
                                   const fileName = file.name;
+                                  const fileExtension = fileName.split('.').pop().toLowerCase();
+                                  
+                                  // Überprüfen Sie die Dateierweiterung
+                                  if (!(fileExtension === 'pdf' || fileExtension === 'txt')) {
+                                    alert("Es können nur Dateien im .pdf oder .txt Format hochgeladen werden.");
+                                    return;
+                                  }
+                        
+                                  const fileSize = file.size / (1024 * 1024); // Umrechnung in Megabyte
                                   if (fileSize > 100) {
                                     alert("Die Datei ist zu groß. Es sind nur Dateien bis 100 MB zulässig.");
                                     return;
@@ -1527,6 +1650,7 @@ onAuthStateChanged(auth, (user) => {
                               console.log("Fehler beim Abrufen des Dokuments:", error);
                             });
                         };
+                        
                         
 
                         
