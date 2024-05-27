@@ -967,8 +967,7 @@ onAuthStateChanged(auth, (user) => {
                         // const folderName = folderRef.fullPath.split('/').pop();
                         const folderPathSegments = folderRef.fullPath.split('/');
                         const folderName = folderPathSegments[folderPathSegments.length - 1];
-                        console.log(folderName);
-                       
+
                         const forbidden_folders=["Information", "Calendar","Evidence", "counterelectricity","countergas","counterwater"]
                         if (!forbidden_folders.includes(folderName)) {
 
@@ -1317,7 +1316,33 @@ onAuthStateChanged(auth, (user) => {
 
                         document.getElementById("folder_name_layover").innerHTML=originalFolderName;
 
+
+                        var clickHandlerFDel = function() {
+                          const confirmation = confirm(
+                            "Bist du sicher, dass du den Ordner löschen willst? Er kann im Nachhinein nicht mehr wiederhergestellt werden."
+                          );
+                        
+                          if (confirmation) {
+                            
+                            console.log("Löschen von:");
+                            console.log(map_key + "/" + originalFolderName);
+                          } else {
+                            alert("Das Löschen wurde abgebrochen.");
+                          }
+                        };
+                        
+                        
+                          var delf_bttn = document.getElementById("Button_Folder_Delete");
+                          delf_bttn.addEventListener("click", clickHandlerFDel);
+                        
+                          document.getElementById("folder_back").addEventListener("click", function () {
+                            delf_bttn.removeEventListener("click", clickHandlerFDel);
+                          });
+
                       })});
+
+
+             
 
                       //add images to building layover
                       const gebImagesDiv =
