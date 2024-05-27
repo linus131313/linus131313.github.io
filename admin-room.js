@@ -1109,7 +1109,7 @@ onAuthStateChanged(auth, (user) => {
                     getDownloadURL(imageRef)
                       .then((url) => {
                         const map_key =
-                          docz.data().address + docz.data().zipcode;
+                          docz.data().address+", (" + docz.data().zipcode+")";
                         if (geb_image_map_info.hasOwnProperty(map_key)) {
                           geb_image_map_info[map_key].push(url);
                         } else {
@@ -1325,6 +1325,9 @@ onAuthStateChanged(auth, (user) => {
                           if (confirmation) {
                             
                             console.log("Löschen von:");
+                            console.log(companyName);
+                      
+                            
                             console.log(map_key + "/" + originalFolderName);
                           } else {
                             alert("Das Löschen wurde abgebrochen.");
