@@ -1308,11 +1308,14 @@ onAuthStateChanged(auth, (user) => {
                       button.addEventListener("click", function () {
                         // Mache das Div mit der ID "geb_layover" sichtbar
                         var gebLayover = document.getElementById("folder_box");
+                        
                         var folderID = button.getAttribute("id");
+                        const originalFolderName = decodeURIComponent(id);
+
 
                         gebLayover.style.display = "flex";
 
-                        document.getElementById("folder_name_layover").innerHTML=folderID;
+                        document.getElementById("folder_name_layover").innerHTML=originalFolderName;
 
                       })});
 
