@@ -1349,6 +1349,8 @@ onAuthStateChanged(auth, (user) => {
                         no_txt.style.display = "block";
                       }
 
+                      const myID= button.id;
+
                       
                     //add event listeners to folders, here they are already rendered
 
@@ -1426,7 +1428,7 @@ onAuthStateChanged(auth, (user) => {
 
 
                           var clickHandlerDataUp = function() {
-                            getDoc(doc(facilityCollections, button.id))
+                            getDoc(doc(facilityCollections, myID))
                               .then((docSnapshot) => {
                                 if (docSnapshot.exists()) {
                                   const dataG = docSnapshot.data();
