@@ -967,6 +967,7 @@ onAuthStateChanged(auth, (user) => {
                         // const folderName = folderRef.fullPath.split('/').pop();
                         const folderPathSegments = folderRef.fullPath.split('/');
                         const folderName = folderPathSegments[folderPathSegments.length - 1];
+                        console.log(folderName);
                        
                         const forbidden_folders=["Information", "Calendar","Evidence", "counterelectricity","countergas","counterwater"]
                         if (!forbidden_folders.includes(folderName)) {
