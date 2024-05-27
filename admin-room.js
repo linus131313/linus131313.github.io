@@ -1109,7 +1109,7 @@ onAuthStateChanged(auth, (user) => {
                     getDownloadURL(imageRef)
                       .then((url) => {
                         const map_key =
-                          docz.data().address+", (" + docz.data().zipcode+")";
+                          docz.data().address + docz.data().zipcode;
                         if (geb_image_map_info.hasOwnProperty(map_key)) {
                           geb_image_map_info[map_key].push(url);
                         } else {
@@ -1279,7 +1279,7 @@ onAuthStateChanged(auth, (user) => {
                   .then((docSnapshot) => {
                     if (docSnapshot.exists()) {
                       var dataG = docSnapshot.data();
-                      const map_key = dataG.address+", (" + dataG.zipcode+")";
+                      const map_key = dataG.address + dataG.zipcode;
 
                       //pdfs
                       const pdfListDiv = document.getElementById("pdf_list");
@@ -1326,6 +1326,7 @@ onAuthStateChanged(auth, (user) => {
                             
                             console.log("Löschen von:");
                             console.log(companyName);
+                            console.log(dataG.address+", (" + dataG.zipcode+")");
                       
                             
                             console.log(map_key + "/" + originalFolderName);
