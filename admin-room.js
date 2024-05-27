@@ -966,11 +966,36 @@ onAuthStateChanged(auth, (user) => {
                         // Um nur den Namen des Ordners zu erhalten, extrahieren Sie ihn aus dem fullPath
                         const folderName = folderRef.fullPath.split('/').pop();
                         console.log(folderName);
+
+                        const innerHTMLFolders=`<div class="div-block-34-copy">
+                        <div class="div-block-35">
+                        <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/664f6f7f337551434c3c3751_Book_fill.png" loading="lazy" alt="">
+                        <div class="text-block-19-pdf">${folderName}</div></div>
+                        <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" loading="lazy" alt="" 
+                        class="image-12"></div>`
+
+
+                        const map_key =
+                        docz.data().address + docz.data().zipcode;
+                      if (geb_pdf_map.hasOwnProperty(map_key)) {
+                        geb_pdf_map[map_key].push(innerHtmlFolders);
+                      } else {
+                        geb_pdf_map[map_key] = [innerHtmlFolders];
+                      }
+
+
                       });
                     })
                     .catch((error) => {
                       console.error("Fehler beim Auflisten der Ordner:", error);
                     });
+
+
+                    //list all folders except Calendar, Evidence, Information, counterelectricity, countergas
+
+
+                   
+                  
 
 
               //images for gebäude layover
