@@ -2375,6 +2375,8 @@ document.getElementById("folder_back").addEventListener("click",function(){
   const popup = document.getElementById("folder_box");
   popup.style.display = "none";
 
+  document.getElementById("files_list").innerHTML="";
+
 });
 
 document.getElementById("geb_back").addEventListener("click", function () {
