@@ -1376,7 +1376,7 @@ onAuthStateChanged(auth, (user) => {
 
                         
                         
-                        const map_key_files=dataG.address + dataG.zipcode+folderName;
+                        const map_key_files=dataG.address + dataG.zipcode+originalFolderName;
                         if (geb_pdf_map.hasOwnProperty(map_key_files)) {
                           file_no_txt.style.display = "none";
                           geb_pdf_map[map_key_files].forEach((pdf_html) => {
@@ -1385,7 +1385,7 @@ onAuthStateChanged(auth, (user) => {
                         }else{
                           file_no_txt.style.display = "block";
                         }
-                        
+
                         var clickHandlerFDel = function() {
                           const confirmation = confirm(
                             "Bist du sicher, dass du den Ordner löschen willst? Er kann im Nachhinein nicht mehr wiederhergestellt werden."
