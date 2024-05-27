@@ -345,8 +345,8 @@ function handleWForm(e) {
         console.error("Fehler beim Registrieren:", error);
       });
 
-      alert(`Mitarbeiter erfolgreich hinzugefügt! Du wirst aus Sicherheitsgründen ausgeloggt und kannst dich gleich danach wieder einloggen.`);
-      window.location.href = "/login";
+      // alert(`Mitarbeiter erfolgreich hinzugefügt! Du wirst aus Sicherheitsgründen ausgeloggt und kannst dich gleich danach wieder einloggen.`);
+      // window.location.href = "/login";
     })
     .catch((error) => {
       // Fehler beim Erstellen des Benutzers
