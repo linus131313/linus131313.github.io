@@ -1307,7 +1307,7 @@ onAuthStateChanged(auth, (user) => {
 
                         gebLayover.style.display = "flex";
 
-                        document.getElementById("geb_name_layover").innerHTML=folderID;
+                        document.getElementById("folder_name_layover").innerHTML=folderID;
 
                       })});
 
