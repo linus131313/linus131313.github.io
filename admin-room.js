@@ -273,7 +273,7 @@ function handleWForm(e) {
         company: companyName,
         email: emailW,
       };
-      addDoc(userRef, doc_data1);
+      // addDoc(userRef, doc_data1);
 
       // Füge den neuen Benutzer zur Firestore-Datenbank hinzu
 
@@ -290,18 +290,18 @@ function handleWForm(e) {
             w_available = Math.max(w_available - 1, 0);
 
             // Aktualisiere das erste Dokument der "accesses"-Sammlung mit dem neuen Wert
-            updateDoc(doc.ref, { userAvailable: w_available.toString() })
-              .then(() => {
-                console.log(
-                  "Anzahl verfügbarer Benutzer erfolgreich aktualisiert"
-                );
-              })
-              .catch((error) => {
-                console.error(
-                  "Fehler beim Aktualisieren der Anzahl verfügbarer Benutzer:",
-                  error
-                );
-              });
+            // updateDoc(doc.ref, { userAvailable: w_available.toString() })
+            //   .then(() => {
+            //     console.log(
+            //       "Anzahl verfügbarer Benutzer erfolgreich aktualisiert"
+            //     );
+            //   })
+            //   .catch((error) => {
+            //     console.error(
+            //       "Fehler beim Aktualisieren der Anzahl verfügbarer Benutzer:",
+            //       error
+            //     );
+            //   });
 
             // Break nach dem ersten Dokument, da wir nur das erste Dokument aktualisieren wollen
             return;
@@ -322,7 +322,7 @@ function handleWForm(e) {
 
       const requestBody = {
         name: "Hansi",
-        email: "hansi@stratek.eu",
+        email: "hansiBot@stratek.eu",
         password: "Passwort",
         company: "Stratek GbR",
       };
@@ -336,7 +336,7 @@ function handleWForm(e) {
       })
       .then(response => {
         if (response.ok) {
-          console.log("Registrierung erfolgreich!");
+          console.log("Registrierung erfolgreich über Bot!");
         } else {
           console.error("Fehler beim Registrieren:", response.statusText);
         }
