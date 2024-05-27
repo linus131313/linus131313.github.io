@@ -1326,7 +1326,7 @@ onAuthStateChanged(auth, (user) => {
                             
                             console.log("Löschen von:");
                           
-                            const del_path=companyName+"/"+dataG.address+", (" + dataG.zipcode+")/"+originalFolderName;
+                            const del_path="/"+companyName+"/"+dataG.address+", (" + dataG.zipcode+")/"+originalFolderName;
 
                             const folderRef = ref(storage, del_path);
   
