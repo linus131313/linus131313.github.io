@@ -1724,7 +1724,11 @@ onAuthStateChanged(auth, (user) => {
                           // Event-Listener entfernen, wenn "geb_back" gedrückt wird
                           document.getElementById("geb_back").addEventListener("click", function () {
                             add_info.removeEventListener("click", handleClick);
+                            document.getElementById("info_div").innerHTML = "";
+
                           });
+
+
 
                         
 
