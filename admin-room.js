@@ -991,6 +991,10 @@ onAuthStateChanged(auth, (user) => {
                               result.items.forEach((pdfRef) => {
                                 
                                 const pdfName = pdfRef.name;
+                            
+      
+                                // Überprüfen, ob der Dateiname nicht mit ".placeholder" endet
+                                if (!pdfName.endsWith(".placeholder")) {
 
                                 getDownloadURL(pdfRef)
                                   .then((url) => {
@@ -1016,6 +1020,7 @@ onAuthStateChanged(auth, (user) => {
                                       error
                                     );
                                   });
+                                }
                               });
                             })
                             .catch((error) => {
@@ -1025,7 +1030,7 @@ onAuthStateChanged(auth, (user) => {
                               );
                             });
 
-
+//////7
                           const id = encodeURIComponent(folderName);
 
                           const innerHTMLFolders=`<div class="folder_button" id=${id}>
@@ -1034,7 +1039,7 @@ onAuthStateChanged(auth, (user) => {
                           <div class="text-block-19-pdf">${folderName}</div></div>
                           <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/63ef532ba90a073195f4a6b6_Arrow%20Right.svg" loading="lazy" 
                           alt="" class="image-12"></div>`;
-  
+  /////
   
                           const map_key =
                           docz.data().address + docz.data().zipcode;
@@ -1357,15 +1362,9 @@ onAuthStateChanged(auth, (user) => {
                       add_folder_bttn.addEventListener("click", function(){
                         var folderName = prompt("Geben Sie einen Namen für den neuen Ordner ein:");
                           if (folderName) {
-                            // Hier können Sie den eingegebenen Ordnername verwenden, z.B. um den Ordner in Firebase Storage zu erstellen
-                            console.log("Neuer Ordnername:", folderName);
-                            console.log("Ornder path= ");
-                            console.log(companyName,"/",dataG.address+", (" + dataG.zipcode+")/",folderName);
-
-
+                        
                             var folderPath = companyName + "/" + dataG.address + ", (" + dataG.zipcode + ")/" + folderName;
     
-                            // Referenz zum neuen Ordner erstellen
                             const folderRef = ref(storage, folderPath);
 
                             const emptyData = new Uint8Array(0); // Leere Daten
@@ -1374,17 +1373,8 @@ onAuthStateChanged(auth, (user) => {
                               const fileRef = ref(storage, folderPath + "/"+placeholderFileName); // Verweis auf eine leere Datei im neuen Ordner
                               uploadBytes(fileRef, emptyData)
                                 .then(() => {
-                                  console.log("Neuer Ordner erfolgreich erstellt:", folderPath);
-                                  const placeholderRef = ref(storage, folderPath + "/" + placeholderFileName);
-                                    deleteObject(placeholderRef)
-                                      .then(() => {
-                                        console.log("Platzhalterdatei erfolgreich gelöscht:", placeholderFileName);
-                                        // Hier können Sie weitere Aktionen nach dem Löschen der Platzhalterdatei hinzufügen
-                                      })
-                                      .catch((error) => {
-                                        console.error("Fehler beim Löschen der Platzhalterdatei:", error);
-                                        // Hier können Sie Fehlerbehandlung durchführen
-                                      });
+                                  //#####add folder html code here
+                                    
                                 })
                                 .catch((error) => {
                                   console.error("Fehler beim Erstellen des neuen Ordners:", error);
