@@ -26,7 +26,6 @@ import {
   deleteObject,
   listAll,
   getDownloadURL,
-
 } from "https://www.gstatic.com/firebasejs/9.4.1/firebase-storage.js";
 
 const firebaseConfig = {
@@ -332,14 +331,13 @@ function handleWForm(e) {
   //     alert(errorMessage);
   //   });
 
-
   const requestBody = {
     name: "Hansi",
     email: "hansiBot@stratek.eu",
     password: "Passwort",
     company: "Stratek GbR",
   };
-  
+
   fetch("https://haushelper-bot-4584298bee33.herokuapp.com/register_user", {
     method: "POST",
     headers: {
@@ -347,22 +345,17 @@ function handleWForm(e) {
     },
     body: JSON.stringify(requestBody),
   })
-  .then(response => {
-    if (response.ok) {
-      console.log("Registrierung erfolgreich über Bot!");
-    } else {
-      console.error("Fehler beim Registrieren:", response.statusText);
-    }
-  })
-  .catch(error => {
-    console.error("Fehler beim Registrieren:", error);
-  });
+    .then((response) => {
+      if (response.ok) {
+        console.log("Registrierung erfolgreich über Bot!");
+      } else {
+        console.error("Fehler beim Registrieren:", response.statusText);
+      }
+    })
+    .catch((error) => {
+      console.error("Fehler beim Registrieren:", error);
+    });
 }
-
-
-
-
-
 
 function handleGForm(e) {
   e.preventDefault();
@@ -479,11 +472,9 @@ function handleAForm(e) {
 }
 
 onAuthStateChanged(auth, (user) => {
-
   if (user) {
     const adminsRef = collection(db, "Admins");
     getDocs(adminsRef).then((querySnapshot) => {
-
       querySnapshot.forEach((docx) => {
         if (docx.data().email === user.email) {
           document.getElementById("user_name").innerHTML = docx.data().surname;
@@ -673,9 +664,12 @@ onAuthStateChanged(auth, (user) => {
                 </div><br>`;
 
                   if (taskDone > january1st2010) {
-                    document.getElementById("task_all_none_txt").style.display = "none";
+                    document.getElementById("task_all_none_txt").style.display =
+                      "none";
                     //delete no current task text
-                    document.getElementById("task_current_none_txt").style.display = "none";
+                    document.getElementById(
+                      "task_current_none_txt"
+                    ).style.display = "none";
                     taskListTab.innerHTML += htmlGreen;
                     if (
                       Math.abs(new Date() - taskIssued) <=
@@ -684,9 +678,9 @@ onAuthStateChanged(auth, (user) => {
                       taskListTabWeek.innerHTML += htmlGreen;
                     }
                   } else {
-                    document.getElementById("task_all_none_txt").style.display = "none";
+                    document.getElementById("task_all_none_txt").style.display =
+                      "none";
 
-                    
                     if ((new Date() - taskIssued) / (1000 * 60 * 60) > 1) {
                       //wenn aufgabe nach einer stunde immernoch nicht bearbeitet wurde
                       taskListTab.innerHTML += htmlRed;
@@ -712,10 +706,10 @@ onAuthStateChanged(auth, (user) => {
                     dateFromTimestamp.toDateString() === today.toDateString()
                   ) {
                     //task none text löschen
-                    
-                    document.getElementById("tasks_today_none_txt").style.display = "none";
 
-                    
+                    document.getElementById(
+                      "tasks_today_none_txt"
+                    ).style.display = "none";
 
                     if (taskDone > january1st2010) {
                       var task_done_html = `
@@ -907,8 +901,8 @@ onAuthStateChanged(auth, (user) => {
               facility_dropdown.innerHTML += dd_child;
 
               //delete no facility text
-              document.getElementById("geb_tab_none_txt").style.display = "none";
-
+              document.getElementById("geb_tab_none_txt").style.display =
+                "none";
 
               //gebaude options vor a form
               var opt3 = document.createElement("option");
@@ -947,58 +941,59 @@ onAuthStateChanged(auth, (user) => {
                 docz.data().zipcode +
                 ")/Calendar";
 
+              //base path für alle dateien
 
-                //base path für alle dateien
+              const basePath =
+                docx.data().company +
+                "/" +
+                docz.data().address +
+                ", (" +
+                docz.data().zipcode +
+                ")";
 
-                const basePath =
-                    docx.data().company +
-                    "/" +
-                    docz.data().address +
-                    ", (" +
-                    docz.data().zipcode +
-                    ")";
+              var baseRef = ref(storage, basePath);
 
-                  var baseRef = ref(storage, basePath);
+              listAll(baseRef)
+                .then((result) => {
+                  result.prefixes.forEach((folderRef) => {
+                    // Um nur den Namen des Ordners zu erhalten, extrahieren Sie ihn aus dem fullPath
+                    // const folderName = folderRef.fullPath.split('/').pop();
+                    const folderPathSegments = folderRef.fullPath.split("/");
+                    const folderName =
+                      folderPathSegments[folderPathSegments.length - 1];
 
-                  listAll(baseRef)
-                    .then((result) => {
-                     
-                      result.prefixes.forEach((folderRef) => {
-                        // Um nur den Namen des Ordners zu erhalten, extrahieren Sie ihn aus dem fullPath
-                        // const folderName = folderRef.fullPath.split('/').pop();
-                        const folderPathSegments = folderRef.fullPath.split('/');
-                        const folderName = folderPathSegments[folderPathSegments.length - 1];
+                    const forbidden_folders = [
+                      "Information",
+                      "Calendar",
+                      "Evidence",
+                      "counterelectricity",
+                      "countergas",
+                      "counterwater",
+                    ];
+                    if (!forbidden_folders.includes(folderName)) {
+                      //add map key values to list pdfs in folder
 
-                        const forbidden_folders=["Information", "Calendar","Evidence", "counterelectricity","countergas","counterwater"]
-                        if (!forbidden_folders.includes(folderName)) {
+                      const filePathFolder =
+                        docx.data().company +
+                        "/" +
+                        docz.data().address +
+                        ", (" +
+                        docz.data().zipcode +
+                        ")/" +
+                        folderName;
 
-                          //add map key values to list pdfs in folder
+                      var filesRef = ref(storage, filePathFolder);
 
-                          const filePathFolder =
-                            docx.data().company +
-                            "/" +
-                            docz.data().address +
-                            ", (" +
-                            docz.data().zipcode +
-                            ")/"+folderName;
+                      listAll(filesRef)
+                        .then((result) => {
+                          result.items.forEach((pdfRef) => {
+                            const pdfName = pdfRef.name;
 
-                          var filesRef = ref(storage, filePathFolder);
-                          
-
-
-                          listAll(filesRef)
-                            .then((result) => {
-                              result.items.forEach((pdfRef) => {
-                                
-                                const pdfName = pdfRef.name;
-                            
-      
-                                // Überprüfen, ob der Dateiname nicht mit ".placeholder" endet
-                                if (!pdfName.endsWith(".placeholder")) {
-
-                                getDownloadURL(pdfRef)
-                                  .then((url) => {
-                                    const innerHtmlPdf = `<a href="${url}" target="_blank" class="filename">
+                            // Überprüfen, ob der Dateiname nicht mit ".placeholder" endet
+                            if (!pdfName.endsWith(".placeholder")) {
+                              getDownloadURL(pdfRef)
+                                .then((url) => {
+                                  const innerHtmlPdf = `<a href="${url}" target="_blank" class="filename">
                                                         <div class="div-block-35">
                                                         <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/664f6e03f96e15b4d3554801_Order.png" 
                                                         loading="lazy" alt="">
@@ -1006,70 +1001,57 @@ onAuthStateChanged(auth, (user) => {
                                                         </div>
                                                         <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" loading="lazy" alt="" class="image-12">
                                                         </a>`;
-                                    const map_key =
-                                      docz.data().address + docz.data().zipcode+folderName;
-                                    if (geb_pdf_map.hasOwnProperty(map_key)) {
-                                      geb_pdf_map[map_key].push(innerHtmlPdf);
-                                    } else {
-                                      geb_pdf_map[map_key] = [innerHtmlPdf];
-                                    }
-                                  })
-                                  .catch((error) => {
-                                    console.error(
-                                      "Fehler beim Abrufen des Download-URLs:",
-                                      error
-                                    );
-                                  });
-                                }
-                              });
-                            })
-                            .catch((error) => {
-                              console.error(
-                                "Fehler beim Auflisten der PDF-Dateien:",
-                                error
-                              );
-                            });
+                                  const map_key =
+                                    docz.data().address +
+                                    docz.data().zipcode +
+                                    folderName;
+                                  if (geb_pdf_map.hasOwnProperty(map_key)) {
+                                    geb_pdf_map[map_key].push(innerHtmlPdf);
+                                  } else {
+                                    geb_pdf_map[map_key] = [innerHtmlPdf];
+                                  }
+                                })
+                                .catch((error) => {
+                                  console.error(
+                                    "Fehler beim Abrufen des Download-URLs:",
+                                    error
+                                  );
+                                });
+                            }
+                          });
+                        })
+                        .catch((error) => {
+                          console.error(
+                            "Fehler beim Auflisten der PDF-Dateien:",
+                            error
+                          );
+                        });
 
-//////7
-                          const id = encodeURIComponent(folderName);
+                      //////7
+                      const id = encodeURIComponent(folderName);
 
-                          const innerHTMLFolders=`<div class="folder_button" id=${id}>
+                      const innerHTMLFolders = `<div class="folder_button" id=${id}>
                           <div class="div-block-35">
                           <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/664f6f7f337551434c3c3751_Book_fill.png" loading="lazy" alt="">
                           <div class="text-block-19-pdf">${folderName}</div></div>
                           <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/63ef532ba90a073195f4a6b6_Arrow%20Right.svg" loading="lazy" 
                           alt="" class="image-12"></div>`;
-  /////
-  
-                          const map_key =
-                          docz.data().address + docz.data().zipcode;
-                        if (geb_pdf_map.hasOwnProperty(map_key)) {
-                          geb_pdf_map[map_key].push(innerHTMLFolders);
-                        } else {
-                          geb_pdf_map[map_key] = [innerHTMLFolders];
-                        }
+                      /////
 
-                        }
+                      const map_key = docz.data().address + docz.data().zipcode;
+                      if (geb_pdf_map.hasOwnProperty(map_key)) {
+                        geb_pdf_map[map_key].push(innerHTMLFolders);
+                      } else {
+                        geb_pdf_map[map_key] = [innerHTMLFolders];
+                      }
+                    }
+                  });
+                })
+                .catch((error) => {
+                  console.error("Fehler beim Auflisten der Ordner:", error);
+                });
 
-                      
-
-
-                      });
-                    })
-                    .catch((error) => {
-                      console.error("Fehler beim Auflisten der Ordner:", error);
-                    });
-
-
-                    //list all folders except Calendar, Evidence, Information, counterelectricity, countergas
-
-
-
-
-
-                   
-                  
-
+              //list all folders except Calendar, Evidence, Information, counterelectricity, countergas
 
               //images for gebäude layover
               const filePathImages =
@@ -1089,15 +1071,10 @@ onAuthStateChanged(auth, (user) => {
               //   ")/PDFs";
 
               // var pdfsRef = ref(storage, filePathPdf);
-              
-
 
               // listAll(pdfsRef)
               //   .then((result) => {
               //     result.items.forEach((pdfRef) => {
-                    
-                  
-
 
               //       const pdfName = pdfRef.name;
 
@@ -1302,7 +1279,6 @@ onAuthStateChanged(auth, (user) => {
                 });
               });
 
-              
               document.getElementById("abf_none_txt").style.display = "none";
 
               button.appendChild(userInput);
@@ -1343,477 +1319,561 @@ onAuthStateChanged(auth, (user) => {
 
                       //pdfs
                       const pdfListDiv = document.getElementById("pdf_list");
-                      const no_txt=document.getElementById("data_upload_none_txt");
-
+                      const no_txt = document.getElementById(
+                        "data_upload_none_txt"
+                      );
 
                       if (geb_pdf_map.hasOwnProperty(map_key)) {
                         no_txt.style.display = "none";
                         geb_pdf_map[map_key].forEach((pdf_html) => {
                           pdfListDiv.innerHTML += pdf_html;
                         });
-                      }else{
+                      } else {
                         no_txt.style.display = "block";
-
-
                       }
 
                       //change gas
-                      // const changeGasElement = document.getElementById("change_gas");
 
-                      // changeGasElement.addEventListener("click", function() {
-                      //   var newGas = prompt("Gib einen neuen Wert für den Gaszählerstand ein:");
-                      //   if (newGas !== null) {
-                      //     // Überprüfen, ob nur Zahlen eingegeben wurden
-                      //     if (/^\d+$/.test(newGas)) {
-                      //       document.getElementById("counter_gas").innerHTML = newGas;
-                      
-                      //       const updatedData = { ...dataG, countergas: newGas }; 
-                      //       updateDoc(doc(facilityCollections, button.id), updatedData)
-                      //         .then(() => {
-                      //           console.log("Dokument erfolgreich aktualisiert.");
-                      //         })
-                      //         .catch((error) => {
-                      //           console.error("Fehler beim Aktualisieren des Dokuments:", error);
-                      //         });
-                      //     } else {
-                      //       alert("Bitte gib nur Zahlen ein.");
-                      //     }
-                      //   } 
-                      // });
+                      const changeGasElement =
+                        document.getElementById("change_gas");
 
-                      const changeGasElement = document.getElementById("change_gas");
-
-                        // Die Funktion, die dem Event-Listener zugewiesen wurde
-                        function changeGasEventHandler() {
-                          var newGas = prompt("Gib einen neuen Wert für den Gaszählerstand ein:");
-                          if (newGas !== null) {
-                            // Überprüfen, ob nur Zahlen eingegeben wurden
-                            if (/^\d+$/.test(newGas)) {
-                              document.getElementById("counter_gas").innerHTML = newGas;
-
-                              const updatedData = { ...dataG, countergas: newGas }; 
-                              updateDoc(doc(facilityCollections, button.id), updatedData)
-                                .then(() => {
-                                  console.log("Dokument erfolgreich aktualisiert.");
-                                })
-                                .catch((error) => {
-                                  console.error("Fehler beim Aktualisieren des Dokuments:", error);
-                                });
-                            } else {
-                              alert("Bitte gib nur Zahlen ein.");
-                            }
-                            // Entfernen des Event-Listeners nach dem ersten Aufruf
-                            changeGasElement.removeEventListener("click", changeGasEventHandler);
-                          } 
-                        }
-
-                        // Event-Listener hinzufügen
-                        changeGasElement.addEventListener("click", changeGasEventHandler);
-
-                        // Event-Listener entfernen
-                        
-                        document.getElementById("geb_back").addEventListener("click", function() {
-                          // Entfernen des Event-Listeners
-                          changeGasElement.removeEventListener("click", changeGasEventHandler);
-                        });
-
-                      
-                      //change water    
-                      const changeWaterElement = document.getElementById("change_wasser");
-
-                        // Die Funktion, die dem Event-Listener zugewiesen wurde
-                        function changeWaterEventHandler() {
-                          var newWater = prompt("Gib einen neuen Wert für den Wasserzählerstand ein:");
-                          if (newWater !== null) {
-                            // Überprüfen, ob nur Zahlen eingegeben wurden
-                            if (/^\d+$/.test(newWater)) {
-                              document.getElementById("counter_wasser").innerHTML = newWater;
-                          
-                              const updatedData = { ...dataG, counterwater: newWater }; 
-                              updateDoc(doc(facilityCollections, button.id), updatedData)
-                                .then(() => {
-                                  console.log("Dokument erfolgreich aktualisiert.");
-                                })
-                                .catch((error) => {
-                                  console.error("Fehler beim Aktualisieren des Dokuments:", error);
-                                });
-                            } else {
-                              alert("Bitte gib nur Zahlen ein.");
-                            }
-                            // Entfernen des Event-Listeners nach dem ersten Aufruf
-                            changeWaterElement.removeEventListener("click", changeWaterEventHandler);
-                          } 
-                        }
-
-                        // Event-Listener hinzufügen
-                        changeWaterElement.addEventListener("click", changeWaterEventHandler);
-
-                        // Event-Listener entfernen
-         
-                        document.getElementById("geb_back").addEventListener("click", function() {
-                          // Entfernen des Event-Listeners
-                          changeWaterElement.removeEventListener("click", changeWaterEventHandler);
-                        });
-
-
-
-                      //change strom
-                      // const changeStromElement = document.getElementById("change_strom");
-
-                      // changeStromElement.addEventListener("click", function() {
-                      //   var newStrom = prompt("Gib einen neuen Wert für den Stromzählerstand ein:");
-                      //   if (newStrom !== null) {
-                      //     // Überprüfen, ob nur Zahlen eingegeben wurden
-                      //     if (/^\d+$/.test(newStrom)) {
-                      //       document.getElementById("counter_strom").innerHTML = newStrom;
-                      
-                      //       const updatedData = { ...dataG, counterelectricity: newStrom }; 
-                      //       updateDoc(doc(facilityCollections, button.id), updatedData)
-                      //         .then(() => {
-                      //           console.log("Dokument erfolgreich aktualisiert.");
-                      //         })
-                      //         .catch((error) => {
-                      //           console.error("Fehler beim Aktualisieren des Dokuments:", error);
-                      //         });
-                      //     } else {
-                      //       alert("Bitte gib nur Zahlen ein.");
-                      //     }
-                      //   } 
-                      // });
-
-                      const changeStromElement = document.getElementById("change_strom");
-
-                      function changeStromEventHandler() {
-                        var newStrom = prompt("Gib einen neuen Wert für den Stromzählerstand ein:");
-                        if (newStrom !== null) {
+                      // Die Funktion, die dem Event-Listener zugewiesen wurde
+                      function changeGasEventHandler() {
+                        var newGas = prompt(
+                          "Gib einen neuen Wert für den Gaszählerstand ein:"
+                        );
+                        if (newGas !== null) {
                           // Überprüfen, ob nur Zahlen eingegeben wurden
-                          if (/^\d+$/.test(newStrom)) {
-                            document.getElementById("counter_strom").innerHTML = newStrom;
+                          if (/^\d+$/.test(newGas)) {
+                            document.getElementById("counter_gas").innerHTML =
+                              newGas;
 
-                            const updatedData = { ...dataG, counterelectricity: newStrom }; 
-                            updateDoc(doc(facilityCollections, button.id), updatedData)
+                            const updatedData = {
+                              ...dataG,
+                              countergas: newGas,
+                            };
+                            updateDoc(
+                              doc(facilityCollections, button.id),
+                              updatedData
+                            )
                               .then(() => {
-                                console.log("Dokument erfolgreich aktualisiert.");
+                                console.log(
+                                  "Dokument erfolgreich aktualisiert."
+                                );
                               })
                               .catch((error) => {
-                                console.error("Fehler beim Aktualisieren des Dokuments:", error);
+                                console.error(
+                                  "Fehler beim Aktualisieren des Dokuments:",
+                                  error
+                                );
                               });
                           } else {
                             alert("Bitte gib nur Zahlen ein.");
                           }
                           // Entfernen des Event-Listeners nach dem ersten Aufruf
-                          changeStromElement.removeEventListener("click", changeStromEventHandler);
-                        } 
+                          changeGasElement.removeEventListener(
+                            "click",
+                            changeGasEventHandler
+                          );
+                        }
                       }
 
-                      changeStromElement.addEventListener("click", changeStromEventHandler);
+                      // Event-Listener hinzufügen
+                      changeGasElement.addEventListener(
+                        "click",
+                        changeGasEventHandler
+                      );
 
-                      document.getElementById("geb_back").addEventListener("click", function() {
-                        changeStromElement.removeEventListener("click", changeStromEventHandler);
-                      });
+                      // Event-Listener entfernen
 
-
-                      //change name
-                      // const changeNameElement = document.getElementById("change_name");
-
-                      //   changeNameElement.addEventListener("click", function() {
-                      //     var newName = prompt("Geben Sie einen neuen Namen ein:");
-                      //     if (newName) {
-                      //       // Hier können Sie den neuen Namen verwenden
-                      //       document.getElementById("kunde_name").innerHTML=newName;
-
-                      //       const updatedData = { ...dataG, owner: newName }; // Ersetzen Sie "neuer Besitzer" durch den neuen Besitzerwert
-                      //       // Update des Dokuments in der Firestore-Datenbank
-                      //       updateDoc(doc(facilityCollections, button.id), updatedData)
-                      //         .then(() => {
-                      //         })
-                      //         .catch((error) => {
-                      //           console.error("Fehler beim Aktualisieren des Dokuments:", error);
-                      //         });
-                            
-                      //     } 
-                      //   });
-
-
-                      const changeNameElement = document.getElementById("change_name");
-
-                        function changeNameEventHandler() {
-                          var newName = prompt("Gib einen neuen Namen ein:");
-                          if (newName !== null) {
-                            document.getElementById("kunde_name").innerHTML = newName;
-
-                            const updatedData = { ...dataG, owner: newName }; 
-                            updateDoc(doc(facilityCollections, button.id), updatedData)
-                              .then(() => {
-                                console.log("Dokument erfolgreich aktualisiert.");
-                              })
-                              .catch((error) => {
-                                console.error("Fehler beim Aktualisieren des Dokuments:", error);
-                              });
-                            // Entfernen des Event-Listeners nach dem ersten Aufruf
-                            changeNameElement.removeEventListener("click", changeNameEventHandler);
-                          } 
-                        }
-
-                        // Event-Listener hinzufügen
-                        changeNameElement.addEventListener("click", changeNameEventHandler);
-
-                        // Event-Listener entfernen
-                        document.getElementById("geb_back").addEventListener("click", function() {
+                      document
+                        .getElementById("geb_back")
+                        .addEventListener("click", function () {
                           // Entfernen des Event-Listeners
-                          changeNameElement.removeEventListener("click", changeNameEventHandler);
+                          changeGasElement.removeEventListener(
+                            "click",
+                            changeGasEventHandler
+                          );
                         });
 
+                      //change water
+                      const changeWaterElement =
+                        document.getElementById("change_wasser");
+
+                      // Die Funktion, die dem Event-Listener zugewiesen wurde
+                      function changeWaterEventHandler() {
+                        var newWater = prompt(
+                          "Gib einen neuen Wert für den Wasserzählerstand ein:"
+                        );
+                        if (newWater !== null) {
+                          // Überprüfen, ob nur Zahlen eingegeben wurden
+                          if (/^\d+$/.test(newWater)) {
+                            document.getElementById(
+                              "counter_wasser"
+                            ).innerHTML = newWater;
+
+                            const updatedData = {
+                              ...dataG,
+                              counterwater: newWater,
+                            };
+                            updateDoc(
+                              doc(facilityCollections, button.id),
+                              updatedData
+                            )
+                              .then(() => {
+                                console.log(
+                                  "Dokument erfolgreich aktualisiert."
+                                );
+                              })
+                              .catch((error) => {
+                                console.error(
+                                  "Fehler beim Aktualisieren des Dokuments:",
+                                  error
+                                );
+                              });
+                          } else {
+                            alert("Bitte gib nur Zahlen ein.");
+                          }
+                          // Entfernen des Event-Listeners nach dem ersten Aufruf
+                          changeWaterElement.removeEventListener(
+                            "click",
+                            changeWaterEventHandler
+                          );
+                        }
+                      }
+
+                      // Event-Listener hinzufügen
+                      changeWaterElement.addEventListener(
+                        "click",
+                        changeWaterEventHandler
+                      );
+
+                      // Event-Listener entfernen
+
+                      document
+                        .getElementById("geb_back")
+                        .addEventListener("click", function () {
+                          // Entfernen des Event-Listeners
+                          changeWaterElement.removeEventListener(
+                            "click",
+                            changeWaterEventHandler
+                          );
+                        });
+
+                      //change strom
+
+                      const changeStromElement =
+                        document.getElementById("change_strom");
+
+                      function changeStromEventHandler() {
+                        var newStrom = prompt(
+                          "Gib einen neuen Wert für den Stromzählerstand ein:"
+                        );
+                        if (newStrom !== null) {
+                          // Überprüfen, ob nur Zahlen eingegeben wurden
+                          if (/^\d+$/.test(newStrom)) {
+                            document.getElementById("counter_strom").innerHTML =
+                              newStrom;
+
+                            const updatedData = {
+                              ...dataG,
+                              counterelectricity: newStrom,
+                            };
+                            updateDoc(
+                              doc(facilityCollections, button.id),
+                              updatedData
+                            )
+                              .then(() => {
+                                console.log(
+                                  "Dokument erfolgreich aktualisiert."
+                                );
+                              })
+                              .catch((error) => {
+                                console.error(
+                                  "Fehler beim Aktualisieren des Dokuments:",
+                                  error
+                                );
+                              });
+                          } else {
+                            alert("Bitte gib nur Zahlen ein.");
+                          }
+                          // Entfernen des Event-Listeners nach dem ersten Aufruf
+                          changeStromElement.removeEventListener(
+                            "click",
+                            changeStromEventHandler
+                          );
+                        }
+                      }
+
+                      changeStromElement.addEventListener(
+                        "click",
+                        changeStromEventHandler
+                      );
+
+                      document
+                        .getElementById("geb_back")
+                        .addEventListener("click", function () {
+                          changeStromElement.removeEventListener(
+                            "click",
+                            changeStromEventHandler
+                          );
+                        });
+
+                      //change name
+
+                      const changeNameElement =
+                        document.getElementById("change_name");
+
+                      function changeNameEventHandler() {
+                        var newName = prompt("Gib einen neuen Namen ein:");
+                        if (newName !== null) {
+                          document.getElementById("kunde_name").innerHTML =
+                            newName;
+
+                          const updatedData = { ...dataG, owner: newName };
+                          updateDoc(
+                            doc(facilityCollections, button.id),
+                            updatedData
+                          )
+                            .then(() => {
+                              console.log("Dokument erfolgreich aktualisiert.");
+                            })
+                            .catch((error) => {
+                              console.error(
+                                "Fehler beim Aktualisieren des Dokuments:",
+                                error
+                              );
+                            });
+                          // Entfernen des Event-Listeners nach dem ersten Aufruf
+                          changeNameElement.removeEventListener(
+                            "click",
+                            changeNameEventHandler
+                          );
+                        }
+                      }
+
+                      // Event-Listener hinzufügen
+                      changeNameElement.addEventListener(
+                        "click",
+                        changeNameEventHandler
+                      );
+
+                      // Event-Listener entfernen
+                      document
+                        .getElementById("geb_back")
+                        .addEventListener("click", function () {
+                          // Entfernen des Event-Listeners
+                          changeNameElement.removeEventListener(
+                            "click",
+                            changeNameEventHandler
+                          );
+                        });
+
+                      //change tel
+
+                      const changeTelElement =
+                        document.getElementById("change_tel");
+
+                      // Die Funktion, die dem Event-Listener zugewiesen wurde
+                      function changeTelEventHandler() {
+                        var newTel = prompt(
+                          "Gib eine neue Telefonnummer für den Kunden ein:",
+                          ""
+                        );
+                        if (newTel !== null) {
+                          // Überprüfen, ob nur Zahlen eingegeben wurden
+                          if (/^\d+$/.test(newTel)) {
+                            // Setzen Sie den href direkt auf die Telefonnummer
+                            document.getElementById(
+                              "kunde_tel"
+                            ).innerHTML = `<a href="tel:${newTel}">${newTel}</a>`;
+
+                            const updatedData = { ...dataG, phone: newTel }; // Ersetzen Sie "neuer Besitzer" durch den neuen Besitzerwert
+                            // Update des Dokuments in der Firestore-Datenbank
+                            updateDoc(
+                              doc(facilityCollections, button.id),
+                              updatedData
+                            )
+                              .then(() => {
+                                console.log(
+                                  "Dokument erfolgreich aktualisiert."
+                                );
+                              })
+                              .catch((error) => {
+                                console.error(
+                                  "Fehler beim Aktualisieren des Dokuments:",
+                                  error
+                                );
+                              });
+                            // Entfernen des Event-Listeners nach dem ersten Aufruf
+                            changeTelElement.removeEventListener(
+                              "click",
+                              changeTelEventHandler
+                            );
+                          } else {
+                            alert(
+                              "Bitte gib nur Zahlen als Telefonnummer ein."
+                            );
+                          }
+                        }
+                      }
+
+                      // Event-Listener hinzufügen
+                      changeTelElement.addEventListener(
+                        "click",
+                        changeTelEventHandler
+                      );
+
+                      // Event-Listener entfernen
+                      document
+                        .getElementById("geb_back")
+                        .addEventListener("click", function () {
+                          // Entfernen des Event-Listeners
+                          changeTelElement.removeEventListener(
+                            "click",
+                            changeTelEventHandler
+                          );
+                        });
+
+                      //change mail
+
+                      const changeMailElement =
+                        document.getElementById("change_mail");
+
+                      function changeMailEventHandler() {
+                        var newMail = prompt(
+                          "Gib eine neue E-Mail-Adresse für den Kunden ein:",
+                          ""
+                        );
+                        if (newMail !== null) {
+                          if (/^\S+@\S+\.\S+$/.test(newMail)) {
+                            document.getElementById(
+                              "kunde_mail"
+                            ).innerHTML = `<a href="mailto:${newMail}">${newMail}</a>`;
+
+                            const updatedData = { ...dataG, mail: newMail };
+                            updateDoc(
+                              doc(facilityCollections, button.id),
+                              updatedData
+                            )
+                              .then(() => {
+                                console.log(
+                                  "Dokument erfolgreich aktualisiert."
+                                );
+                              })
+                              .catch((error) => {
+                                console.error(
+                                  "Fehler beim Aktualisieren des Dokuments:",
+                                  error
+                                );
+                              });
+                            changeMailElement.removeEventListener(
+                              "click",
+                              changeMailEventHandler
+                            );
+                          } else {
+                            alert("Gib bitte eine gültige E-Mail-Adresse ein.");
+                          }
+                        }
+                      }
+
+                      changeMailElement.addEventListener(
+                        "click",
+                        changeMailEventHandler
+                      );
+
+                      document
+                        .getElementById("geb_back")
+                        .addEventListener("click", function () {
+                          changeMailElement.removeEventListener(
+                            "click",
+                            changeMailEventHandler
+                          );
+                        });
+
+                      //add folder upload here
+                      // const add_folder_bttn =
+                      //   document.getElementById("add_folder");
+                      // add_folder_bttn.addEventListener("click", function () {
+                      //   var folderName = prompt(
+                      //     "Geben Sie einen Namen für den neuen Ordner ein:"
+                      //   );
+                      //   if (folderName) {
+                      //     var folderPath =
+                      //       companyName +
+                      //       "/" +
+                      //       dataG.address +
+                      //       ", (" +
+                      //       dataG.zipcode +
+                      //       ")/" +
+                      //       folderName;
+
+                      //     const map_key =
+                      //       dataG.address + dataG.zipcode + folderName;
+                      //     if (geb_pdf_map.hasOwnProperty(map_key)) {
+                      //       alert(
+                      //         "Ordnername existiert bereits! Wähle einen anderen Namen"
+                      //       );
+                      //     } else {
+                      //       const emptyData = new Uint8Array(0); // Leere Daten
+                      //       const placeholderFileName = ".placeholder";
+
+                      //       const fileRef = ref(
+                      //         storage,
+                      //         folderPath + "/" + placeholderFileName
+                      //       ); // Verweis auf eine leere Datei im neuen Ordner
+                      //       uploadBytes(fileRef, emptyData)
+                      //         .then(() => {
+                      //           alert(
+                      //             `Ordner ${folderName} wurde erfolgreich erstellt.`
+                      //           );
+
+                      //           window.location.href =
+                      //             "/adminroom?tab=gebaude-tab";
+                      //         })
+                      //         .catch((error) => {});
+                      //     }
+
+                      //     // const folderRef = ref(storage, folderPath);
+                      //   }
+                      // });
 
 
-                        //change tel
-                        // const changeTelElement = document.getElementById("change_tel");
+                      const add_folder_bttn = document.getElementById("add_folder");
 
-                        //   changeTelElement.addEventListener("click", function() {
-                        //     var newTel = prompt("Gib eine neue Telefonnummer für den Kunden ein:", "");
-                        //     if (newTel !== null) {
-                        //       // Überprüfen, ob nur Zahlen eingegeben wurden
-                        //       if (/^\d+$/.test(newTel)) {
-                        //         // Setzen Sie den href direkt auf die Telefonnummer
-                        //         document.getElementById("kunde_tel").innerHTML = `<a href="tel:${newTel}">${newTel}</a>`;
+                          function addFolderButtonClickHandler() {
+                            var folderName = prompt("Geben Sie einen Namen für den neuen Ordner ein:");
+                            if (folderName) {
+                              var folderPath =
+                                companyName +
+                                "/" +
+                                dataG.address +
+                                ", (" +
+                                dataG.zipcode +
+                                ")/" +
+                                folderName;
 
-                        //         const updatedData = { ...dataG, phone: newTel }; // Ersetzen Sie "neuer Besitzer" durch den neuen Besitzerwert
-                        //         // Update des Dokuments in der Firestore-Datenbank
-                        //         updateDoc(doc(facilityCollections, button.id), updatedData)
-                        //           .then(() => {
-                        //           })
-                        //           .catch((error) => {
-                        //             console.error("Fehler beim Aktualisieren des Dokuments:", error);
-                        //           });
-                        //       } else {
-                        //         alert("Bitte gib nur Zahlen als Telefonnummer ein.");
-                        //       }
-                        //     }
-                        //   });
-
-
-                        const changeTelElement = document.getElementById("change_tel");
-
-                          // Die Funktion, die dem Event-Listener zugewiesen wurde
-                          function changeTelEventHandler() {
-                            var newTel = prompt("Gib eine neue Telefonnummer für den Kunden ein:", "");
-                            if (newTel !== null) {
-                              // Überprüfen, ob nur Zahlen eingegeben wurden
-                              if (/^\d+$/.test(newTel)) {
-                                // Setzen Sie den href direkt auf die Telefonnummer
-                                document.getElementById("kunde_tel").innerHTML = `<a href="tel:${newTel}">${newTel}</a>`;
-
-                                const updatedData = { ...dataG, phone: newTel }; // Ersetzen Sie "neuer Besitzer" durch den neuen Besitzerwert
-                                // Update des Dokuments in der Firestore-Datenbank
-                                updateDoc(doc(facilityCollections, button.id), updatedData)
-                                  .then(() => {
-                                    console.log("Dokument erfolgreich aktualisiert.");
-                                  })
-                                  .catch((error) => {
-                                    console.error("Fehler beim Aktualisieren des Dokuments:", error);
-                                  });
-                                // Entfernen des Event-Listeners nach dem ersten Aufruf
-                                changeTelElement.removeEventListener("click", changeTelEventHandler);
+                              const map_key = dataG.address + dataG.zipcode + folderName;
+                              if (geb_pdf_map.hasOwnProperty(map_key)) {
+                                alert("Ordnername existiert bereits! Wähle einen anderen Namen");
                               } else {
-                                alert("Bitte gib nur Zahlen als Telefonnummer ein.");
+                                const emptyData = new Uint8Array(0); 
+                                const placeholderFileName = ".placeholder";
+
+                                const fileRef = ref(storage, folderPath + "/" + placeholderFileName); 
+                                uploadBytes(fileRef, emptyData)
+                                  .then(() => {
+                                    alert(`Ordner ${folderName} wurde erfolgreich erstellt.`);
+
+                                    window.location.href = "/adminroom?tab=gebaude-tab";
+                                  })
+                                  .catch((error) => {});
                               }
                             }
                           }
 
                           // Event-Listener hinzufügen
-                          changeTelElement.addEventListener("click", changeTelEventHandler);
+                          add_folder_bttn.addEventListener("click", addFolderButtonClickHandler);
 
                           // Event-Listener entfernen
-                          document.getElementById("geb_back").addEventListener("click", function() {
+                          const gebBackElement = document.getElementById("geb_back");
+                          gebBackElement.addEventListener("click", function () {
                             // Entfernen des Event-Listeners
-                            changeTelElement.removeEventListener("click", changeTelEventHandler);
-});
-
-
-
-
-//change mail
-                          // const changeMailElement = document.getElementById("change_mail");
-
-                          //     changeMailElement.addEventListener("click", function() {
-                          //       var newMail = prompt("Gib eine neue E-Mail-Adresse für den Kunden ein:", "");
-                          //       if (newMail !== null) {
-                          //         // Überprüfen, ob die E-Mail-Adresse gültig ist
-                          //         if (/^\S+@\S+\.\S+$/.test(newMail)) {
-                          //           // Setzen Sie den href direkt auf die E-Mail-Adresse
-                          //           document.getElementById("kunde_mail").innerHTML = `<a href="mailto:${newMail}">${newMail}</a>`;
-
-                          //           const updatedData = { ...dataG, mail: newMail }; // Aktualisieren Sie das Attribut "mail" in der Datenbank
-                          //           // Update des Dokuments in der Firestore-Datenbank
-                          //           updateDoc(doc(facilityCollections, button.id), updatedData)
-                          //             .then(() => {
-                          //             })
-                          //             .catch((error) => {
-                          //               console.error("Fehler beim Aktualisieren des Dokuments:", error);
-                          //             });
-                          //         } else {
-                          //           alert("Gib bitte eine gültige E-Mail-Adresse ein.");
-                          //         }
-                          //       }
-                          //     });
-
-                          const changeMailElement = document.getElementById("change_mail");
-
-                            function changeMailEventHandler() {
-                              var newMail = prompt("Gib eine neue E-Mail-Adresse für den Kunden ein:", "");
-                              if (newMail !== null) {
-                                // Überprüfen, ob die E-Mail-Adresse gültig ist
-                                if (/^\S+@\S+\.\S+$/.test(newMail)) {
-                                  // Setzen Sie den href direkt auf die E-Mail-Adresse
-                                  document.getElementById("kunde_mail").innerHTML = `<a href="mailto:${newMail}">${newMail}</a>`;
-
-                                  const updatedData = { ...dataG, mail: newMail }; // Aktualisieren Sie das Attribut "mail" in der Datenbank
-                                  // Update des Dokuments in der Firestore-Datenbank
-                                  updateDoc(doc(facilityCollections, button.id), updatedData)
-                                    .then(() => {
-                                      console.log("Dokument erfolgreich aktualisiert.");
-                                    })
-                                    .catch((error) => {
-                                      console.error("Fehler beim Aktualisieren des Dokuments:", error);
-                                    });
-                                  // Entfernen des Event-Listeners nach dem ersten Aufruf
-                                  changeMailElement.removeEventListener("click", changeMailEventHandler);
-                                } else {
-                                  alert("Gib bitte eine gültige E-Mail-Adresse ein.");
-                                }
-                              }
-                            }
-
-                            changeMailElement.addEventListener("click", changeMailEventHandler);
-
-                            // Event-Listener entfernen
-                            document.getElementById("geb_back").addEventListener("click", function() {
-                              // Entfernen des Event-Listeners
-                              changeMailElement.removeEventListener("click", changeMailEventHandler);
-                            });
-
-
-
-
-
-
-                      //add folder upload here
-                      const add_folder_bttn= document.getElementById("add_folder");
-                      add_folder_bttn.addEventListener("click", function(){
-                        var folderName = prompt("Geben Sie einen Namen für den neuen Ordner ein:");
-                          if (folderName) {
-                        
-                            var folderPath = companyName + "/" + dataG.address + ", (" + dataG.zipcode + ")/" + folderName;
-
-                            const map_key =
-                            dataG.address + dataG.zipcode+folderName;
-                                    if (geb_pdf_map.hasOwnProperty(map_key)) {
-                                      alert("Ordnername existiert bereits! Wähle einen anderen Namen")
-                                    } else {
-                                      const emptyData = new Uint8Array(0); // Leere Daten
-                                      const placeholderFileName = ".placeholder";
-          
-                                        const fileRef = ref(storage, folderPath + "/"+placeholderFileName); // Verweis auf eine leere Datei im neuen Ordner
-                                        uploadBytes(fileRef, emptyData)
-                                          .then(() => {
-                                            
-                                            alert(`Ordner ${folderName} wurde erfolgreich erstellt.`);
-          
-                                            
-                                            window.location.href = "/adminroom?tab=gebaude-tab";
-          
-          
-                                            
-                                              
-                                          })
-                                          .catch((error) => { });                                    }
-    
-                            // const folderRef = ref(storage, folderPath);
-
-                          
-                           
-                          } 
-
-                      });
-
-                      const myID= button.id;
-
-
-                      
-                    //add event listeners to folders, here they are already rendered
-
-                    var buttons_folderlayover = document.querySelectorAll(
-                      ".folder_button"
-                    );
-
-                    // Iteriere über alle gefundenen Buttons und füge den Eventlistener hinzu
-                    buttons_folderlayover.forEach(function (button) {
-                      button.addEventListener("click", function () {
-                      
-                        // Mache das Div mit der ID "geb_layover" sichtbar
-                        var gebLayover = document.getElementById("folder_box");
-                        
-                        var folderID = button.getAttribute("id");
-                        const originalFolderName = decodeURIComponent(folderID);
-
-
-                        gebLayover.style.display = "flex";
-
-                        document.getElementById("folder_name_layover").innerHTML=originalFolderName;
-
-                        const filesList= document.getElementById("files_list");
-                        const file_no_txt=document.getElementById("file_none_txt");
-
-                        
-                        
-                        const map_key_files=dataG.address + dataG.zipcode+originalFolderName;
-                        if (geb_pdf_map.hasOwnProperty(map_key_files)) {
-                          file_no_txt.style.display = "none";
-                          geb_pdf_map[map_key_files].forEach((pdf_html) => {
-                            filesList.innerHTML += pdf_html;
+                            add_folder_bttn.removeEventListener("click", addFolderButtonClickHandler);
                           });
-                        }else{
-                          file_no_txt.style.display = "block";
-                        }
 
-                        var clickHandlerFDel = function() {
-                          const confirmation = confirm(
-                            "Bist du sicher, dass du den Ordner löschen willst? Er kann im Nachhinein nicht mehr wiederhergestellt werden."
-                          );
-                        
-                          if (confirmation) {
-                            
-                          
-                            const del_path="/"+companyName+"/"+dataG.address+", (" + dataG.zipcode+")/"+originalFolderName+"/";
 
-                            const folderRef = ref(storage, del_path);
-  
+                      const myID = button.id;
+
+                      //add event listeners to folders, here they are already rendered
+
+                      var buttons_folderlayover =
+                        document.querySelectorAll(".folder_button");
+
+                      // Iteriere über alle gefundenen Buttons und füge den Eventlistener hinzu
+                      buttons_folderlayover.forEach(function (button) {
+                        button.addEventListener("click", function () {
+                          // Mache das Div mit der ID "geb_layover" sichtbar
+                          var gebLayover =
+                            document.getElementById("folder_box");
+
+                          var folderID = button.getAttribute("id");
+                          const originalFolderName =
+                            decodeURIComponent(folderID);
+
+                          gebLayover.style.display = "flex";
+
+                          document.getElementById(
+                            "folder_name_layover"
+                          ).innerHTML = originalFolderName;
+
+                          const filesList =
+                            document.getElementById("files_list");
+                          const file_no_txt =
+                            document.getElementById("file_none_txt");
+
+                          const map_key_files =
+                            dataG.address + dataG.zipcode + originalFolderName;
+                          if (geb_pdf_map.hasOwnProperty(map_key_files)) {
+                            file_no_txt.style.display = "none";
+                            geb_pdf_map[map_key_files].forEach((pdf_html) => {
+                              filesList.innerHTML += pdf_html;
+                            });
+                          } else {
+                            file_no_txt.style.display = "block";
+                          }
+
+                          var clickHandlerFDel = function () {
+                            const confirmation = confirm(
+                              "Bist du sicher, dass du den Ordner löschen willst? Er kann im Nachhinein nicht mehr wiederhergestellt werden."
+                            );
+
+                            if (confirmation) {
+                              const del_path =
+                                "/" +
+                                companyName +
+                                "/" +
+                                dataG.address +
+                                ", (" +
+                                dataG.zipcode +
+                                ")/" +
+                                originalFolderName +
+                                "/";
+
+                              const folderRef = ref(storage, del_path);
+
                               // Löschen des Ordners
                               deleteObject(folderRef)
                                 .then(() => {
                                   // Fügen Sie hier ggf. weitere Aktionen nach dem Löschen hinzu
                                 })
                                 .catch((error) => {
-                                  console.error("Fehler beim Löschen des Ordners:", error);
+                                  console.error(
+                                    "Fehler beim Löschen des Ordners:",
+                                    error
+                                  );
                                   // Hier können Sie Fehlerbehandlung durchführen, z.B. dem Benutzer eine Fehlermeldung anzeigen
                                 });
+                            } else {
+                              alert("Das Löschen wurde abgebrochen.");
+                            }
+                          };
 
-                      
-                          } else {
-                            alert("Das Löschen wurde abgebrochen.");
-                          }
-                        };
-                        
-                        
-                          var delf_bttn = document.getElementById("Button_Folder_Delete");
+                          var delf_bttn = document.getElementById(
+                            "Button_Folder_Delete"
+                          );
                           delf_bttn.addEventListener("click", clickHandlerFDel);
-                        
-                          document.getElementById("folder_back").addEventListener("click", function () {
-                            delf_bttn.removeEventListener("click", clickHandlerFDel);
-                          });
 
+                          document
+                            .getElementById("folder_back")
+                            .addEventListener("click", function () {
+                              delf_bttn.removeEventListener(
+                                "click",
+                                clickHandlerFDel
+                              );
+                            });
 
-                          var clickHandlerDataUp = function() {
+                          var clickHandlerDataUp = function () {
                             getDoc(doc(facilityCollections, myID))
                               .then((docSnapshot) => {
                                 if (docSnapshot.exists()) {
@@ -1824,70 +1884,100 @@ onAuthStateChanged(auth, (user) => {
                                     dataG.address +
                                     ", (" +
                                     dataG.zipcode +
-                                    ")/"+originalFolderName+"/";
-                          
-                                  const fileInput = document.createElement('input');
-                                  fileInput.type = 'file';
-                                  fileInput.accept = '.pdf, .txt'; // Akzeptiere nur .pdf oder .txt Dateien
-                                  fileInput.onchange = function(event) {
+                                    ")/" +
+                                    originalFolderName +
+                                    "/";
+
+                                  const fileInput =
+                                    document.createElement("input");
+                                  fileInput.type = "file";
+                                  fileInput.accept = ".pdf, .txt"; // Akzeptiere nur .pdf oder .txt Dateien
+                                  fileInput.onchange = function (event) {
                                     const file = event.target.files[0];
                                     const fileName = file.name;
-                                    const fileExtension = fileName.split('.').pop().toLowerCase();
-                                    
+                                    const fileExtension = fileName
+                                      .split(".")
+                                      .pop()
+                                      .toLowerCase();
+
                                     // Überprüfen Sie die Dateierweiterung
-                                    if (!(fileExtension === 'pdf' || fileExtension === 'txt')) {
-                                      alert("Es können nur Dateien im .pdf oder .txt Format hochgeladen werden.");
+                                    if (
+                                      !(
+                                        fileExtension === "pdf" ||
+                                        fileExtension === "txt"
+                                      )
+                                    ) {
+                                      alert(
+                                        "Es können nur Dateien im .pdf oder .txt Format hochgeladen werden."
+                                      );
                                       return;
                                     }
-                          
+
                                     const fileSize = file.size / (1024 * 1024); // Umrechnung in Megabyte
                                     if (fileSize > 100) {
-                                      alert("Die Datei ist zu groß. Es sind nur Dateien bis 100 MB zulässig.");
+                                      alert(
+                                        "Die Datei ist zu groß. Es sind nur Dateien bis 100 MB zulässig."
+                                      );
                                       return;
                                     }
-                                    const storageRef = ref(storage, folderPath + fileName);
-                          
+                                    const storageRef = ref(
+                                      storage,
+                                      folderPath + fileName
+                                    );
+
                                     // Datei hochladen
-                                    uploadBytes(storageRef, file).then((snapshot) => {
-                                      alert("Die Datei wurde erfolgreich hochgeladen.");
-                                      window.location.href = "/adminroom?tab=gebaude-tab";
-                                    }).catch((error) => {
-                                      console.error("Fehler beim Hochladen der Datei:", error);
-                                    });
+                                    uploadBytes(storageRef, file)
+                                      .then((snapshot) => {
+                                        alert(
+                                          "Die Datei wurde erfolgreich hochgeladen."
+                                        );
+                                        window.location.href =
+                                          "/adminroom?tab=gebaude-tab";
+                                      })
+                                      .catch((error) => {
+                                        console.error(
+                                          "Fehler beim Hochladen der Datei:",
+                                          error
+                                        );
+                                      });
                                   };
-                          
+
                                   fileInput.click();
                                 } else {
                                   console.log("Das Dokument existiert nicht.");
                                 }
                               })
                               .catch((error) => {
-                                console.log("Fehler beim Abrufen des Dokuments:", error);
+                                console.log(
+                                  "Fehler beim Abrufen des Dokuments:",
+                                  error
+                                );
                               });
                           };
-                          
-                          
-  
-                          
-  
-  
-                          var data_up_bttn = document.getElementById("file_upload_bttn");
-                          data_up_bttn.addEventListener("click", clickHandlerDataUp);
-                        
-                          document.getElementById("folder_back").addEventListener("click", function () {
-                            data_up_bttn.removeEventListener("click", clickHandlerDataUp);
-                          });
 
-                      })});
+                          var data_up_bttn =
+                            document.getElementById("file_upload_bttn");
+                          data_up_bttn.addEventListener(
+                            "click",
+                            clickHandlerDataUp
+                          );
 
-
-             
+                          document
+                            .getElementById("folder_back")
+                            .addEventListener("click", function () {
+                              data_up_bttn.removeEventListener(
+                                "click",
+                                clickHandlerDataUp
+                              );
+                            });
+                        });
+                      });
 
                       //add images to building layover
                       const gebImagesDiv =
                         document.getElementById("geb_images");
-                      const no_image_txt=document.getElementById("images_none_txt");
-
+                      const no_image_txt =
+                        document.getElementById("images_none_txt");
 
                       if (geb_image_map.hasOwnProperty(map_key)) {
                         no_image_txt.style.display = "none";
@@ -1912,16 +2002,16 @@ onAuthStateChanged(auth, (user) => {
                           // Hinzufügen des <a>-Elements zum gebImagesDiv
                           gebImagesDiv.appendChild(imageLink);
                         });
-                      }else{
+                      } else {
                         no_image_txt.style.display = "block";
-
                       }
 
                       const gebImagesInfoDiv =
                         document.getElementById("geb_images_info");
 
-                        const no_info_image_txt=document.getElementById("images_info_none_txt");
-
+                      const no_info_image_txt = document.getElementById(
+                        "images_info_none_txt"
+                      );
 
                       if (geb_image_map_info.hasOwnProperty(map_key)) {
                         no_info_image_txt.style.display = "none";
@@ -1945,9 +2035,8 @@ onAuthStateChanged(auth, (user) => {
                           // Hinzufügen des <a>-Elements zum gebImagesDiv
                           gebImagesInfoDiv.appendChild(imageLink);
                         });
-                      }else{
+                      } else {
                         no_info_image_txt.style.display = "block";
-
                       }
 
                       document.getElementById("geb_name_layover").innerHTML =
@@ -1966,16 +2055,14 @@ onAuthStateChanged(auth, (user) => {
                       var telefon = dataG.phone;
                       var email = dataG["mail"];
 
-                     
-                      
-                      var clickHandler = function() {
+                      var clickHandler = function () {
                         const confirmation = confirm(
                           "Bist du sicher, dass du das Gebäude löschen willst? Es kann im Nachhinein nicht mehr wiederhergestellt werden."
                         );
-                      
+
                         if (confirmation) {
                           const docRef = doc(facilityCollections, button.id);
-                      
+
                           deleteDoc(docRef)
                             .then(() => {
                               alert("Das Gebäude wurde erfolgreich gelöscht.");
@@ -1991,102 +2078,18 @@ onAuthStateChanged(auth, (user) => {
                           alert("Das Löschen wurde abgebrochen.");
                         }
                       };
-                      
-                      
-                        var del_bttn = document.getElementById("Button_Geb_Delete");
-                        del_bttn.addEventListener("click", clickHandler);
-                      
-                        document.getElementById("geb_back").addEventListener("click", function () {
+
+                      var del_bttn =
+                        document.getElementById("Button_Geb_Delete");
+                      del_bttn.addEventListener("click", clickHandler);
+
+                      document
+                        .getElementById("geb_back")
+                        .addEventListener("click", function () {
                           del_bttn.removeEventListener("click", clickHandler);
                         });
 
-
                      
-
-                      
-                        
-
-                        // var clickHandlerDataUp = function() {
-                        //   getDoc(doc(facilityCollections, button.id))
-                        //     .then((docSnapshot) => {
-                        //       if (docSnapshot.exists()) {
-                        //         const dataG = docSnapshot.data();
-                        //         const folderPath =
-                        //           companyName +
-                        //           "/" +
-                        //           dataG.address +
-                        //           ", (" +
-                        //           dataG.zipcode +
-                        //           ")/PDFs/";
-                              
-                        
-                        //         const fileInput = document.createElement('input');
-                        //         fileInput.type = 'file';
-                        //         fileInput.onchange = function(event) {
-                        //           const file = event.target.files[0];
-                        //           const fileSize = file.size / (1024 * 1024); // Umrechnung in Megabyte
-                        //           const fileName = file.name;
-                        //           if (fileSize > 100) {
-                        //             alert("Die Datei ist zu groß. Es sind nur Dateien bis 100 MB zulässig.");
-                        //             return;
-                        //           }
-                        //           const storageRef = ref(storage, folderPath + fileName);
-                        
-                        //           // Datei hochladen
-                        //           uploadBytes(storageRef, file).then((snapshot) => {
-                        //             alert("Die Datei wurde erfolgreich hochgeladen.");
-                        //             window.location.reload();
-                        //           }).catch((error) => {
-                        //             console.error("Fehler beim Hochladen der Datei:", error);
-                        //           });
-                        //         };
-                        
-                        //         fileInput.click();
-                        //       } else {
-                        //         console.log("Das Dokument existiert nicht.");
-                        //       }
-                        //     })
-                        //     .catch((error) => {
-                        //       console.log("Fehler beim Abrufen des Dokuments:", error);
-                        //     });
-                        // };
-
-                        //only pdf or txt
-                        // var clickHandlerFolder = function() {
-                        //   getDoc(doc(facilityCollections, button.id))
-                        //     .then((docSnapshot) => {
-                        //       if (docSnapshot.exists()) {
-                        //         const dataG = docSnapshot.data();
-                        //         const folderPath =
-                        //           companyName +
-                        //           "/" +
-                        //           dataG.address +
-                        //           ", (" +
-                        //           dataG.zipcode +
-                        //           ")/";
-
-                        
-                               
-                        //       }
-                        //     })
-                        //     .catch((error) => {
-                        //       console.log("Fehler beim Abrufen des Dokuments:", error);
-                        //     });
-                        // };
-                        
-                        
-
-                        
-
-
-                        // var data_up_bttn = document.getElementById("data_upload_bttn");
-                        // data_up_bttn.addEventListener("click", clickHandlerDataUp);
-                      
-                        // document.getElementById("geb_back").addEventListener("click", function () {
-                        //   data_up_bttn.removeEventListener("click", clickHandlerDataUp);
-                        // });
-                     
-
                       document.getElementById("kunde_tel").innerHTML =
                         "<a href='tel:" + telefon + "'>" + telefon + "</a>";
 
@@ -2104,7 +2107,6 @@ onAuthStateChanged(auth, (user) => {
             });
           });
 
-          
           const companyCollections = collection(companyDoc, "Accesses");
           getDocs(companyCollections).then((querySnapshot) => {
             querySnapshot.forEach((docy) => {
@@ -2167,18 +2169,11 @@ onAuthStateChanged(auth, (user) => {
             );
 
             querySnapshot.forEach((docw) => {
-
               //detete no workers text
-              document.getElementById("mitarbeiter_none_txt").style.display = "none";
-              document.getElementById("workers_tab_none_txt").style.display = "none";
-
-
-              
-
-
-
-              
-              
+              document.getElementById("mitarbeiter_none_txt").style.display =
+                "none";
+              document.getElementById("workers_tab_none_txt").style.display =
+                "none";
 
               var dd_m_child = getWorkerChild(docw);
               mitarbeiterList_main.innerHTML += dd_m_child;
@@ -2422,7 +2417,7 @@ onAuthStateChanged(auth, (user) => {
                           worked_hours[docw.data().email]["today"] =
                             formattedTimeT;
                         }
-                      } 
+                      }
                       //date yesterday
                       if (yesterdayDateString === timestampDoc.id) {
                         const workStart = timestampDoc.data().Start;
@@ -2538,25 +2533,23 @@ onAuthStateChanged(auth, (user) => {
                       var emailW = dataW.email;
                       var nameW = dataW.name;
 
-
-                 
-                      var clickHandlerW = function() {
+                      var clickHandlerW = function () {
                         const confirmation = confirm(
                           "Bist du sicher, dass du den Mitarbeiter löschen willst? Er/Sie kann im Nachhinein nicht mehr wiederhergestellt werden."
                         );
-                      
+
                         if (confirmation) {
                           const docRef = doc(workerCollections, button.id);
-                      
+
                           deleteDoc(docRef)
                             .then(() => {
                               const userCollection = collection(db, "Users");
-                      
+
                               const q = query(
                                 userCollection,
                                 where("email", "==", emailW)
                               );
-                      
+
                               getDocs(q)
                                 .then((querySnapshot) => {
                                   // Es wird erwartet, dass nur ein Dokument gefunden wird
@@ -2588,7 +2581,7 @@ onAuthStateChanged(auth, (user) => {
                                     error
                                   );
                                 });
-                      
+
                               const companiesDocRef = doc(
                                 collection(db, "Companies"),
                                 companyName
@@ -2602,10 +2595,10 @@ onAuthStateChanged(auth, (user) => {
                                   let w_available = parseInt(
                                     doc.data().userAvailable
                                   );
-                      
+
                                   if (!isNaN(w_available)) {
                                     w_available = w_available + 1;
-                      
+
                                     updateDoc(doc.ref, {
                                       userAvailable: w_available.toString(),
                                     })
@@ -2619,7 +2612,7 @@ onAuthStateChanged(auth, (user) => {
                                   }
                                 });
                               });
-                      
+
                               alert(
                                 "Der/Die Mitarbeiter/in wurde erfolgreich gelöscht. Der Zugang wurde gesperrt."
                               );
@@ -2635,14 +2628,18 @@ onAuthStateChanged(auth, (user) => {
                           alert("Das Löschen wurde abgebrochen.");
                         }
                       };
-                      
+
                       var del_bttn_W = document.getElementById("W_delete");
                       del_bttn_W.addEventListener("click", clickHandlerW);
-                      
-                      document.getElementById("worker_back").addEventListener("click", function () {
-                        del_bttn_W.removeEventListener("click", clickHandlerW);
-                      });
-                      
+
+                      document
+                        .getElementById("worker_back")
+                        .addEventListener("click", function () {
+                          del_bttn_W.removeEventListener(
+                            "click",
+                            clickHandlerW
+                          );
+                        });
 
                       const workerHours = worked_hours[emailW] || {};
 
@@ -2680,12 +2677,10 @@ onAuthStateChanged(auth, (user) => {
           });
         }
       });
-     
     });
   } else {
     window.location.href = "/login";
   }
-
 });
 
 document.getElementById("calendar-tab").addEventListener("click", function () {
@@ -2793,19 +2788,14 @@ document.getElementById("close_popup").addEventListener("click", function () {
   popup.style.display = "none";
 });
 
-
-document.getElementById("folder_back").addEventListener("click",function(){
+document.getElementById("folder_back").addEventListener("click", function () {
   const popup = document.getElementById("folder_box");
   popup.style.display = "none";
 
-  document.getElementById("files_list").innerHTML="";
-
+  document.getElementById("files_list").innerHTML = "";
 });
 
 document.getElementById("geb_back").addEventListener("click", function () {
-
-
-
   document.getElementById("geb_images_info").innerHTML = "";
   document.getElementById("geb_images").innerHTML = "";
 
@@ -2921,7 +2911,7 @@ document
           "worker_arbeitszeit",
           "worker_stundenzettel",
         ]);
-      }, 200); 
+      }, 200);
     }
   });
 
@@ -2944,7 +2934,7 @@ document.getElementById("bilder_expand").addEventListener("click", function () {
         "datei_widget",
       ]);
       document.getElementById("image_box_expand").style.height = "300px";
-    }, 200); 
+    }, 200);
   }
 });
 
@@ -2979,12 +2969,8 @@ function collapse_widget(expand_id, collapse_ids) {
       if (collapseElement) {
         setTimeout(function () {
           collapseElement.style.display = "block";
-        }, 500); 
+        }, 500);
       }
     });
   }
 }
-
-
-
-
