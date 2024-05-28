@@ -999,7 +999,7 @@ onAuthStateChanged(auth, (user) => {
                                                         loading="lazy" alt="">
                                                         <div class="text-block-19-pdf">${pdfName}</div>
                                                         </div>
-                                                        <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" loading="lazy" alt="" class="image-12">
+                                                        <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" loading="lazy" alt="" class="image-12 trash-icon-files">
                                                         </a>`;
                                   const map_key =
                                     docz.data().address +
@@ -1692,53 +1692,7 @@ onAuthStateChanged(auth, (user) => {
                         });
 
                       //add folder upload here
-                      // const add_folder_bttn =
-                      //   document.getElementById("add_folder");
-                      // add_folder_bttn.addEventListener("click", function () {
-                      //   var folderName = prompt(
-                      //     "Geben Sie einen Namen für den neuen Ordner ein:"
-                      //   );
-                      //   if (folderName) {
-                      //     var folderPath =
-                      //       companyName +
-                      //       "/" +
-                      //       dataG.address +
-                      //       ", (" +
-                      //       dataG.zipcode +
-                      //       ")/" +
-                      //       folderName;
-
-                      //     const map_key =
-                      //       dataG.address + dataG.zipcode + folderName;
-                      //     if (geb_pdf_map.hasOwnProperty(map_key)) {
-                      //       alert(
-                      //         "Ordnername existiert bereits! Wähle einen anderen Namen"
-                      //       );
-                      //     } else {
-                      //       const emptyData = new Uint8Array(0); // Leere Daten
-                      //       const placeholderFileName = ".placeholder";
-
-                      //       const fileRef = ref(
-                      //         storage,
-                      //         folderPath + "/" + placeholderFileName
-                      //       ); // Verweis auf eine leere Datei im neuen Ordner
-                      //       uploadBytes(fileRef, emptyData)
-                      //         .then(() => {
-                      //           alert(
-                      //             `Ordner ${folderName} wurde erfolgreich erstellt.`
-                      //           );
-
-                      //           window.location.href =
-                      //             "/adminroom?tab=gebaude-tab";
-                      //         })
-                      //         .catch((error) => {});
-                      //     }
-
-                      //     // const folderRef = ref(storage, folderPath);
-                      //   }
-                      // });
-
-
+                     
                       const add_folder_bttn = document.getElementById("add_folder");
 
                           function addFolderButtonClickHandler() {
@@ -1822,6 +1776,38 @@ onAuthStateChanged(auth, (user) => {
                           } else {
                             file_no_txt.style.display = "block";
                           }
+
+                          //event listener on trash icon buttons
+
+                          // Funktion zum Erstellen des Event-Listeners für das Löschen von Dateien über die Trash-Icons
+                              function trashIconEventHandler(icon) {
+                                return function() {
+                                  const parentAnchor = icon.closest('a');
+                                  const filenameElement = parentAnchor.querySelector('.text-block-19-pdf');
+                                  if (filenameElement) {
+                                    const filename = filenameElement.innerText;
+                                    console.log(filename,dataG.address + dataG.zipcode + originalFolderName);
+                                    // deleteFile(filename); // Funktion zum Löschen der Datei in Firestore aufrufen
+                                  }
+                                };
+                              }
+
+                              // Hinzufügen des Event-Listeners für jede Trash-Icon
+                              const trashIcons = document.querySelectorAll('.trash-icon-files');
+                              trashIcons.forEach(icon => {
+                                const trashIconEventHandler = trashIconEventHandler(icon);
+                                icon.addEventListener('click', trashIconEventHandler);
+                              });
+
+                              // Event-Handler für das Drücken des "folder_back"-Buttons
+                              document.getElementById("folder_back").addEventListener("click", function () {
+                                // Entfernen aller Event-Listener für die Trash-Icons
+                                trashIcons.forEach(icon => {
+                                  const trashIconEventHandler = trashIconEventHandler(icon);
+                                  icon.removeEventListener('click', trashIconEventHandler);
+                                });
+                              });
+
 
                           var clickHandlerFDel = function () {
                             const confirmation = confirm(
