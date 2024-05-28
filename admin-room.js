@@ -1381,6 +1381,54 @@ onAuthStateChanged(auth, (user) => {
                         } 
                       });
                       
+                      //change water
+                      const changeWaterElement = document.getElementById("change_wasser");
+
+                      changeWaterElement.addEventListener("click", function() {
+                        var newWater = prompt("Gib einen neuen Wert für den Wasserzählerstand ein:");
+                        if (newWater !== null) {
+                          // Überprüfen, ob nur Zahlen eingegeben wurden
+                          if (/^\d+$/.test(newWater)) {
+                            document.getElementById("counter_wasser").innerHTML = newWater;
+                      
+                            const updatedData = { ...dataG, counterwater: newWater }; 
+                            updateDoc(doc(facilityCollections, button.id), updatedData)
+                              .then(() => {
+                                console.log("Dokument erfolgreich aktualisiert.");
+                              })
+                              .catch((error) => {
+                                console.error("Fehler beim Aktualisieren des Dokuments:", error);
+                              });
+                          } else {
+                            alert("Bitte gib nur Zahlen ein.");
+                          }
+                        } 
+                      });
+
+
+                      //change strom
+                      const changeStromElement = document.getElementById("change_strom");
+
+                      changeStromElement.addEventListener("click", function() {
+                        var newStrom = prompt("Gib einen neuen Wert für den Stromzählerstand ein:");
+                        if (newStrom !== null) {
+                          // Überprüfen, ob nur Zahlen eingegeben wurden
+                          if (/^\d+$/.test(newStrom)) {
+                            document.getElementById("counter_strom").innerHTML = newStrom;
+                      
+                            const updatedData = { ...dataG, counterelectricity: newStrom }; 
+                            updateDoc(doc(facilityCollections, button.id), updatedData)
+                              .then(() => {
+                                console.log("Dokument erfolgreich aktualisiert.");
+                              })
+                              .catch((error) => {
+                                console.error("Fehler beim Aktualisieren des Dokuments:", error);
+                              });
+                          } else {
+                            alert("Bitte gib nur Zahlen ein.");
+                          }
+                        } 
+                      });
 
                       //change name
                       const changeNameElement = document.getElementById("change_name");
