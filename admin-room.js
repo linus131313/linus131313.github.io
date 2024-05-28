@@ -277,42 +277,37 @@ function handleWForm(e) {
 
   //     // Füge den neuen Benutzer zur Firestore-Datenbank hinzu
 
-  //     const companiesDocRef = doc(collection(db, "Companies"), companyName);
+      const companiesDocRef = doc(collection(db, "Companies"), companyName);
   //     const newSubcollectionRef = collection(companiesDocRef, "Users");
-  //     const accessesRef = collection(companiesDocRef, "Accesses");
-  //     getDocs(accessesRef).then((querySnapshot) => {
-  //       querySnapshot.forEach((doc) => {
-  //         let w_available = parseInt(doc.data().userAvailable); // Konvertiere in Ganzzahl
+      const accessesRef = collection(companiesDocRef, "Accesses");
+      getDocs(accessesRef).then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          let w_available = parseInt(doc.data().userAvailable); // Konvertiere in Ganzzahl
 
-  //         // Überprüfe, ob w_available eine gültige Zahl ist
-  //         if (!isNaN(w_available)) {
-  //           // Reduziere um 1 und stelle sicher, dass die Zahl nicht negativ wird
-  //           w_available = Math.max(w_available - 1, 0);
+          if (!isNaN(w_available)) {
+            w_available = Math.max(w_available - 1, 0);
 
-  //           // Aktualisiere das erste Dokument der "accesses"-Sammlung mit dem neuen Wert
-  //           updateDoc(doc.ref, { userAvailable: w_available.toString() })
-  //             .then(() => {
-  //               console.log(
-  //                 "Anzahl verfügbarer Benutzer erfolgreich aktualisiert"
-  //               );
-  //             })
-  //             .catch((error) => {
-  //               console.error(
-  //                 "Fehler beim Aktualisieren der Anzahl verfügbarer Benutzer:",
-  //                 error
-  //               );
-  //             });
-
-  //           // Break nach dem ersten Dokument, da wir nur das erste Dokument aktualisieren wollen
-  //           return;
-  //         } else {
-  //           console.error(
-  //             "Ungültiger Wert für w_available:",
-  //             doc.data().userAvailable
-  //           );
-  //         }
-  //       });
-  //     });
+            updateDoc(doc.ref, { userAvailable: w_available.toString() })
+              .then(() => {
+                console.log(
+                  "Anzahl verfügbarer Benutzer erfolgreich aktualisiert"
+                );
+              })
+              .catch((error) => {
+                console.error(
+                  "Fehler beim Aktualisieren der Anzahl verfügbarer Benutzer:",
+                  error
+                );
+              });
+           return;
+          } else {
+            console.error(
+              "Ungültiger Wert für w_available:",
+              doc.data().userAvailable
+            );
+          }
+        });
+      });
 
   //     const newDocumentData2 = {
   //       name: nameW,
@@ -332,10 +327,10 @@ function handleWForm(e) {
   //   });
 
   const requestBody = {
-    name: "Hansi",
-    email: "hansiBot@stratek.eu",
-    password: "Passwort",
-    company: "Stratek GbR",
+    name: nameW,
+    email: emailW,
+    password: passwortW,
+    company: companyName,
   };
 
   fetch("https://haushelper-bot-4584298bee33.herokuapp.com/register_user", {
@@ -348,6 +343,9 @@ function handleWForm(e) {
     .then((response) => {
       if (response.ok) {
         console.log("Registrierung erfolgreich über Bot!");
+            alert(`Mitarbeiter erfolgreich hinzugefügt!.`);
+            window.location.href = "/adminroom?tab=mitarbeiter-tab";
+
       } else {
         console.error("Fehler beim Registrieren:", response.statusText);
       }
@@ -2974,3 +2972,12 @@ function collapse_widget(expand_id, collapse_ids) {
     });
   }
 }
+
+
+//bei datei hochladen += inner html dass kein reload nötig ist
+
+//delete button bei files
+
+//information rendern + ändern + löschen
+
+//informationen erstellen
