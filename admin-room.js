@@ -1365,7 +1365,7 @@ onAuthStateChanged(auth, (user) => {
                         
                             var folderPath = companyName + "/" + dataG.address + ", (" + dataG.zipcode + ")/" + folderName;
     
-                            const folderRef = ref(storage, folderPath);
+                            // const folderRef = ref(storage, folderPath);
 
                             const emptyData = new Uint8Array(0); // Leere Daten
                             const placeholderFileName = ".placeholder";
@@ -1374,6 +1374,17 @@ onAuthStateChanged(auth, (user) => {
                               uploadBytes(fileRef, emptyData)
                                 .then(() => {
                                   //#####add folder html code here
+
+                                  const id = encodeURIComponent(folderName);
+
+                                  const innerHTMLFolders=`<div class="folder_button" id=${id}>
+                                  <div class="div-block-35">
+                                  <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/664f6f7f337551434c3c3751_Book_fill.png" loading="lazy" alt="">
+                                  <div class="text-block-19-pdf">${folderName}</div></div>
+                                  <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/63ef532ba90a073195f4a6b6_Arrow%20Right.svg" loading="lazy" 
+                                  alt="" class="image-12"></div>`;
+
+                                  document.getElementById("pdf_list").innerHTML+=innerHTMLFolders;
                                     
                                 })
                                 .catch((error) => {
