@@ -1384,7 +1384,7 @@ onAuthStateChanged(auth, (user) => {
                                   <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/63ef532ba90a073195f4a6b6_Arrow%20Right.svg" loading="lazy" 
                                   alt="" class="image-12"></div>`;
 
-                                  document.getElementById("pdf_list").innerHTML+=innerHTMLFolders;
+                                  document.getElementById("pdf_list").insertAdjacentHTML('afterbegin', innerHTMLFolders);
                                     
                                 })
                                 .catch((error) => {
