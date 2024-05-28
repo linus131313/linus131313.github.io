@@ -1699,19 +1699,26 @@ onAuthStateChanged(auth, (user) => {
                         const add_info= document.getElementById("add_info");
                        
 
-                          function handleClick(event) {
-                            const bezeichnung = prompt("Was ist die Bezeichnung der Information?");
-                            console.log("Bezeichnung:", bezeichnung);
-                          }
-
-                          // Event-Listener hinzufügen
-                          add_info.addEventListener("click", handleClick);
-
-                          // Event-Listener entfernen, wenn "geb_back" gedrückt wird
-                          document.getElementById("geb_back").addEventListener("click", function () {
-                            add_info.removeEventListener("click", handleClick);
-                          });
-
+                        function handleClick(event) {
+                          // Bezeichnung abfragen
+                          const bezeichnung = prompt("Was ist die Bezeichnung der Information?");
+                          
+                          // String für das neue Key-Value-Paar erstellen
+                          const keyValueString = `["${bezeichnung}", " - "]`;
+                        
+                          // Daten aktualisieren und in die Datenbank schreiben
+                          const updatedInformation = JSON.parse(dataG.information);
+                          updatedInformation.push(JSON.parse(keyValueString));
+                        
+                          const updatedData = { ...dataG, information: JSON.stringify(updatedInformation) };
+                          updateDoc(doc(facilityCollections, button.id), updatedData)
+                            .then(() => {
+                              console.log("Information erfolgreich aktualisiert.");
+                            })
+                            .catch((error) => {
+                              console.error("Fehler beim Aktualisieren der Information:", error);
+                            });
+                        }
 
 
                         
