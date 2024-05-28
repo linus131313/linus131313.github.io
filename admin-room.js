@@ -1365,6 +1365,18 @@ onAuthStateChanged(auth, (user) => {
                           if (newName) {
                             // Hier können Sie den neuen Namen verwenden
                             console.log("Neuer Name:", newName);
+                            document.getElementById("kunde_name").innerHTML=newName;
+
+                            const updatedData = { ...dataG, owner: newName }; // Ersetzen Sie "neuer Besitzer" durch den neuen Besitzerwert
+                            // Update des Dokuments in der Firestore-Datenbank
+                            updateDoc(doc(facilityCollections, button.id), updatedData)
+                              .then(() => {
+                                console.log("Dokument erfolgreich aktualisiert.");
+                              })
+                              .catch((error) => {
+                                console.error("Fehler beim Aktualisieren des Dokuments:", error);
+                              });
+                            
                           } else {
                             console.log("Der Benutzer hat das Eingeben des neuen Namens abgebrochen.");
                           }
