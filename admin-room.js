@@ -1793,7 +1793,7 @@ onAuthStateChanged(auth, (user) => {
                             }
 
                             // Hinzufügen des Event-Listeners für jede Trash-Icon
-                            const trashIcons = document.querySelectorAll('.trash-icon');
+                            const trashIcons = document.querySelectorAll('.trash-icon-files');
                             trashIcons.forEach(icon => {
                               const trashIconEventHandler = createTrashIconEventHandler(icon);
                               icon.addEventListener('click', trashIconEventHandler);
