@@ -1786,79 +1786,46 @@ onAuthStateChanged(auth, (user) => {
                           // Funktion zum Erstellen des Event-Listeners für das Löschen von Dateien über die Trash-Icons
                              // Funktion zum Erstellen des Event-Listeners für das Löschen von Dateien über die Trash-Icons
                            // Funktion zum Erstellen des Event-Listeners für das Löschen von Dateien über die Trash-Icons
-                              // function createTrashIconEventHandler(icon) {
-                              //   return function() {
-                              //     const parentDiv = icon.closest('div'); // Das übergeordnete div-Element des Trash-Icons
-                              //     const filenameElement = parentDiv.querySelector('.text-block-19-pdf'); // Das Element mit dem Dateinamen
-                              //     if (filenameElement) {
-                              //       const filename = filenameElement.innerText;
-                              //       const filePath=companyName+"/"+dataG.address +", ("+ dataG.zipcode+")/" + originalFolderName+"/"+filename;
-                              //       // deleteFile(filename); // Funktion zum Löschen der Datei in Firestore aufrufen
-                              //     }
-                              //   };
-                              // }
-
-                              // // Hinzufügen des Event-Listeners für jede Trash-Icon-Datei
-                              // const trashIcons = document.querySelectorAll('.trash-icon-files');
-                              // trashIcons.forEach(icon => {
-                              //   const trashIconEventHandler = createTrashIconEventHandler(icon);
-                              //   icon.addEventListener('click', trashIconEventHandler);
-                              // });
-
-                              // // Event-Handler für das Drücken des "folder_back"-Buttons
-                              // document.getElementById("folder_back").addEventListener("click", function () {
-                              //   // Entfernen aller Event-Listener für die Trash-Icon-Dateien
-                              //   trashIcons.forEach(icon => {
-                              //     const trashIconEventHandler = createTrashIconEventHandler(icon);
-                              //     icon.removeEventListener('click', trashIconEventHandler);
-                              //   });
-                              // });
-
-                              function createTrashIconEventHandler(icon) {
-                                return function() {
-                                  const fileDiv = icon.closest('.div-block-39'); // Das übergeordnete div-Element des Trash-Icons
-                                  if (fileDiv) {
-                                    fileDiv.style.visibility = 'hidden'; // Setze die Sichtbarkeit des Elements auf 'hidden'
-                                  }
-                                  const filenameElement = fileDiv.querySelector('.text-block-19-pdf'); // Das Element mit dem Dateinamen
-                                  if (filenameElement) {
-                                    const filename = filenameElement.innerText;
-                                    const filePath = companyName + "/" + dataG.address + ", (" + dataG.zipcode + ")/" + originalFolderName + "/" + filename;
-                                    console.log(filePath);
-                                    // Lösche das Element mit dem Dateinamen aus der geb_pdf_map
-                                    const map_key = dataG.address + dataG.zipcode + originalFolderName;
-                                    if (geb_pdf_map.hasOwnProperty(map_key)) {
-                                      // Überprüfen, ob geb_pdf_map[map_key] eine Liste von Strings oder DOM-Elementen ist
-                                      if (typeof geb_pdf_map[map_key][0] === 'string') {
-                                        // Konvertiere die Liste von Strings in eine Liste von DOM-Elementen
-                                        geb_pdf_map[map_key] = geb_pdf_map[map_key].map(htmlString => {
-                                          const tempDiv = document.createElement('div');
-                                          tempDiv.innerHTML = htmlString;
-                                          return tempDiv.firstChild;
-                                        });
-                                      }
-                                      // Durchlaufe die Liste und entferne das Element mit dem passenden Dateinamen
-                                      geb_pdf_map[map_key] = geb_pdf_map[map_key].filter(item => {
-                                        const itemFilenameElement = item.querySelector('.text-block-19-pdf');
-                                        if (itemFilenameElement) {
-                                          const itemFilename = itemFilenameElement.innerText;
-                                          return itemFilename !== filename;
-                                        }
-                                        return false;
-                                      });
-                                    }
-                                    // deleteFile(filename); // Funktion zum Löschen der Datei in Firestore aufrufen
-                                  }
-                                };
+                           function createTrashIconEventHandler(icon) {
+                            return function() {
+                              const fileDiv = icon.closest('.div-block-39'); // Das übergeordnete div-Element des Trash-Icons
+                              if (fileDiv) {
+                                // Bestätigungsabfrage vor dem Löschen der Datei
+                                const confirmation = confirm("Möchtest du die Datei wirklich löschen?");
+                                if (!confirmation) {
+                                  return; // Abbruch, wenn die Bestätigung verneint wird
+                                }
+                                fileDiv.classList.add('invisible'); // Füge der Klasse 'invisible' hinzu, um das spezifische <div>-Element unsichtbar zu machen
                               }
-                              
+                              const filenameElement = fileDiv.querySelector('.text-block-19-pdf'); // Das Element mit dem Dateinamen
+                              if (filenameElement) {
+                                const filename = filenameElement.innerText;
+                                const filePath = companyName + "/" + dataG.address + ", (" + dataG.zipcode + ")/" + originalFolderName + "/" + filename;
+                                console.log(filePath);
+                                // deleteFile(filename); // Funktion zum Löschen der Datei in Firestore aufrufen
+                              }
+                            };
+                          }
+                          
+                          
+
                               // Hinzufügen des Event-Listeners für jede Trash-Icon-Datei
                               const trashIcons = document.querySelectorAll('.trash-icon-files');
                               trashIcons.forEach(icon => {
                                 const trashIconEventHandler = createTrashIconEventHandler(icon);
                                 icon.addEventListener('click', trashIconEventHandler);
                               });
-                              
+
+                              // Event-Handler für das Drücken des "folder_back"-Buttons
+                              document.getElementById("folder_back").addEventListener("click", function () {
+                                // Entfernen aller Event-Listener für die Trash-Icon-Dateien
+                                trashIcons.forEach(icon => {
+                                  const trashIconEventHandler = createTrashIconEventHandler(icon);
+                                  icon.removeEventListener('click', trashIconEventHandler);
+                                });
+                              });
+
+                            
                               
                               
                               // Event-Handler für das Drücken des "folder_back"-Buttons
