@@ -1382,28 +1382,65 @@ onAuthStateChanged(auth, (user) => {
                       });
                       
                       //change water
+                      // const changeWaterElement = document.getElementById("change_wasser");
+
+                      // changeWaterElement.addEventListener("click", function() {
+                      //   var newWater = prompt("Gib einen neuen Wert für den Wasserzählerstand ein:");
+                      //   if (newWater !== null) {
+                      //     // Überprüfen, ob nur Zahlen eingegeben wurden
+                      //     if (/^\d+$/.test(newWater)) {
+                      //       document.getElementById("counter_wasser").innerHTML = newWater;
+                      
+                      //       const updatedData = { ...dataG, counterwater: newWater }; 
+                      //       updateDoc(doc(facilityCollections, button.id), updatedData)
+                      //         .then(() => {
+                      //           console.log("Dokument erfolgreich aktualisiert.");
+                      //         })
+                      //         .catch((error) => {
+                      //           console.error("Fehler beim Aktualisieren des Dokuments:", error);
+                      //         });
+                      //     } else {
+                      //       alert("Bitte gib nur Zahlen ein.");
+                      //     }
+                      //   } 
+                      // });
+
                       const changeWaterElement = document.getElementById("change_wasser");
 
-                      changeWaterElement.addEventListener("click", function() {
-                        var newWater = prompt("Gib einen neuen Wert für den Wasserzählerstand ein:");
-                        if (newWater !== null) {
-                          // Überprüfen, ob nur Zahlen eingegeben wurden
-                          if (/^\d+$/.test(newWater)) {
-                            document.getElementById("counter_wasser").innerHTML = newWater;
-                      
-                            const updatedData = { ...dataG, counterwater: newWater }; 
-                            updateDoc(doc(facilityCollections, button.id), updatedData)
-                              .then(() => {
-                                console.log("Dokument erfolgreich aktualisiert.");
-                              })
-                              .catch((error) => {
-                                console.error("Fehler beim Aktualisieren des Dokuments:", error);
-                              });
-                          } else {
-                            alert("Bitte gib nur Zahlen ein.");
-                          }
-                        } 
-                      });
+                        // Die Funktion, die dem Event-Listener zugewiesen wurde
+                        function changeWaterEventHandler() {
+                          var newWater = prompt("Gib einen neuen Wert für den Wasserzählerstand ein:");
+                          if (newWater !== null) {
+                            // Überprüfen, ob nur Zahlen eingegeben wurden
+                            if (/^\d+$/.test(newWater)) {
+                              document.getElementById("counter_wasser").innerHTML = newWater;
+                          
+                              const updatedData = { ...dataG, counterwater: newWater }; 
+                              updateDoc(doc(facilityCollections, button.id), updatedData)
+                                .then(() => {
+                                  console.log("Dokument erfolgreich aktualisiert.");
+                                })
+                                .catch((error) => {
+                                  console.error("Fehler beim Aktualisieren des Dokuments:", error);
+                                });
+                            } else {
+                              alert("Bitte gib nur Zahlen ein.");
+                            }
+                            // Entfernen des Event-Listeners nach dem ersten Aufruf
+                            changeWaterElement.removeEventListener("click", changeWaterEventHandler);
+                          } 
+                        }
+
+                        // Event-Listener hinzufügen
+                        changeWaterElement.addEventListener("click", changeWaterEventHandler);
+
+                        // Event-Listener entfernen
+                        const gebBackElement = document.getElementById("geb_back");
+                        gebBackElement.addEventListener("click", function() {
+                          // Entfernen des Event-Listeners
+                          changeWaterElement.removeEventListener("click", changeWaterEventHandler);
+                        });
+
 
 
                       //change strom
