@@ -3,7 +3,7 @@ import {
   getAuth,
   signOut,
   onAuthStateChanged,
-  createUserWithEmailAndPassword,
+  
 } from "https://www.gstatic.com/firebasejs/9.4.1/firebase-auth.js";
 import {
   getFirestore,
@@ -2537,91 +2537,151 @@ onAuthStateChanged(auth, (user) => {
                         );
 
                         if (confirmation) {
-                          const docRef = doc(workerCollections, button.id);
+                          // const docRef = doc(workerCollections, button.id);
 
-                          deleteDoc(docRef)
-                            .then(() => {
-                              const userCollection = collection(db, "Users");
-
-                              const q = query(
-                                userCollection,
-                                where("email", "==", emailW)
-                              );
-
-                              getDocs(q)
-                                .then((querySnapshot) => {
-                                  // Es wird erwartet, dass nur ein Dokument gefunden wird
-                                  if (!querySnapshot.empty) {
-                                    const doc = querySnapshot.docs[0];
-                                    // Dokument gefunden, lösche es
-                                    deleteDoc(doc.ref)
-                                      .then(() => {
-                                        console.log(
-                                          "Dokument erfolgreich gelöscht:",
-                                          doc.id
-                                        );
-                                      })
-                                      .catch((error) => {
-                                        console.error(
-                                          "Fehler beim Löschen des Dokuments:",
-                                          error
-                                        );
-                                      });
-                                  } else {
-                                    console.log(
-                                      "Es wurde kein Dokument mit der angegebenen E-Mail-Adresse gefunden."
+                          ///###
+                          const requestBody = {
+                            email: emailW,
+                            company: companyName,
+                          };
+                        
+                          fetch("https://haushelper-bot-4584298bee33.herokuapp.com/delete_user", {
+                            method: "POST",
+                            headers: {
+                              "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify(requestBody),
+                          })
+                            .then((response) => {
+                              if (response.ok) {
+                                console.log("Mitarbeiter gelöscht!");
+                                const companiesDocRef = doc(
+                                  collection(db, "Companies"),
+                                  companyName
+                                );
+                                const accessesRef = collection(
+                                  companiesDocRef,
+                                  "Accesses"
+                                );
+                                getDocs(accessesRef).then((querySnapshot) => {
+                                  querySnapshot.forEach((doc) => {
+                                    let w_available = parseInt(
+                                      doc.data().userAvailable
                                     );
-                                  }
-                                })
-                                .catch((error) => {
-                                  console.error(
-                                    "Fehler beim Ausführen der Abfrage:",
-                                    error
-                                  );
+  
+                                    if (!isNaN(w_available)) {
+                                      w_available = w_available + 1;
+  
+                                      updateDoc(doc.ref, {
+                                        userAvailable: w_available.toString(),
+                                      })
+                                        .then(() => {})
+                                        .catch((error) => {
+                                          console.error(
+                                            "Fehler beim Aktualisieren der Anzahl verfügbarer Benutzer:",
+                                            error
+                                          );
+                                        });
+                                    }
+                                  });
                                 });
-
-                              const companiesDocRef = doc(
-                                collection(db, "Companies"),
-                                companyName
-                              );
-                              const accessesRef = collection(
-                                companiesDocRef,
-                                "Accesses"
-                              );
-                              getDocs(accessesRef).then((querySnapshot) => {
-                                querySnapshot.forEach((doc) => {
-                                  let w_available = parseInt(
-                                    doc.data().userAvailable
-                                  );
-
-                                  if (!isNaN(w_available)) {
-                                    w_available = w_available + 1;
-
-                                    updateDoc(doc.ref, {
-                                      userAvailable: w_available.toString(),
-                                    })
-                                      .then(() => {})
-                                      .catch((error) => {
-                                        console.error(
-                                          "Fehler beim Aktualisieren der Anzahl verfügbarer Benutzer:",
-                                          error
-                                        );
-                                      });
-                                  }
-                                });
-                              });
-
-                              alert(
-                                "Der/Die Mitarbeiter/in wurde erfolgreich gelöscht. Der Zugang wurde gesperrt."
-                              );
-                              window.location.reload();
+                                alert(
+                                  "Der/Die Mitarbeiter/in wurde erfolgreich gelöscht. Der Zugang wurde gesperrt."
+                                );
+                                window.location.href = "/adminroom?tab=mitarbeiter-tab";
+                        
+                              } else {
+                                console.error("Fehler beim Registrieren:", response.statusText);
+                              }
                             })
                             .catch((error) => {
-                              alert(
-                                "Beim Löschen des Mitarbeiters ist ein Fehler aufgetreten: " +
-                                  error.message
-                              );
+                              console.error("Fehler beim Registrieren:", error);
                             });
+                            ///###
+
+                        //   deleteDoc(docRef)
+                        //     .then(() => {
+                        //       const userCollection = collection(db, "Users");
+
+                        //       const q = query(
+                        //         userCollection,
+                        //         where("email", "==", emailW)
+                        //       );
+
+                        //       getDocs(q)
+                        //         .then((querySnapshot) => {
+                        //           // Es wird erwartet, dass nur ein Dokument gefunden wird
+                        //           if (!querySnapshot.empty) {
+                        //             const doc = querySnapshot.docs[0];
+                        //             // Dokument gefunden, lösche es
+                        //             deleteDoc(doc.ref)
+                        //               .then(() => {
+                        //                 console.log(
+                        //                   "Dokument erfolgreich gelöscht:",
+                        //                   doc.id
+                        //                 );
+                        //               })
+                        //               .catch((error) => {
+                        //                 console.error(
+                        //                   "Fehler beim Löschen des Dokuments:",
+                        //                   error
+                        //                 );
+                        //               });
+                        //           } else {
+                        //             console.log(
+                        //               "Es wurde kein Dokument mit der angegebenen E-Mail-Adresse gefunden."
+                        //             );
+                        //           }
+                        //         })
+                        //         .catch((error) => {
+                        //           console.error(
+                        //             "Fehler beim Ausführen der Abfrage:",
+                        //             error
+                        //           );
+                        //         });
+
+                        //       const companiesDocRef = doc(
+                        //         collection(db, "Companies"),
+                        //         companyName
+                        //       );
+                        //       const accessesRef = collection(
+                        //         companiesDocRef,
+                        //         "Accesses"
+                        //       );
+                        //       getDocs(accessesRef).then((querySnapshot) => {
+                        //         querySnapshot.forEach((doc) => {
+                        //           let w_available = parseInt(
+                        //             doc.data().userAvailable
+                        //           );
+
+                        //           if (!isNaN(w_available)) {
+                        //             w_available = w_available + 1;
+
+                        //             updateDoc(doc.ref, {
+                        //               userAvailable: w_available.toString(),
+                        //             })
+                        //               .then(() => {})
+                        //               .catch((error) => {
+                        //                 console.error(
+                        //                   "Fehler beim Aktualisieren der Anzahl verfügbarer Benutzer:",
+                        //                   error
+                        //                 );
+                        //               });
+                        //           }
+                        //         });
+                        //       });
+
+                        //       alert(
+                        //         "Der/Die Mitarbeiter/in wurde erfolgreich gelöscht. Der Zugang wurde gesperrt."
+                        //       );
+                        //       window.location.reload();
+                        //     })
+                        //     .catch((error) => {
+                        //       alert(
+                        //         "Beim Löschen des Mitarbeiters ist ein Fehler aufgetreten: " +
+                        //           error.message
+                        //       );
+                        //     });
                         } else {
                           alert("Das Löschen wurde abgebrochen.");
                         }
