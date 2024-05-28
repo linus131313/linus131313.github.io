@@ -1377,10 +1377,37 @@ onAuthStateChanged(auth, (user) => {
                                 console.error("Fehler beim Aktualisieren des Dokuments:", error);
                               });
                             
-                          } else {
-                            console.log("Der Benutzer hat das Eingeben des neuen Namens abgebrochen.");
-                          }
+                          } 
                         });
+
+
+                        const changeTelElement = document.getElementById("change_tel");
+
+                          changeTelElement.addEventListener("click", function() {
+                            var newTel = prompt("Gib eine neue Telefonnummer für den Kunden ein:", "");
+                            if (newTel !== null) {
+                              // Überprüfen, ob nur Zahlen eingegeben wurden
+                              if (/^\d+$/.test(newTel)) {
+                                console.log("Neue Tel:", newTel);
+                                // Setzen Sie den href direkt auf die Telefonnummer
+                                document.getElementById("kunde_tel").innerHTML = `<a href="tel:${newTel}">${newTel}</a>`;
+
+                                const updatedData = { ...dataG, phone: newTel }; // Ersetzen Sie "neuer Besitzer" durch den neuen Besitzerwert
+                                // Update des Dokuments in der Firestore-Datenbank
+                                updateDoc(doc(facilityCollections, button.id), updatedData)
+                                  .then(() => {
+                                    console.log("Dokument erfolgreich aktualisiert.");
+                                  })
+                                  .catch((error) => {
+                                    console.error("Fehler beim Aktualisieren des Dokuments:", error);
+                                  });
+                              } else {
+                                alert("Bitte gib nur Zahlen als Telefonnummer ein.");
+                              }
+                            }
+                          });
+
+
 
 
                       //add folder upload here
