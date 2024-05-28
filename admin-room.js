@@ -1358,40 +1358,16 @@ onAuthStateChanged(auth, (user) => {
                       }
 
                       //change gas
-                      const changeGasElement = document.getElementById("change_gas");
+                      // const changeGasElement = document.getElementById("change_gas");
 
-                      changeGasElement.addEventListener("click", function() {
-                        var newGas = prompt("Gib einen neuen Wert für den Gaszählerstand ein:");
-                        if (newGas !== null) {
-                          // Überprüfen, ob nur Zahlen eingegeben wurden
-                          if (/^\d+$/.test(newGas)) {
-                            document.getElementById("counter_gas").innerHTML = newGas;
-                      
-                            const updatedData = { ...dataG, countergas: newGas }; 
-                            updateDoc(doc(facilityCollections, button.id), updatedData)
-                              .then(() => {
-                                console.log("Dokument erfolgreich aktualisiert.");
-                              })
-                              .catch((error) => {
-                                console.error("Fehler beim Aktualisieren des Dokuments:", error);
-                              });
-                          } else {
-                            alert("Bitte gib nur Zahlen ein.");
-                          }
-                        } 
-                      });
-                      
-                      //change water
-                      // const changeWaterElement = document.getElementById("change_wasser");
-
-                      // changeWaterElement.addEventListener("click", function() {
-                      //   var newWater = prompt("Gib einen neuen Wert für den Wasserzählerstand ein:");
-                      //   if (newWater !== null) {
+                      // changeGasElement.addEventListener("click", function() {
+                      //   var newGas = prompt("Gib einen neuen Wert für den Gaszählerstand ein:");
+                      //   if (newGas !== null) {
                       //     // Überprüfen, ob nur Zahlen eingegeben wurden
-                      //     if (/^\d+$/.test(newWater)) {
-                      //       document.getElementById("counter_wasser").innerHTML = newWater;
+                      //     if (/^\d+$/.test(newGas)) {
+                      //       document.getElementById("counter_gas").innerHTML = newGas;
                       
-                      //       const updatedData = { ...dataG, counterwater: newWater }; 
+                      //       const updatedData = { ...dataG, countergas: newGas }; 
                       //       updateDoc(doc(facilityCollections, button.id), updatedData)
                       //         .then(() => {
                       //           console.log("Dokument erfolgreich aktualisiert.");
@@ -1405,6 +1381,44 @@ onAuthStateChanged(auth, (user) => {
                       //   } 
                       // });
 
+                      const changeGasElement = document.getElementById("change_gas");
+
+                        // Die Funktion, die dem Event-Listener zugewiesen wurde
+                        function changeGasEventHandler() {
+                          var newGas = prompt("Gib einen neuen Wert für den Gaszählerstand ein:");
+                          if (newGas !== null) {
+                            // Überprüfen, ob nur Zahlen eingegeben wurden
+                            if (/^\d+$/.test(newGas)) {
+                              document.getElementById("counter_gas").innerHTML = newGas;
+
+                              const updatedData = { ...dataG, countergas: newGas }; 
+                              updateDoc(doc(facilityCollections, button.id), updatedData)
+                                .then(() => {
+                                  console.log("Dokument erfolgreich aktualisiert.");
+                                })
+                                .catch((error) => {
+                                  console.error("Fehler beim Aktualisieren des Dokuments:", error);
+                                });
+                            } else {
+                              alert("Bitte gib nur Zahlen ein.");
+                            }
+                            // Entfernen des Event-Listeners nach dem ersten Aufruf
+                            changeGasElement.removeEventListener("click", changeGasEventHandler);
+                          } 
+                        }
+
+                        // Event-Listener hinzufügen
+                        changeGasElement.addEventListener("click", changeGasEventHandler);
+
+                        // Event-Listener entfernen
+                        
+                        document.getElementById("geb_back").addEventListener("click", function() {
+                          // Entfernen des Event-Listeners
+                          changeGasElement.removeEventListener("click", changeGasEventHandler);
+                        });
+
+                      
+                      //change water    
                       const changeWaterElement = document.getElementById("change_wasser");
 
                         // Die Funktion, die dem Event-Listener zugewiesen wurde
@@ -1435,8 +1449,8 @@ onAuthStateChanged(auth, (user) => {
                         changeWaterElement.addEventListener("click", changeWaterEventHandler);
 
                         // Event-Listener entfernen
-                        const gebBackElement = document.getElementById("geb_back");
-                        gebBackElement.addEventListener("click", function() {
+         
+                        document.getElementById("geb_back").addEventListener("click", function() {
                           // Entfernen des Event-Listeners
                           changeWaterElement.removeEventListener("click", changeWaterEventHandler);
                         });
@@ -1444,15 +1458,38 @@ onAuthStateChanged(auth, (user) => {
 
 
                       //change strom
+                      // const changeStromElement = document.getElementById("change_strom");
+
+                      // changeStromElement.addEventListener("click", function() {
+                      //   var newStrom = prompt("Gib einen neuen Wert für den Stromzählerstand ein:");
+                      //   if (newStrom !== null) {
+                      //     // Überprüfen, ob nur Zahlen eingegeben wurden
+                      //     if (/^\d+$/.test(newStrom)) {
+                      //       document.getElementById("counter_strom").innerHTML = newStrom;
+                      
+                      //       const updatedData = { ...dataG, counterelectricity: newStrom }; 
+                      //       updateDoc(doc(facilityCollections, button.id), updatedData)
+                      //         .then(() => {
+                      //           console.log("Dokument erfolgreich aktualisiert.");
+                      //         })
+                      //         .catch((error) => {
+                      //           console.error("Fehler beim Aktualisieren des Dokuments:", error);
+                      //         });
+                      //     } else {
+                      //       alert("Bitte gib nur Zahlen ein.");
+                      //     }
+                      //   } 
+                      // });
+
                       const changeStromElement = document.getElementById("change_strom");
 
-                      changeStromElement.addEventListener("click", function() {
+                      function changeStromEventHandler() {
                         var newStrom = prompt("Gib einen neuen Wert für den Stromzählerstand ein:");
                         if (newStrom !== null) {
                           // Überprüfen, ob nur Zahlen eingegeben wurden
                           if (/^\d+$/.test(newStrom)) {
                             document.getElementById("counter_strom").innerHTML = newStrom;
-                      
+
                             const updatedData = { ...dataG, counterelectricity: newStrom }; 
                             updateDoc(doc(facilityCollections, button.id), updatedData)
                               .then(() => {
@@ -1464,34 +1501,101 @@ onAuthStateChanged(auth, (user) => {
                           } else {
                             alert("Bitte gib nur Zahlen ein.");
                           }
+                          // Entfernen des Event-Listeners nach dem ersten Aufruf
+                          changeStromElement.removeEventListener("click", changeStromEventHandler);
                         } 
+                      }
+
+                      changeStromElement.addEventListener("click", changeStromEventHandler);
+
+                      document.getElementById("geb_back").addEventListener("click", function() {
+                        changeStromElement.removeEventListener("click", changeStromEventHandler);
                       });
 
+
                       //change name
+                      // const changeNameElement = document.getElementById("change_name");
+
+                      //   changeNameElement.addEventListener("click", function() {
+                      //     var newName = prompt("Geben Sie einen neuen Namen ein:");
+                      //     if (newName) {
+                      //       // Hier können Sie den neuen Namen verwenden
+                      //       document.getElementById("kunde_name").innerHTML=newName;
+
+                      //       const updatedData = { ...dataG, owner: newName }; // Ersetzen Sie "neuer Besitzer" durch den neuen Besitzerwert
+                      //       // Update des Dokuments in der Firestore-Datenbank
+                      //       updateDoc(doc(facilityCollections, button.id), updatedData)
+                      //         .then(() => {
+                      //         })
+                      //         .catch((error) => {
+                      //           console.error("Fehler beim Aktualisieren des Dokuments:", error);
+                      //         });
+                            
+                      //     } 
+                      //   });
+
+
                       const changeNameElement = document.getElementById("change_name");
 
-                        changeNameElement.addEventListener("click", function() {
-                          var newName = prompt("Geben Sie einen neuen Namen ein:");
-                          if (newName) {
-                            // Hier können Sie den neuen Namen verwenden
-                            document.getElementById("kunde_name").innerHTML=newName;
+                        function changeNameEventHandler() {
+                          var newName = prompt("Gib einen neuen Namen ein:");
+                          if (newName !== null) {
+                            document.getElementById("kunde_name").innerHTML = newName;
 
-                            const updatedData = { ...dataG, owner: newName }; // Ersetzen Sie "neuer Besitzer" durch den neuen Besitzerwert
-                            // Update des Dokuments in der Firestore-Datenbank
+                            const updatedData = { ...dataG, owner: newName }; 
                             updateDoc(doc(facilityCollections, button.id), updatedData)
                               .then(() => {
+                                console.log("Dokument erfolgreich aktualisiert.");
                               })
                               .catch((error) => {
                                 console.error("Fehler beim Aktualisieren des Dokuments:", error);
                               });
-                            
+                            // Entfernen des Event-Listeners nach dem ersten Aufruf
+                            changeNameElement.removeEventListener("click", changeNameEventHandler);
                           } 
+                        }
+
+                        // Event-Listener hinzufügen
+                        changeNameElement.addEventListener("click", changeNameEventHandler);
+
+                        // Event-Listener entfernen
+                        document.getElementById("geb_back").addEventListener("click", function() {
+                          // Entfernen des Event-Listeners
+                          changeNameElement.removeEventListener("click", changeNameEventHandler);
                         });
+
+
+
+                        //change tel
+                        // const changeTelElement = document.getElementById("change_tel");
+
+                        //   changeTelElement.addEventListener("click", function() {
+                        //     var newTel = prompt("Gib eine neue Telefonnummer für den Kunden ein:", "");
+                        //     if (newTel !== null) {
+                        //       // Überprüfen, ob nur Zahlen eingegeben wurden
+                        //       if (/^\d+$/.test(newTel)) {
+                        //         // Setzen Sie den href direkt auf die Telefonnummer
+                        //         document.getElementById("kunde_tel").innerHTML = `<a href="tel:${newTel}">${newTel}</a>`;
+
+                        //         const updatedData = { ...dataG, phone: newTel }; // Ersetzen Sie "neuer Besitzer" durch den neuen Besitzerwert
+                        //         // Update des Dokuments in der Firestore-Datenbank
+                        //         updateDoc(doc(facilityCollections, button.id), updatedData)
+                        //           .then(() => {
+                        //           })
+                        //           .catch((error) => {
+                        //             console.error("Fehler beim Aktualisieren des Dokuments:", error);
+                        //           });
+                        //       } else {
+                        //         alert("Bitte gib nur Zahlen als Telefonnummer ein.");
+                        //       }
+                        //     }
+                        //   });
 
 
                         const changeTelElement = document.getElementById("change_tel");
 
-                          changeTelElement.addEventListener("click", function() {
+                          // Die Funktion, die dem Event-Listener zugewiesen wurde
+                          function changeTelEventHandler() {
                             var newTel = prompt("Gib eine neue Telefonnummer für den Kunden ein:", "");
                             if (newTel !== null) {
                               // Überprüfen, ob nur Zahlen eingegeben wurden
@@ -1503,40 +1607,91 @@ onAuthStateChanged(auth, (user) => {
                                 // Update des Dokuments in der Firestore-Datenbank
                                 updateDoc(doc(facilityCollections, button.id), updatedData)
                                   .then(() => {
+                                    console.log("Dokument erfolgreich aktualisiert.");
                                   })
                                   .catch((error) => {
                                     console.error("Fehler beim Aktualisieren des Dokuments:", error);
                                   });
+                                // Entfernen des Event-Listeners nach dem ersten Aufruf
+                                changeTelElement.removeEventListener("click", changeTelEventHandler);
                               } else {
                                 alert("Bitte gib nur Zahlen als Telefonnummer ein.");
                               }
                             }
-                          });
+                          }
 
+                          // Event-Listener hinzufügen
+                          changeTelElement.addEventListener("click", changeTelEventHandler);
+
+                          // Event-Listener entfernen
+                          document.getElementById("geb_back").addEventListener("click", function() {
+                            // Entfernen des Event-Listeners
+                            changeTelElement.removeEventListener("click", changeTelEventHandler);
+});
+
+
+
+
+//change mail
+                          // const changeMailElement = document.getElementById("change_mail");
+
+                          //     changeMailElement.addEventListener("click", function() {
+                          //       var newMail = prompt("Gib eine neue E-Mail-Adresse für den Kunden ein:", "");
+                          //       if (newMail !== null) {
+                          //         // Überprüfen, ob die E-Mail-Adresse gültig ist
+                          //         if (/^\S+@\S+\.\S+$/.test(newMail)) {
+                          //           // Setzen Sie den href direkt auf die E-Mail-Adresse
+                          //           document.getElementById("kunde_mail").innerHTML = `<a href="mailto:${newMail}">${newMail}</a>`;
+
+                          //           const updatedData = { ...dataG, mail: newMail }; // Aktualisieren Sie das Attribut "mail" in der Datenbank
+                          //           // Update des Dokuments in der Firestore-Datenbank
+                          //           updateDoc(doc(facilityCollections, button.id), updatedData)
+                          //             .then(() => {
+                          //             })
+                          //             .catch((error) => {
+                          //               console.error("Fehler beim Aktualisieren des Dokuments:", error);
+                          //             });
+                          //         } else {
+                          //           alert("Gib bitte eine gültige E-Mail-Adresse ein.");
+                          //         }
+                          //       }
+                          //     });
 
                           const changeMailElement = document.getElementById("change_mail");
 
-                              changeMailElement.addEventListener("click", function() {
-                                var newMail = prompt("Gib eine neue E-Mail-Adresse für den Kunden ein:", "");
-                                if (newMail !== null) {
-                                  // Überprüfen, ob die E-Mail-Adresse gültig ist
-                                  if (/^\S+@\S+\.\S+$/.test(newMail)) {
-                                    // Setzen Sie den href direkt auf die E-Mail-Adresse
-                                    document.getElementById("kunde_mail").innerHTML = `<a href="mailto:${newMail}">${newMail}</a>`;
+                            function changeMailEventHandler() {
+                              var newMail = prompt("Gib eine neue E-Mail-Adresse für den Kunden ein:", "");
+                              if (newMail !== null) {
+                                // Überprüfen, ob die E-Mail-Adresse gültig ist
+                                if (/^\S+@\S+\.\S+$/.test(newMail)) {
+                                  // Setzen Sie den href direkt auf die E-Mail-Adresse
+                                  document.getElementById("kunde_mail").innerHTML = `<a href="mailto:${newMail}">${newMail}</a>`;
 
-                                    const updatedData = { ...dataG, mail: newMail }; // Aktualisieren Sie das Attribut "mail" in der Datenbank
-                                    // Update des Dokuments in der Firestore-Datenbank
-                                    updateDoc(doc(facilityCollections, button.id), updatedData)
-                                      .then(() => {
-                                      })
-                                      .catch((error) => {
-                                        console.error("Fehler beim Aktualisieren des Dokuments:", error);
-                                      });
-                                  } else {
-                                    alert("Gib bitte eine gültige E-Mail-Adresse ein.");
-                                  }
+                                  const updatedData = { ...dataG, mail: newMail }; // Aktualisieren Sie das Attribut "mail" in der Datenbank
+                                  // Update des Dokuments in der Firestore-Datenbank
+                                  updateDoc(doc(facilityCollections, button.id), updatedData)
+                                    .then(() => {
+                                      console.log("Dokument erfolgreich aktualisiert.");
+                                    })
+                                    .catch((error) => {
+                                      console.error("Fehler beim Aktualisieren des Dokuments:", error);
+                                    });
+                                  // Entfernen des Event-Listeners nach dem ersten Aufruf
+                                  changeMailElement.removeEventListener("click", changeMailEventHandler);
+                                } else {
+                                  alert("Gib bitte eine gültige E-Mail-Adresse ein.");
                                 }
-                              });
+                              }
+                            }
+
+                            changeMailElement.addEventListener("click", changeMailEventHandler);
+
+                            // Event-Listener entfernen
+                            document.getElementById("geb_back").addEventListener("click", function() {
+                              // Entfernen des Event-Listeners
+                              changeMailElement.removeEventListener("click", changeMailEventHandler);
+                            });
+
 
 
 
