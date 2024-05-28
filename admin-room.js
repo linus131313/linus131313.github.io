@@ -1373,6 +1373,16 @@ onAuthStateChanged(auth, (user) => {
                               uploadBytes(fileRef, emptyData)
                                 .then(() => {
                                   console.log("Neuer Ordner erfolgreich erstellt:", folderPath);
+                                  const placeholderRef = ref(storage, folderPath + "/" + placeholderFileName);
+                                    deleteObject(placeholderRef)
+                                      .then(() => {
+                                        console.log("Platzhalterdatei erfolgreich gelöscht:", placeholderFileName);
+                                        // Hier können Sie weitere Aktionen nach dem Löschen der Platzhalterdatei hinzufügen
+                                      })
+                                      .catch((error) => {
+                                        console.error("Fehler beim Löschen der Platzhalterdatei:", error);
+                                        // Hier können Sie Fehlerbehandlung durchführen
+                                      });
                                 })
                                 .catch((error) => {
                                   console.error("Fehler beim Erstellen des neuen Ordners:", error);
