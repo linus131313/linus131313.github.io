@@ -1357,6 +1357,31 @@ onAuthStateChanged(auth, (user) => {
 
                       }
 
+                      //change gas
+                      const changeGasElement = document.getElementById("change_gas");
+
+                      changeGasElement.addEventListener("click", function() {
+                        var newGas = prompt("Gib einen neuen Wert für den Gaszählerstand ein:");
+                        if (newGas !== null) {
+                          // Überprüfen, ob nur Zahlen eingegeben wurden
+                          if (/^\d+$/.test(newGas)) {
+                            document.getElementById("counter_gas").innerHTML = newGas;
+                      
+                            const updatedData = { ...dataG, countergas: newGas }; 
+                            updateDoc(doc(facilityCollections, button.id), updatedData)
+                              .then(() => {
+                                console.log("Dokument erfolgreich aktualisiert.");
+                              })
+                              .catch((error) => {
+                                console.error("Fehler beim Aktualisieren des Dokuments:", error);
+                              });
+                          } else {
+                            alert("Bitte gib nur Zahlen ein.");
+                          }
+                        } 
+                      });
+                      
+
                       //change name
                       const changeNameElement = document.getElementById("change_name");
 
@@ -1364,14 +1389,12 @@ onAuthStateChanged(auth, (user) => {
                           var newName = prompt("Geben Sie einen neuen Namen ein:");
                           if (newName) {
                             // Hier können Sie den neuen Namen verwenden
-                            console.log("Neuer Name:", newName);
                             document.getElementById("kunde_name").innerHTML=newName;
 
                             const updatedData = { ...dataG, owner: newName }; // Ersetzen Sie "neuer Besitzer" durch den neuen Besitzerwert
                             // Update des Dokuments in der Firestore-Datenbank
                             updateDoc(doc(facilityCollections, button.id), updatedData)
                               .then(() => {
-                                console.log("Dokument erfolgreich aktualisiert.");
                               })
                               .catch((error) => {
                                 console.error("Fehler beim Aktualisieren des Dokuments:", error);
@@ -1388,7 +1411,6 @@ onAuthStateChanged(auth, (user) => {
                             if (newTel !== null) {
                               // Überprüfen, ob nur Zahlen eingegeben wurden
                               if (/^\d+$/.test(newTel)) {
-                                console.log("Neue Tel:", newTel);
                                 // Setzen Sie den href direkt auf die Telefonnummer
                                 document.getElementById("kunde_tel").innerHTML = `<a href="tel:${newTel}">${newTel}</a>`;
 
@@ -1396,7 +1418,6 @@ onAuthStateChanged(auth, (user) => {
                                 // Update des Dokuments in der Firestore-Datenbank
                                 updateDoc(doc(facilityCollections, button.id), updatedData)
                                   .then(() => {
-                                    console.log("Dokument erfolgreich aktualisiert.");
                                   })
                                   .catch((error) => {
                                     console.error("Fehler beim Aktualisieren des Dokuments:", error);
@@ -1415,7 +1436,6 @@ onAuthStateChanged(auth, (user) => {
                                 if (newMail !== null) {
                                   // Überprüfen, ob die E-Mail-Adresse gültig ist
                                   if (/^\S+@\S+\.\S+$/.test(newMail)) {
-                                    console.log("Neue E-Mail-Adresse:", newMail);
                                     // Setzen Sie den href direkt auf die E-Mail-Adresse
                                     document.getElementById("kunde_mail").innerHTML = `<a href="mailto:${newMail}">${newMail}</a>`;
 
@@ -1423,13 +1443,12 @@ onAuthStateChanged(auth, (user) => {
                                     // Update des Dokuments in der Firestore-Datenbank
                                     updateDoc(doc(facilityCollections, button.id), updatedData)
                                       .then(() => {
-                                        console.log("Dokument erfolgreich aktualisiert.");
                                       })
                                       .catch((error) => {
                                         console.error("Fehler beim Aktualisieren des Dokuments:", error);
                                       });
                                   } else {
-                                    alert("Bitte geben Sie eine gültige E-Mail-Adresse ein.");
+                                    alert("Gib bitte eine gültige E-Mail-Adresse ein.");
                                   }
                                 }
                               });
@@ -1473,9 +1492,7 @@ onAuthStateChanged(auth, (user) => {
 
                           
                            
-                          } else {
-                            console.log("Der Benutzer hat das Erstellen des Ordners abgebrochen.");
-                          }
+                          } 
 
                       });
 
@@ -1526,7 +1543,6 @@ onAuthStateChanged(auth, (user) => {
                         
                           if (confirmation) {
                             
-                            console.log("Löschen von:");
                           
                             const del_path="/"+companyName+"/"+dataG.address+", (" + dataG.zipcode+")/"+originalFolderName+"/";
 
@@ -1535,7 +1551,6 @@ onAuthStateChanged(auth, (user) => {
                               // Löschen des Ordners
                               deleteObject(folderRef)
                                 .then(() => {
-                                  console.log("Ordner erfolgreich gelöscht:", del_path);
                                   // Fügen Sie hier ggf. weitere Aktionen nach dem Löschen hinzu
                                 })
                                 .catch((error) => {
