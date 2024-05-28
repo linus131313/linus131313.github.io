@@ -1408,6 +1408,34 @@ onAuthStateChanged(auth, (user) => {
                           });
 
 
+                          const changeMailElement = document.getElementById("change_mail");
+
+                              changeMailElement.addEventListener("click", function() {
+                                var newMail = prompt("Gib eine neue E-Mail-Adresse für den Kunden ein:", "");
+                                if (newMail !== null) {
+                                  // Überprüfen, ob die E-Mail-Adresse gültig ist
+                                  if (/^\S+@\S+\.\S+$/.test(newMail)) {
+                                    console.log("Neue E-Mail-Adresse:", newMail);
+                                    // Setzen Sie den href direkt auf die E-Mail-Adresse
+                                    document.getElementById("kunde_mail").innerHTML = `<a href="mailto:${newMail}">${newMail}</a>`;
+
+                                    const updatedData = { ...dataG, mail: newMail }; // Aktualisieren Sie das Attribut "mail" in der Datenbank
+                                    // Update des Dokuments in der Firestore-Datenbank
+                                    updateDoc(doc(facilityCollections, button.id), updatedData)
+                                      .then(() => {
+                                        console.log("Dokument erfolgreich aktualisiert.");
+                                      })
+                                      .catch((error) => {
+                                        console.error("Fehler beim Aktualisieren des Dokuments:", error);
+                                      });
+                                  } else {
+                                    alert("Bitte geben Sie eine gültige E-Mail-Adresse ein.");
+                                  }
+                                }
+                              });
+
+
+
 
 
                       //add folder upload here
