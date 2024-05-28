@@ -1828,10 +1828,23 @@ onAuthStateChanged(auth, (user) => {
                                     // Lösche das Element mit dem Dateinamen aus der geb_pdf_map
                                     const map_key = dataG.address + dataG.zipcode + originalFolderName;
                                     if (geb_pdf_map.hasOwnProperty(map_key)) {
+                                      // Überprüfen, ob geb_pdf_map[map_key] eine Liste von Strings oder DOM-Elementen ist
+                                      if (typeof geb_pdf_map[map_key][0] === 'string') {
+                                        // Konvertiere die Liste von Strings in eine Liste von DOM-Elementen
+                                        geb_pdf_map[map_key] = geb_pdf_map[map_key].map(htmlString => {
+                                          const tempDiv = document.createElement('div');
+                                          tempDiv.innerHTML = htmlString;
+                                          return tempDiv.firstChild;
+                                        });
+                                      }
                                       // Durchlaufe die Liste und entferne das Element mit dem passenden Dateinamen
                                       geb_pdf_map[map_key] = geb_pdf_map[map_key].filter(item => {
-                                        const itemFilename = item.querySelector('.text-block-19-pdf').innerText;
-                                        return itemFilename !== filename;
+                                        const itemFilenameElement = item.querySelector('.text-block-19-pdf');
+                                        if (itemFilenameElement) {
+                                          const itemFilename = itemFilenameElement.innerText;
+                                          return itemFilename !== filename;
+                                        }
+                                        return false;
                                       });
                                     }
                                     // deleteFile(filename); // Funktion zum Löschen der Datei in Firestore aufrufen
