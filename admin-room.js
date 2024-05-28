@@ -1369,7 +1369,9 @@ onAuthStateChanged(auth, (user) => {
                             const folderRef = ref(storage, folderPath);
 
                             const emptyData = new Uint8Array(0); // Leere Daten
-                              const fileRef = ref(storage, folderPath + "/.placeholder"); // Verweis auf eine leere Datei im neuen Ordner
+                            const placeholderFileName = ".placeholder";
+
+                              const fileRef = ref(storage, folderPath + "/"+placeholderFileName); // Verweis auf eine leere Datei im neuen Ordner
                               uploadBytes(fileRef, emptyData)
                                 .then(() => {
                                   console.log("Neuer Ordner erfolgreich erstellt:", folderPath);
