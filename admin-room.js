@@ -1357,6 +1357,20 @@ onAuthStateChanged(auth, (user) => {
 
                       }
 
+                      //change name
+                      const changeNameElement = document.getElementById("change_name");
+
+                        changeNameElement.addEventListener("click", function() {
+                          var newName = prompt("Geben Sie einen neuen Namen ein:");
+                          if (newName) {
+                            // Hier können Sie den neuen Namen verwenden
+                            console.log("Neuer Name:", newName);
+                          } else {
+                            console.log("Der Benutzer hat das Eingeben des neuen Namens abgebrochen.");
+                          }
+                        });
+
+
                       //add folder upload here
                       const add_folder_bttn= document.getElementById("add_folder");
                       add_folder_bttn.addEventListener("click", function(){
@@ -1376,18 +1390,7 @@ onAuthStateChanged(auth, (user) => {
                                         const fileRef = ref(storage, folderPath + "/"+placeholderFileName); // Verweis auf eine leere Datei im neuen Ordner
                                         uploadBytes(fileRef, emptyData)
                                           .then(() => {
-                                            //#####add folder html code here
-          
-                                            // const id = encodeURIComponent(folderName);
-          
-                                            // const innerHTMLFolders=`<div class="folder_button" id=${id}>
-                                            // <div class="div-block-35">
-                                            // <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/664f6f7f337551434c3c3751_Book_fill.png" loading="lazy" alt="">
-                                            // <div class="text-block-19-pdf">${folderName}</div></div>
-                                            // <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/63ef532ba90a073195f4a6b6_Arrow%20Right.svg" loading="lazy" 
-                                            // alt="" class="image-12"></div>`;
-          
-                                            // document.getElementById("pdf_list").insertAdjacentHTML('afterbegin', innerHTMLFolders);
+                                            
                                             alert(`Ordner ${folderName} wurde erfolgreich erstellt.`);
           
                                             
@@ -1525,7 +1528,7 @@ onAuthStateChanged(auth, (user) => {
                                     // Datei hochladen
                                     uploadBytes(storageRef, file).then((snapshot) => {
                                       alert("Die Datei wurde erfolgreich hochgeladen.");
-                                      window.location.reload();
+                                      window.location.href = "/adminroom?tab=gebaude-tab";
                                     }).catch((error) => {
                                       console.error("Fehler beim Hochladen der Datei:", error);
                                     });
