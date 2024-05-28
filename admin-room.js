@@ -1388,7 +1388,7 @@ onAuthStateChanged(auth, (user) => {
                                   alert(`Ordner ${folderName} wurde erfolgreich erstellt.`);
 
                                   
-                                  window.reload();
+                                  window.location.reload();
 
 
                                   
