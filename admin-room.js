@@ -1695,6 +1695,15 @@ onAuthStateChanged(auth, (user) => {
                           );
                         });
 
+                        //additional inforamtion here
+
+                        const info_html=`<div class="div-block-34">
+                        <div class="text-block-19">Info</div>
+                        <div class="div-block-38"><div class="text-block-19">-</div>
+                        <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/664c6725c4bb3456aa3a7ce4_Edit_fill.png" loading="lazy" alt="" class="image-13">
+                        </div></div>`;
+                        console.log(dataG.information);
+
                       //add folder upload here
                      
                       const add_folder_bttn = document.getElementById("add_folder");
@@ -1783,29 +1792,23 @@ onAuthStateChanged(auth, (user) => {
 
                           //event listener on trash icon buttons
 
-                          // Funktion zum Erstellen des Event-Listeners für das Löschen von Dateien über die Trash-Icons
-                             // Funktion zum Erstellen des Event-Listeners für das Löschen von Dateien über die Trash-Icons
-                           // Funktion zum Erstellen des Event-Listeners für das Löschen von Dateien über die Trash-Icons
                            function createTrashIconEventHandler(icon) {
                             return function() {
-                              const fileDiv = icon.closest('.div-block-39'); // Das übergeordnete div-Element des Trash-Icons
+                              const fileDiv = icon.closest('.div-block-39');
                               if (fileDiv) {
-                                // Bestätigungsabfrage vor dem Löschen der Datei
                                 const confirmation = confirm("Möchtest du die Datei wirklich löschen?");
                                 if (!confirmation) {
-                                  return; // Abbruch, wenn die Bestätigung verneint wird
+                                  return; 
                                 }
-                                fileDiv.classList.add('invisible'); // Füge der Klasse 'invisible' hinzu, um das spezifische <div>-Element unsichtbar zu machen
+                                fileDiv.classList.add('invisible');
                               }
-                              const filenameElement = fileDiv.querySelector('.text-block-19-pdf'); // Das Element mit dem Dateinamen
+                              const filenameElement = fileDiv.querySelector('.text-block-19-pdf'); 
                               if (filenameElement) {
                                 const filename = filenameElement.innerText;
                                 const filePath = companyName + "/" + dataG.address + ", (" + dataG.zipcode + ")/" + originalFolderName + "/" + filename;
-                                console.log(filePath);
                                 const storageRef = ref(storage, filePath);
       deleteObject(storageRef)
         .then(() => {
-          console.log("Datei erfolgreich gelöscht.");
         })
         .catch((error) => {
           console.error("Fehler beim Löschen der Datei:", error);
