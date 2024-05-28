@@ -1780,33 +1780,34 @@ onAuthStateChanged(auth, (user) => {
                           //event listener on trash icon buttons
 
                           // Funktion zum Erstellen des Event-Listeners für das Löschen von Dateien über die Trash-Icons
-                              function trashIconEventHandler(icon) {
-                                return function() {
-                                  const parentAnchor = icon.closest('a');
-                                  const filenameElement = parentAnchor.querySelector('.text-block-19-pdf');
-                                  if (filenameElement) {
-                                    const filename = filenameElement.innerText;
-                                    console.log(filename,dataG.address + dataG.zipcode + originalFolderName);
-                                    // deleteFile(filename); // Funktion zum Löschen der Datei in Firestore aufrufen
-                                  }
-                                };
-                              }
+                             // Funktion zum Erstellen des Event-Listeners für das Löschen von Dateien über die Trash-Icons
+                            function createTrashIconEventHandler(icon) {
+                              return function() {
+                                const parentAnchor = icon.closest('a');
+                                const filenameElement = parentAnchor.querySelector('.text-block-19-pdf');
+                                if (filenameElement) {
+                                  const filename = filenameElement.innerText;
+                                  deleteFile(filename); // Funktion zum Löschen der Datei in Firestore aufrufen
+                                }
+                              };
+                            }
 
-                              // Hinzufügen des Event-Listeners für jede Trash-Icon
-                              const trashIcons = document.querySelectorAll('.trash-icon-files');
+                            // Hinzufügen des Event-Listeners für jede Trash-Icon
+                            const trashIcons = document.querySelectorAll('.trash-icon');
+                            trashIcons.forEach(icon => {
+                              const trashIconEventHandler = createTrashIconEventHandler(icon);
+                              icon.addEventListener('click', trashIconEventHandler);
+                            });
+
+                            // Event-Handler für das Drücken des "folder_back"-Buttons
+                            document.getElementById("folder_back").addEventListener("click", function () {
+                              // Entfernen aller Event-Listener für die Trash-Icons
                               trashIcons.forEach(icon => {
-                                const trashIconEventHandler = trashIconEventHandler(icon);
-                                icon.addEventListener('click', trashIconEventHandler);
+                                const trashIconEventHandler = createTrashIconEventHandler(icon);
+                                icon.removeEventListener('click', trashIconEventHandler);
                               });
+                            });
 
-                              // Event-Handler für das Drücken des "folder_back"-Buttons
-                              document.getElementById("folder_back").addEventListener("click", function () {
-                                // Entfernen aller Event-Listener für die Trash-Icons
-                                trashIcons.forEach(icon => {
-                                  const trashIconEventHandler = trashIconEventHandler(icon);
-                                  icon.removeEventListener('click', trashIconEventHandler);
-                                });
-                              });
 
 
                           var clickHandlerFDel = function () {
