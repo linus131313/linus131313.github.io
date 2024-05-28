@@ -1703,6 +1703,19 @@ onAuthStateChanged(auth, (user) => {
                         <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/664c6725c4bb3456aa3a7ce4_Edit_fill.png" loading="lazy" alt="" class="image-13">
                         </div></div>`;
                         console.log(dataG.information);
+                        // Annahme: dataG.information ist ein String, der wie folgt aussieht: "[[],["Lampen","LED"],["Restmüll","70L"]]"
+
+// Parse den String in ein JavaScript-Array
+const informationArray = JSON.parse(dataG.information);
+for (const info of informationArray) {
+  if (info.length > 0) {
+    const key = info[0];
+    const value = info[1];
+    console.log("Key:", key);
+    console.log("Value:", value);
+  }
+}
+
 
                       //add folder upload here
                      
