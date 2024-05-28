@@ -993,16 +993,27 @@ onAuthStateChanged(auth, (user) => {
                             if (!pdfName.endsWith(".placeholder")) {
                               getDownloadURL(pdfRef)
                                 .then((url) => {
-                                  const innerHtmlPdf = `<div><a href="${url}" target="_blank" class="filename">
-                                                        <div class="div-block-35">
-                                                        <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/664f6e03f96e15b4d3554801_Order.png" 
-                                                        loading="lazy" alt="">
-                                                        <div class="text-block-19-pdf">${pdfName}</div>
-                                                        </div>
-                                                        </a>
-                                                        <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" loading="lazy" alt="" class="image-12 trash-icon-files">
+                                  const innerHtmlPdf =  `<div  class="div-block-39">
+                                  <a href="${url}" target="_blank" class="filename">
+                                  <div class="div-block-35">
+                                  <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/664f6e03f96e15b4d3554801_Order.png"
+                                   loading="lazy" alt=""><div class="text-block-19-pdf">${pdfName}</div>
+                                   </div></a>
+                                   <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" loading="lazy" 
+                                   alt="" class="image-12 trash-icon-files"></div>`;
+                                  // `<div><a href="${url}" target="_blank" class="filename">
+                                  //                       <div class="div-block-35">
+                                  //                       <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/664f6e03f96e15b4d3554801_Order.png" 
+                                  //                       loading="lazy" alt="">
+                                  //                       <div class="text-block-19-pdf">${pdfName}</div>
+                                  //                       </div>
+                                  //                       </a>
+                                  //                       <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" loading="lazy" alt="" class="image-12 trash-icon-files">
 
-                                                        </div>`;
+                                  //                       </div>`;
+
+
+                                                       
                                   const map_key =
                                     docz.data().address +
                                     docz.data().zipcode +
@@ -1784,24 +1795,55 @@ onAuthStateChanged(auth, (user) => {
                           // Funktion zum Erstellen des Event-Listeners für das Löschen von Dateien über die Trash-Icons
                              // Funktion zum Erstellen des Event-Listeners für das Löschen von Dateien über die Trash-Icons
                            // Funktion zum Erstellen des Event-Listeners für das Löschen von Dateien über die Trash-Icons
+                              // function createTrashIconEventHandler(icon) {
+                              //   return function() {
+                              //     const parentDiv = icon.closest('div'); // Das übergeordnete div-Element des Trash-Icons
+                              //     const filenameElement = parentDiv.querySelector('.text-block-19-pdf'); // Das Element mit dem Dateinamen
+                              //     if (filenameElement) {
+                              //       const filename = filenameElement.innerText;
+                              //       const filePath=companyName+"/"+dataG.address +", ("+ dataG.zipcode+")/" + originalFolderName+"/"+filename;
+                              //       // deleteFile(filename); // Funktion zum Löschen der Datei in Firestore aufrufen
+                              //     }
+                              //   };
+                              // }
+
+                              // // Hinzufügen des Event-Listeners für jede Trash-Icon-Datei
+                              // const trashIcons = document.querySelectorAll('.trash-icon-files');
+                              // trashIcons.forEach(icon => {
+                              //   const trashIconEventHandler = createTrashIconEventHandler(icon);
+                              //   icon.addEventListener('click', trashIconEventHandler);
+                              // });
+
+                              // // Event-Handler für das Drücken des "folder_back"-Buttons
+                              // document.getElementById("folder_back").addEventListener("click", function () {
+                              //   // Entfernen aller Event-Listener für die Trash-Icon-Dateien
+                              //   trashIcons.forEach(icon => {
+                              //     const trashIconEventHandler = createTrashIconEventHandler(icon);
+                              //     icon.removeEventListener('click', trashIconEventHandler);
+                              //   });
+                              // });
+
+
                               function createTrashIconEventHandler(icon) {
                                 return function() {
-                                  const parentDiv = icon.closest('div'); // Das übergeordnete div-Element des Trash-Icons
+                                  const parentDiv = icon.closest('div.div-block-39'); // Das übergeordnete div-Element des Trash-Icons
                                   const filenameElement = parentDiv.querySelector('.text-block-19-pdf'); // Das Element mit dem Dateinamen
                                   if (filenameElement) {
                                     const filename = filenameElement.innerText;
-                                    deleteFile(filename); // Funktion zum Löschen der Datei in Firestore aufrufen
+                                                                        const filePath=companyName+"/"+dataG.address +", ("+ dataG.zipcode+")/" + originalFolderName+"/"+filename;
+console.log(filePath);
+                                    // deleteFile(filename); // Funktion zum Löschen der Datei in Firestore aufrufen
                                   }
                                 };
                               }
-
+                              
                               // Hinzufügen des Event-Listeners für jede Trash-Icon-Datei
                               const trashIcons = document.querySelectorAll('.trash-icon-files');
                               trashIcons.forEach(icon => {
                                 const trashIconEventHandler = createTrashIconEventHandler(icon);
                                 icon.addEventListener('click', trashIconEventHandler);
                               });
-
+                              
                               // Event-Handler für das Drücken des "folder_back"-Buttons
                               document.getElementById("folder_back").addEventListener("click", function () {
                                 // Entfernen aller Event-Listener für die Trash-Icon-Dateien
@@ -1810,6 +1852,7 @@ onAuthStateChanged(auth, (user) => {
                                   icon.removeEventListener('click', trashIconEventHandler);
                                 });
                               });
+                              
 
 
 
