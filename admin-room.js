@@ -237,6 +237,7 @@ function toggleButtonStateW() {
 //end disable/enable buttons
 
 var companyName;
+var admin_mail;
 
 var mitarbeiter_Calender_Select = document.getElementById("worker_cal_select");
 var mitarbeiter_List = document.getElementById("mitarbeiter_select");
@@ -475,6 +476,7 @@ onAuthStateChanged(auth, (user) => {
     getDocs(adminsRef).then((querySnapshot) => {
       querySnapshot.forEach((docx) => {
         if (docx.data().email === user.email) {
+          admin_mail=user.email;
           document.getElementById("user_name").innerHTML = docx.data().surname;
 
           document.getElementById("user_email").innerHTML = docx.data().email;
@@ -1025,7 +1027,7 @@ onAuthStateChanged(auth, (user) => {
                           );
                         });
 
-                      //////7
+          
                       const id = encodeURIComponent(folderName);
 
                       const innerHTMLFolders = `<div class="folder_button" id=${id}>
@@ -1034,7 +1036,7 @@ onAuthStateChanged(auth, (user) => {
                           <div class="text-block-19-pdf">${folderName}</div></div>
                           <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/63ef532ba90a073195f4a6b6_Arrow%20Right.svg" loading="lazy" 
                           alt="" class="image-12"></div>`;
-                      /////
+                
 
                       const map_key = docz.data().address + docz.data().zipcode;
                       if (geb_pdf_map.hasOwnProperty(map_key)) {
@@ -1827,31 +1829,66 @@ onAuthStateChanged(auth, (user) => {
                             );
 
                             if (confirmation) {
-                              const del_path =
-                                "/" +
-                                companyName +
-                                "/" +
-                                dataG.address +
-                                ", (" +
-                                dataG.zipcode +
-                                ")/" +
-                                originalFolderName +
-                                "/";
+                              // const del_path =
+                              //   "/" +
+                              //   companyName +
+                              //   "/" +
+                              //   dataG.address +
+                              //   ", (" +
+                              //   dataG.zipcode +
+                              //   ")/" +
+                              //   originalFolderName +
+                              //   "/";
 
-                              const folderRef = ref(storage, del_path);
+                              // const folderRef = ref(storage, del_path);
+                              const directoryName= dataG.address +
+                              ", (" +
+                              dataG.zipcode +
+                              ")/" +
+                              originalFolderName
 
-                              // Löschen des Ordners
-                              deleteObject(folderRef)
-                                .then(() => {
-                                  // Fügen Sie hier ggf. weitere Aktionen nach dem Löschen hinzu
+                              
+
+                              const requestBody = {
+                                directory: directoryName,
+                                company: companyName,
+                                email: admin_mail,
+
+                              ////
+                              };
+                            
+                              fetch("https://haushelper-bot-4584298bee33.herokuapp.com/delete_directory", {
+                                method: "POST",
+                                headers: {
+                                  "Content-Type": "application/json",
+                                },
+                                body: JSON.stringify(requestBody),
+                              })
+                                .then((response) => {
+                                  if (response.ok) {
+                                        alert(`Ordner erfolgreich gelöscht!.`);
+                                        window.location.href = "/adminroom?tab=gebaude-tab";
+                            
+                                  } else {
+                                    console.error("Fehler beim Registrieren:", response.statusText);
+                                  }
                                 })
                                 .catch((error) => {
-                                  console.error(
-                                    "Fehler beim Löschen des Ordners:",
-                                    error
-                                  );
-                                  // Hier können Sie Fehlerbehandlung durchführen, z.B. dem Benutzer eine Fehlermeldung anzeigen
+                                  console.error("Fehler beim Registrieren:", error);
                                 });
+
+                              // Löschen des Ordners
+                              // deleteObject(folderRef)
+                              //   .then(() => {
+                              //     // Fügen Sie hier ggf. weitere Aktionen nach dem Löschen hinzu
+                              //   })
+                              //   .catch((error) => {
+                              //     console.error(
+                              //       "Fehler beim Löschen des Ordners:",
+                              //       error
+                              //     );
+                              //     // Hier können Sie Fehlerbehandlung durchführen, z.B. dem Benutzer eine Fehlermeldung anzeigen
+                              //   });
                             } else {
                               alert("Das Löschen wurde abgebrochen.");
                             }
@@ -2540,6 +2577,8 @@ onAuthStateChanged(auth, (user) => {
                           // const docRef = doc(workerCollections, button.id);
 
                           ///###
+
+                          
                           const requestBody = {
                             email: emailW,
                             company: companyName,
@@ -2813,7 +2852,6 @@ function renderCalendar(events) {
       const taskWorker = events[idC].worker;
       const taskBuilding = events[idC].building;
       const taskRepeat = events[idC].repeat;
-      ////
       const taskDone = new Date(events[idC].done.seconds * 1000);
       const january1st2010 = new Date("2010-01-01T00:00:00Z");
       const resultDone =
