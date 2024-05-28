@@ -1802,6 +1802,14 @@ onAuthStateChanged(auth, (user) => {
                                 const filename = filenameElement.innerText;
                                 const filePath = companyName + "/" + dataG.address + ", (" + dataG.zipcode + ")/" + originalFolderName + "/" + filename;
                                 console.log(filePath);
+                                const storageRef = ref(storage, filePath);
+      deleteObject(storageRef)
+        .then(() => {
+          console.log("Datei erfolgreich gelöscht.");
+        })
+        .catch((error) => {
+          console.error("Fehler beim Löschen der Datei:", error);
+        });
                                 // deleteFile(filename); // Funktion zum Löschen der Datei in Firestore aufrufen
                               }
                             };
