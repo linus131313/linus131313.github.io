@@ -1001,16 +1001,7 @@ onAuthStateChanged(auth, (user) => {
                                    </div></a>
                                    <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" loading="lazy" 
                                    alt="" class="image-12 trash-icon-files"></div>`;
-                                  // `<div><a href="${url}" target="_blank" class="filename">
-                                  //                       <div class="div-block-35">
-                                  //                       <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/664f6e03f96e15b4d3554801_Order.png" 
-                                  //                       loading="lazy" alt="">
-                                  //                       <div class="text-block-19-pdf">${pdfName}</div>
-                                  //                       </div>
-                                  //                       </a>
-                                  //                       <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" loading="lazy" alt="" class="image-12 trash-icon-files">
-
-                                  //                       </div>`;
+                             
 
 
                                                        
@@ -1823,29 +1814,35 @@ onAuthStateChanged(auth, (user) => {
                               //   });
                               // });
 
-                              function createTrashIconEventHandler(icon) {
+                              function createTrashIconEventHandler(icon, innerHtmlPdf) {
                                 return function() {
                                   const fileDiv = icon.closest('.div-block-39'); // Das übergeordnete div-Element des Trash-Icons
                                   if (fileDiv) {
-                                    fileDiv.classList.add('invisible'); // Füge der Klasse 'invisible' hinzu, um das spezifische <div>-Element unsichtbar zu machen
+                                    fileDiv.style.visibility = 'hidden'; // Setze die Sichtbarkeit des Elements auf 'hidden'
                                   }
                                   const filenameElement = fileDiv.querySelector('.text-block-19-pdf'); // Das Element mit dem Dateinamen
                                   if (filenameElement) {
                                     const filename = filenameElement.innerText;
                                     const filePath = companyName + "/" + dataG.address + ", (" + dataG.zipcode + ")/" + originalFolderName + "/" + filename;
                                     console.log(filePath);
+                                    // Lösche das Element mit dem Dateinamen aus der geb_pdf_map
+                                    const map_key =dataG.address + dataG.zipcode  + originalFolderName;
+                                    if (geb_pdf_map.hasOwnProperty(map_key)) {
+                                      geb_pdf_map[map_key] = geb_pdf_map[map_key].filter(item => item !== innerHtmlPdf);
+                                    }
                                     // deleteFile(filename); // Funktion zum Löschen der Datei in Firestore aufrufen
                                   }
                                 };
                               }
                               
-                              
                               // Hinzufügen des Event-Listeners für jede Trash-Icon-Datei
                               const trashIcons = document.querySelectorAll('.trash-icon-files');
-                              trashIcons.forEach(icon => {
-                                const trashIconEventHandler = createTrashIconEventHandler(icon);
+                              trashIcons.forEach((icon, index) => {
+                                const innerHtmlPdf = geb_pdf_map[map_key][index];
+                                const trashIconEventHandler = createTrashIconEventHandler(icon, innerHtmlPdf);
                                 icon.addEventListener('click', trashIconEventHandler);
                               });
+                              
                               
                               // Event-Handler für das Drücken des "folder_back"-Buttons
                               document.getElementById("folder_back").addEventListener("click", function () {
