@@ -1696,6 +1696,23 @@ onAuthStateChanged(auth, (user) => {
                         });
 
                         //additional inforamtion here
+                        const add_info= document.getElementById("add_info");
+                       
+
+                          function handleClick(event) {
+                            const bezeichnung = prompt("Was ist die Bezeichnung der Information?");
+                            console.log("Bezeichnung:", bezeichnung);
+                          }
+
+                          // Event-Listener hinzufügen
+                          add_info.addEventListener("click", handleClick);
+
+                          // Event-Listener entfernen, wenn "geb_back" gedrückt wird
+                          document.getElementById("geb_back").addEventListener("click", function () {
+                            add_info.removeEventListener("click", handleClick);
+                          });
+
+
 
                         
 
