@@ -1856,6 +1856,8 @@ onAuthStateChanged(auth, (user) => {
 
                               ////
                               };
+
+                              console.log(admin_mail, companyName, directoryName);
                             
                               fetch("https://haushelper-bot-4584298bee33.herokuapp.com/delete_directory", {
                                 method: "POST",
@@ -1866,7 +1868,7 @@ onAuthStateChanged(auth, (user) => {
                               })
                                 .then((response) => {
                                   if (response.ok) {
-                                        alert(`Ordner erfolgreich gelöscht!.`);
+                                        alert(`Ordner erfolgreich gelöscht!`);
                                         window.location.href = "/adminroom?tab=gebaude-tab";
                             
                                   } else {
