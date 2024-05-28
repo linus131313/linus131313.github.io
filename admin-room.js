@@ -26,6 +26,7 @@ import {
   deleteObject,
   listAll,
   getDownloadURL,
+  mkdir,
 } from "https://www.gstatic.com/firebasejs/9.4.1/firebase-storage.js";
 
 const firebaseConfig = {
@@ -1360,6 +1361,24 @@ onAuthStateChanged(auth, (user) => {
                             console.log("Neuer Ordnername:", folderName);
                             console.log("Ornder path= ");
                             console.log(companyName,"/",dataG.address+", (" + dataG.zipcode+")/",folderName);
+
+
+                            var folderPath = companyName + "/" + dataG.address + ", (" + dataG.zipcode + ")/" + folderName;
+    
+                            // Referenz zum neuen Ordner erstellen
+                            const folderRef = ref(storage, folderPath);
+
+                            // Neuen Ordner erstellen
+                            mkdir(folderRef)
+                              .then(() => {
+                                console.log("Neuer Ordner erfolgreich erstellt:", folderPath);
+                                // Hier können Sie weitere Aktionen nach dem Erstellen des Ordners hinzufügen
+                              })
+                              .catch((error) => {
+                                console.error("Fehler beim Erstellen des neuen Ordners:", error);
+                                // Hier können Sie Fehlerbehandlung durchführen
+                              });
+                          
                             // Fügen Sie hier die Logik zum Erstellen des neuen Ordners hinzu
                           } else {
                             console.log("Der Benutzer hat das Erstellen des Ordners abgebrochen.");
