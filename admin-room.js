@@ -1823,19 +1823,22 @@ onAuthStateChanged(auth, (user) => {
                               //   });
                               // });
 
-
                               function createTrashIconEventHandler(icon) {
                                 return function() {
-                                  const parentDiv = icon.closest('div.div-block-39'); // Das übergeordnete div-Element des Trash-Icons
-                                  const filenameElement = parentDiv.querySelector('.text-block-19-pdf'); // Das Element mit dem Dateinamen
+                                  const fileDiv = icon.closest('.div-block-39'); // Das übergeordnete div-Element des Trash-Icons
+                                  if (fileDiv) {
+                                    fileDiv.classList.add('invisible'); // Füge der Klasse 'invisible' hinzu, um das spezifische <div>-Element unsichtbar zu machen
+                                  }
+                                  const filenameElement = fileDiv.querySelector('.text-block-19-pdf'); // Das Element mit dem Dateinamen
                                   if (filenameElement) {
                                     const filename = filenameElement.innerText;
-                                                                        const filePath=companyName+"/"+dataG.address +", ("+ dataG.zipcode+")/" + originalFolderName+"/"+filename;
-console.log(filePath);
+                                    const filePath = companyName + "/" + dataG.address + ", (" + dataG.zipcode + ")/" + originalFolderName + "/" + filename;
+                                    console.log(filePath);
                                     // deleteFile(filename); // Funktion zum Löschen der Datei in Firestore aufrufen
                                   }
                                 };
                               }
+                              
                               
                               // Hinzufügen des Event-Listeners für jede Trash-Icon-Datei
                               const trashIcons = document.querySelectorAll('.trash-icon-files');
