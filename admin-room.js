@@ -1778,7 +1778,7 @@ function changeValueEventHandler(event) {
 
 // Daten aktualisieren und in die Datenbank schreiben
 const updatedInformation = JSON.parse(dataG.information);
-const index = updatedInformation.findIndex(item => item[0] === bezeichnung);
+const index = updatedInformation.findIndex(item => item[0] === key);
 if (index !== -1) {
   updatedInformation[index][1] = newValue; // Wert aktualisieren, wenn der Schlüssel bereits existiert
 } else {
