@@ -1763,18 +1763,25 @@ for (const info of informationArray) {
   }
 }
 
-const changeValueElements = document.querySelectorAll(".change_value");
-changeValueElements.forEach(element => {
-  element.addEventListener("click", function() {
-    // Den Key des Elements erhalten
-    const key = element.closest(".div-block-34").querySelector(".text-block-19").innerText;
-    console.log("Key:", key);
 
-    // Einen neuen Wert eingeben
-    const newValue = prompt("Neuen Wert eingeben:");
-    // Hier kannst du den neuen Wert weiterverarbeiten, z.B. aktualisieren oder in der Datenbank speichern
-    console.log("Neuer Wert:", newValue);
-    })});
+
+function changeValueEventHandler(event) {
+  const element = event.target;
+  const key = element.closest(".div-block-34").querySelector(".text-block-19").innerText;
+  const newValue = prompt("Neuen Wert eingeben:");
+  console.log("Key:", key, "Neuer Wert:", newValue);
+}
+
+document.querySelectorAll(".change_value").forEach(element => {
+  element.addEventListener("click", changeValueEventHandler);
+});
+
+document.getElementById("geb_back").addEventListener("click", function() {
+  document.querySelectorAll(".change_value").forEach(element => {
+    element.removeEventListener("click", changeValueEventHandler);
+  });
+});
+
 
 
                       //add folder upload here
