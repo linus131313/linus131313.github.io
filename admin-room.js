@@ -1774,7 +1774,7 @@ function changeValueEventHandler(event) {
   const newValue = prompt("Neuen Wert eingeben:");
   console.log("Key:", key, "Neuer Wert:", newValue);
 
-  const keyValueString = `["${bezeichnung}", "${newValue}"]`;
+  const keyValueString = `["${key}", "${newValue}"]`;
 
 // Daten aktualisieren und in die Datenbank schreiben
 const updatedInformation = JSON.parse(dataG.information);
