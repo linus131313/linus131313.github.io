@@ -1773,6 +1773,21 @@ function changeValueEventHandler(event) {
   const key = element.closest(".div-block-34").querySelector(".text-block-19").innerText;
   const newValue = prompt("Neuen Wert eingeben:");
   console.log("Key:", key, "Neuer Wert:", newValue);
+
+  const keyValueString = `["${bezeichnung}", "${newValue}"]`;
+
+// Daten aktualisieren und in die Datenbank schreiben
+const updatedInformation = JSON.parse(dataG.information);
+const index = updatedInformation.findIndex(item => item[0] === bezeichnung);
+if (index !== -1) {
+  updatedInformation[index][1] = newValue; // Wert aktualisieren, wenn der Schlüssel bereits existiert
+} else {
+  updatedInformation.push(JSON.parse(keyValueString)); // Andernfalls neues Schlüssel-Wert-Paar hinzufügen
+}
+
+const updatedData = { ...dataG, information: JSON.stringify(updatedInformation) };
+updateDoc(doc(facilityCollections, button.id), updatedData);
+
 }
 
 document.querySelectorAll(".change_value").forEach(element => {
