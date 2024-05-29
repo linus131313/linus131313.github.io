@@ -1773,6 +1773,10 @@ function changeValueEventHandler(event) {
   const key = element.closest(".div-block-34").querySelector(".text-block-19").innerText;
   const newValue = prompt("Neuen Wert eingeben:");
   console.log("Key:", key, "Neuer Wert:", newValue);
+  const valueElement = element.closest(".div-block-34").querySelector(".div-block-38 .text-block-19");
+  if (valueElement) {
+    valueElement.innerText = newValue;
+  }
 
   const keyValueString = `["${key}", "${newValue}"]`;
 
