@@ -1750,18 +1750,27 @@ for (const info of informationArray) {
   if (info.length > 0) {
     const key = info[0];
     const value = info[1];
-    var info_html=`<div class="div-block-34">
+    var info_html=`<div class="div-block-34" id="${key}>
     <div class="text-block-19">${key}</div><div class="div-block-38">
     <div class="text-block-19">${value}</div>
-    <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/664c6725c4bb3456aa3a7ce4_Edit_fill.png" loading="lazy" alt="" class="image-13">
+    <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/664c6725c4bb3456aa3a7ce4_Edit_fill.png" loading="lazy" alt="" class="image-13 change_value">
     <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" loading="lazy" alt="" class="image-13">
     </div>
-    </div>`;;
+    </div>`;
 
     info_div.innerHTML+=info_html;
 
   }
 }
+
+const changeValueElements = document.querySelectorAll(".change_value");
+  changeValueElements.forEach(element => {
+    const key = element.closest(".div-block-34").id; // Schlüssel des Elements
+    element.addEventListener("click", function() {
+      const newValue = prompt("Neuen Wert eingeben:");
+      console.log("Schlüssel:", key);
+      console.log("Neuer Wert:", newValue);
+    })});
 
 
                       //add folder upload here
