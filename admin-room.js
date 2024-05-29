@@ -1712,6 +1712,16 @@ onAuthStateChanged(auth, (user) => {
                             updateDoc(doc(facilityCollections, button.id), updatedData)
                               .then(() => {
                                 console.log("Information erfolgreich aktualisiert.");
+
+                                document.getElementById("info_div").innerHTML+=`<div class="div-block-34">
+                                <div class="text-block-19">${bezeichnung}</div><div class="div-block-38">
+                                <div class="text-block-19">-</div>
+                                <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/664c6725c4bb3456aa3a7ce4_Edit_fill.png" loading="lazy" alt="" class="image-13">
+                                <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" loading="lazy" alt="" class="image-13">
+                                </div>
+                                </div>`;
+                                
+                          
                               })
                               .catch((error) => {
                                 console.error("Fehler beim Aktualisieren der Information:", error);
@@ -1741,10 +1751,12 @@ for (const info of informationArray) {
     const key = info[0];
     const value = info[1];
     var info_html=`<div class="div-block-34">
-                        <div class="text-block-19">${key}</div>
-                        <div class="div-block-38"><div class="text-block-19">${value}</div>
-                        <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/664c6725c4bb3456aa3a7ce4_Edit_fill.png" loading="lazy" alt="" class="image-13">
-                        </div></div>`;
+    <div class="text-block-19">${key}</div><div class="div-block-38">
+    <div class="text-block-19">${value}</div>
+    <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/664c6725c4bb3456aa3a7ce4_Edit_fill.png" loading="lazy" alt="" class="image-13">
+    <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" loading="lazy" alt="" class="image-13">
+    </div>
+    </div>`;;
 
     info_div.innerHTML+=info_html;
 
