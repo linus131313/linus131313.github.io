@@ -1750,7 +1750,7 @@ for (const info of informationArray) {
   if (info.length > 0) {
     const key = info[0];
     const value = info[1];
-    var info_html=`<div class="div-block-34" id="${key}>
+    var info_html=`<div class="div-block-34" i>
     <div class="text-block-19">${key}</div><div class="div-block-38">
     <div class="text-block-19">${value}</div>
     <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/664c6725c4bb3456aa3a7ce4_Edit_fill.png" loading="lazy" alt="" class="image-13 change_value">
@@ -1764,12 +1764,16 @@ for (const info of informationArray) {
 }
 
 const changeValueElements = document.querySelectorAll(".change_value");
-  changeValueElements.forEach(element => {
-    const key = element.closest(".div-block-34").id; // Schlüssel des Elements
-    element.addEventListener("click", function() {
-      const newValue = prompt("Neuen Wert eingeben:");
-      console.log("Schlüssel:", key);
-      console.log("Neuer Wert:", newValue);
+changeValueElements.forEach(element => {
+  element.addEventListener("click", function() {
+    // Den Key des Elements erhalten
+    const key = element.closest(".div-block-34").querySelector(".text-block-19").innerText;
+    console.log("Key:", key);
+
+    // Einen neuen Wert eingeben
+    const newValue = prompt("Neuen Wert eingeben:");
+    // Hier kannst du den neuen Wert weiterverarbeiten, z.B. aktualisieren oder in der Datenbank speichern
+    console.log("Neuer Wert:", newValue);
     })});
 
 
