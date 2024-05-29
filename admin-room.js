@@ -1750,7 +1750,7 @@ for (const info of informationArray) {
   if (info.length > 0) {
     const key = info[0];
     const value = info[1];
-    var info_html=`<div class="div-block-34" i>
+    var info_html=`<div class="div-block-34">
     <div class="text-block-19">${key}</div><div class="div-block-38">
     <div class="text-block-19">${value}</div>
     <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/664c6725c4bb3456aa3a7ce4_Edit_fill.png" loading="lazy" alt="" class="image-13 change_value">
