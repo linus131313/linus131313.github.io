@@ -1774,7 +1774,7 @@ onAuthStateChanged(auth, (user) => {
                         const element = event.target;
                         const key = element
                           .closest(".div-block-34")
-                          .querySelector(".text-block-19").innerText;
+                          .querySelector(".text-block-19-h").innerText;
                         const newValue = prompt("Neuen Wert eingeben:");
                         console.log("Key:", key, "Neuer Wert:", newValue);
                         const valueElement = element
@@ -2814,17 +2814,13 @@ onAuthStateChanged(auth, (user) => {
                                   companiesDocRef,
                                   "Accesses"
                                 );
-                                console.log("here");
                                 getDocs(accessesRef).then((querySnapshot) => {
                                   querySnapshot.forEach((doc) => {
-                                    console.log(doc.data().userAvailable);
                                     let w_available = parseInt(
                                       doc.data().userAvailable
                                     );
-                                    console.log(w_available);
 
                                     w_available = w_available + 1;
-                                    console.log(w_available, " +1 done");
 
                                     updateDoc(doc.ref, {
                                       userAvailable: w_available.toString(),
