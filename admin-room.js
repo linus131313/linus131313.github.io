@@ -2724,47 +2724,37 @@ document.getElementById("geb_back").addEventListener("click", function() {
                             },
                             body: JSON.stringify(requestBody),
                           })
-                            .then((response) => {
-                              if (response.ok) {
+                          .then((response) => {
+                            if (response.ok) {
                                 console.log("Mitarbeiter gelöscht!");
-                                const companiesDocRef = doc(
-                                  collection(db, "Companies"),
-                                  companyName
-                                );
-                                const accessesRef = collection(
-                                  companiesDocRef,
-                                  "Accesses"
-                                );
+                                console.log(companyName);
+                                const companiesDocRef = doc(collection(db, "Companies"), companyName);
+                                const accessesRef = collection(companiesDocRef, "Accesses");
+                                console.log("here");
                                 getDocs(accessesRef).then((querySnapshot) => {
-                                  querySnapshot.forEach((doc) => {
-                                    console.log(doc.data().userAvailable);
-                                    let w_available = parseInt(
-                                      doc.data().userAvailable
-                                    );
-                                    console.log(w_available);
-  
-                                    if (!isNaN(w_available)) {
-                                      w_available = w_available + 1;
-                                      console.log(w_available);
-
-  
-                                      updateDoc(doc.ref, {
-                                        userAvailable: w_available.toString(),
-                                      })
-                                        .then(() => {})
-                                        .catch((error) => {
-                                          console.error(
-                                            "Fehler beim Aktualisieren der Anzahl verfügbarer Benutzer:",
-                                            error
-                                          );
-                                        });
-                                    }
-                                  });
+                                    querySnapshot.forEach((doc) => {
+                                        console.log(doc.data().userAvailable);
+                                        let w_available = parseInt(doc.data().userAvailable);
+                                        console.log(w_available);
+                        
+                                        if (!isNaN(w_available)) {
+                                            w_available = w_available + 1;
+                                            console.log(w_available);
+                        
+                                            updateDoc(doc.ref, {
+                                                    userAvailable: w_available.toString(),
+                                                })
+                                                .then(() => {})
+                                                .catch((error) => {
+                                                    console.error("Fehler beim Aktualisieren der Anzahl verfügbarer Benutzer:", error);
+                                                });
+                                        }
+                                    });
+                                }).then(() => {
+                                    alert("Der/Die Mitarbeiter/in wurde erfolgreich gelöscht. Der Zugang wurde gesperrt.");
+                                    window.location.href = "/adminroom?tab=mitarbeiter-tab";
                                 });
-                                alert(
-                                  "Der/Die Mitarbeiter/in wurde erfolgreich gelöscht. Der Zugang wurde gesperrt."
-                                );
-                                window.location.href = "/adminroom?tab=mitarbeiter-tab";
+                           
                         
                               } else {
                                 console.error("Fehler beim Registrieren:", response.statusText);
