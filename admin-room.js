@@ -2737,6 +2737,7 @@ document.getElementById("geb_back").addEventListener("click", function() {
                                 );
                                 getDocs(accessesRef).then((querySnapshot) => {
                                   querySnapshot.forEach((doc) => {
+                                    console.log(doc.data().userAvailable);
                                     let w_available = parseInt(
                                       doc.data().userAvailable
                                     );
