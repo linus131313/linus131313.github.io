@@ -3,7 +3,6 @@ import {
   getAuth,
   signOut,
   onAuthStateChanged,
-  
 } from "https://www.gstatic.com/firebasejs/9.4.1/firebase-auth.js";
 import {
   getFirestore,
@@ -278,37 +277,35 @@ function handleWForm(e) {
 
   //     // Füge den neuen Benutzer zur Firestore-Datenbank hinzu
 
-      const companiesDocRef = doc(collection(db, "Companies"), companyName);
+  const companiesDocRef = doc(collection(db, "Companies"), companyName);
   //     const newSubcollectionRef = collection(companiesDocRef, "Users");
-      const accessesRef = collection(companiesDocRef, "Accesses");
-      getDocs(accessesRef).then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          let w_available = parseInt(doc.data().userAvailable); // Konvertiere in Ganzzahl
+  const accessesRef = collection(companiesDocRef, "Accesses");
+  getDocs(accessesRef).then((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+      let w_available = parseInt(doc.data().userAvailable); // Konvertiere in Ganzzahl
 
-          if (!isNaN(w_available)) {
-            w_available = Math.max(w_available - 1, 0);
+      if (!isNaN(w_available)) {
+        w_available = Math.max(w_available - 1, 0);
 
-            updateDoc(doc.ref, { userAvailable: w_available.toString() })
-              .then(() => {
-                console.log(
-                  "Anzahl verfügbarer Benutzer erfolgreich aktualisiert"
-                );
-              })
-              .catch((error) => {
-                console.error(
-                  "Fehler beim Aktualisieren der Anzahl verfügbarer Benutzer:",
-                  error
-                );
-              });
-           return;
-          } else {
+        updateDoc(doc.ref, { userAvailable: w_available.toString() })
+          .then(() => {
+            console.log("Anzahl verfügbarer Benutzer erfolgreich aktualisiert");
+          })
+          .catch((error) => {
             console.error(
-              "Ungültiger Wert für w_available:",
-              doc.data().userAvailable
+              "Fehler beim Aktualisieren der Anzahl verfügbarer Benutzer:",
+              error
             );
-          }
-        });
-      });
+          });
+        return;
+      } else {
+        console.error(
+          "Ungültiger Wert für w_available:",
+          doc.data().userAvailable
+        );
+      }
+    });
+  });
 
   //     const newDocumentData2 = {
   //       name: nameW,
@@ -344,9 +341,8 @@ function handleWForm(e) {
     .then((response) => {
       if (response.ok) {
         console.log("Registrierung erfolgreich über Bot!");
-            alert(`Mitarbeiter erfolgreich hinzugefügt!.`);
-            window.location.href = "/adminroom?tab=mitarbeiter-tab";
-
+        alert(`Mitarbeiter erfolgreich hinzugefügt!.`);
+        window.location.href = "/adminroom?tab=mitarbeiter-tab";
       } else {
         console.error("Fehler beim Registrieren:", response.statusText);
       }
@@ -476,7 +472,7 @@ onAuthStateChanged(auth, (user) => {
     getDocs(adminsRef).then((querySnapshot) => {
       querySnapshot.forEach((docx) => {
         if (docx.data().email === user.email) {
-          admin_mail=user.email;
+          admin_mail = user.email;
           document.getElementById("user_name").innerHTML = docx.data().surname;
 
           document.getElementById("user_email").innerHTML = docx.data().email;
@@ -993,7 +989,7 @@ onAuthStateChanged(auth, (user) => {
                             if (!pdfName.endsWith(".placeholder")) {
                               getDownloadURL(pdfRef)
                                 .then((url) => {
-                                  const innerHtmlPdf =  `<div  class="div-block-39">
+                                  const innerHtmlPdf = `<div  class="div-block-39">
                                   <a href="${url}" target="_blank" class="filename">
                                   <div class="div-block-35">
                                   <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/664f6e03f96e15b4d3554801_Order.png"
@@ -1001,10 +997,7 @@ onAuthStateChanged(auth, (user) => {
                                    </div></a>
                                    <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" loading="lazy" 
                                    alt="" class="image-12 trash-icon-files"></div>`;
-                             
 
-
-                                                       
                                   const map_key =
                                     docz.data().address +
                                     docz.data().zipcode +
@@ -1031,7 +1024,6 @@ onAuthStateChanged(auth, (user) => {
                           );
                         });
 
-          
                       const id = encodeURIComponent(folderName);
 
                       const innerHTMLFolders = `<div class="folder_button" id=${id}>
@@ -1040,7 +1032,6 @@ onAuthStateChanged(auth, (user) => {
                           <div class="text-block-19-pdf">${folderName}</div></div>
                           <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/63ef532ba90a073195f4a6b6_Arrow%20Right.svg" loading="lazy" 
                           alt="" class="image-12"></div>`;
-                
 
                       const map_key = docz.data().address + docz.data().zipcode;
                       if (geb_pdf_map.hasOwnProperty(map_key)) {
@@ -1695,24 +1686,35 @@ onAuthStateChanged(auth, (user) => {
                           );
                         });
 
-                        const add_info = document.getElementById("add_info");
+                      const add_info = document.getElementById("add_info");
 
-                          function handleClick(event) {
-                            // Bezeichnung abfragen
-                            const bezeichnung = prompt("Was ist die Bezeichnung der Information?");
-                            
-                            // String für das neue Key-Value-Paar erstellen
-                            const keyValueString = `["${bezeichnung}", " - "]`;
+                      function handleClick(event) {
+                        // Bezeichnung abfragen
+                        const bezeichnung = prompt(
+                          "Was ist die Bezeichnung der Information?"
+                        );
 
-                            // Daten aktualisieren und in die Datenbank schreiben
-                            const updatedInformation = JSON.parse(dataG.information);
-                            updatedInformation.push(JSON.parse(keyValueString));
+                        // String für das neue Key-Value-Paar erstellen
+                        const keyValueString = `["${bezeichnung}", " - "]`;
 
-                            const updatedData = { ...dataG, information: JSON.stringify(updatedInformation) };
-                            updateDoc(doc(facilityCollections, button.id), updatedData)
-                              .then(() => {
+                        // Daten aktualisieren und in die Datenbank schreiben
+                        const updatedInformation = JSON.parse(
+                          dataG.information
+                        );
+                        updatedInformation.push(JSON.parse(keyValueString));
 
-                                document.getElementById("info_div").innerHTML+=`<div class="div-block-34">
+                        const updatedData = {
+                          ...dataG,
+                          information: JSON.stringify(updatedInformation),
+                        };
+                        updateDoc(
+                          doc(facilityCollections, button.id),
+                          updatedData
+                        )
+                          .then(() => {
+                            document.getElementById(
+                              "info_div"
+                            ).innerHTML += `<div class="div-block-34">
                                 <div class="text-block-19-h">${bezeichnung}</div><div class="div-block-38">
                                 <div class="text-block-19">-</div>
                                 <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/664c6725c4bb3456aa3a7ce4_Edit_fill.png" loading="lazy" alt="" class="image-13 change_value">
@@ -1720,40 +1722,43 @@ onAuthStateChanged(auth, (user) => {
                                 </div>
                                 </div>`;
 
-                                document.querySelectorAll(".change_value").forEach(element => {
-                                  element.addEventListener("click", changeValueEventHandler);
-                                });
-                                
-                          
-                              })
-                              .catch((error) => {
-                                console.error("Fehler beim Aktualisieren der Information:", error);
+                            document
+                              .querySelectorAll(".change_value")
+                              .forEach((element) => {
+                                element.addEventListener(
+                                  "click",
+                                  changeValueEventHandler
+                                );
                               });
-                          }
-
-                          // Event-Listener hinzufügen
-                          add_info.addEventListener("click", handleClick);
-
-                          // Event-Listener entfernen, wenn "geb_back" gedrückt wird
-                          document.getElementById("geb_back").addEventListener("click", function () {
-                            add_info.removeEventListener("click", handleClick);
-                            document.getElementById("info_div").innerHTML = "";
-
+                          })
+                          .catch((error) => {
+                            console.error(
+                              "Fehler beim Aktualisieren der Information:",
+                              error
+                            );
                           });
+                      }
 
+                      // Event-Listener hinzufügen
+                      add_info.addEventListener("click", handleClick);
 
+                      // Event-Listener entfernen, wenn "geb_back" gedrückt wird
+                      document
+                        .getElementById("geb_back")
+                        .addEventListener("click", function () {
+                          add_info.removeEventListener("click", handleClick);
+                          document.getElementById("info_div").innerHTML = "";
+                        });
 
-                        
+                      const info_div = document.getElementById("info_div");
 
-                        const info_div=document.getElementById("info_div");
-
-// Parse den String in ein JavaScript-Array
-const informationArray = JSON.parse(dataG.information);
-for (const info of informationArray) {
-  if (info.length > 0) {
-    const key = info[0];
-    const value = info[1];
-    var info_html=`<div class="div-block-34">
+                      // Parse den String in ein JavaScript-Array
+                      const informationArray = JSON.parse(dataG.information);
+                      for (const info of informationArray) {
+                        if (info.length > 0) {
+                          const key = info[0];
+                          const value = info[1];
+                          var info_html = `<div class="div-block-34">
     <div class="text-block-19-h">${key}</div><div class="div-block-38">
     <div class="text-block-19">${value}</div>
     <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/664c6725c4bb3456aa3a7ce4_Edit_fill.png" loading="lazy" alt="" class="image-13 change_value">
@@ -1761,96 +1766,134 @@ for (const info of informationArray) {
     </div>
     </div>`;
 
-    info_div.innerHTML+=info_html;
+                          info_div.innerHTML += info_html;
+                        }
+                      }
 
-  }
-}
+                      function changeValueEventHandler(event) {
+                        const element = event.target;
+                        const key = element
+                          .closest(".div-block-34")
+                          .querySelector(".text-block-19").innerText;
+                        const newValue = prompt("Neuen Wert eingeben:");
+                        console.log("Key:", key, "Neuer Wert:", newValue);
+                        const valueElement = element
+                          .closest(".div-block-34")
+                          .querySelector(".div-block-38 .text-block-19");
+                        if (valueElement) {
+                          valueElement.innerText = newValue;
+                        }
 
+                        const keyValueString = `["${key}", "${newValue}"]`;
 
+                        // Daten aktualisieren und in die Datenbank schreiben
+                        const updatedInformation = JSON.parse(
+                          dataG.information
+                        );
+                        const index = updatedInformation.findIndex(
+                          (item) => item[0] === key
+                        );
+                        if (index !== -1) {
+                          updatedInformation[index][1] = newValue; // Wert aktualisieren, wenn der Schlüssel bereits existiert
+                        } else {
+                          updatedInformation.push(JSON.parse(keyValueString)); // Andernfalls neues Schlüssel-Wert-Paar hinzufügen
+                        }
 
-function changeValueEventHandler(event) {
-  const element = event.target;
-  const key = element.closest(".div-block-34").querySelector(".text-block-19").innerText;
-  const newValue = prompt("Neuen Wert eingeben:");
-  console.log("Key:", key, "Neuer Wert:", newValue);
-  const valueElement = element.closest(".div-block-34").querySelector(".div-block-38 .text-block-19");
-  if (valueElement) {
-    valueElement.innerText = newValue;
-  }
+                        const updatedData = {
+                          ...dataG,
+                          information: JSON.stringify(updatedInformation),
+                        };
+                        updateDoc(
+                          doc(facilityCollections, button.id),
+                          updatedData
+                        );
+                      }
 
-  const keyValueString = `["${key}", "${newValue}"]`;
+                      document
+                        .querySelectorAll(".change_value")
+                        .forEach((element) => {
+                          element.addEventListener(
+                            "click",
+                            changeValueEventHandler
+                          );
+                        });
 
-// Daten aktualisieren und in die Datenbank schreiben
-const updatedInformation = JSON.parse(dataG.information);
-const index = updatedInformation.findIndex(item => item[0] === key);
-if (index !== -1) {
-  updatedInformation[index][1] = newValue; // Wert aktualisieren, wenn der Schlüssel bereits existiert
-} else {
-  updatedInformation.push(JSON.parse(keyValueString)); // Andernfalls neues Schlüssel-Wert-Paar hinzufügen
-}
-
-const updatedData = { ...dataG, information: JSON.stringify(updatedInformation) };
-updateDoc(doc(facilityCollections, button.id), updatedData);
-
-}
-
-document.querySelectorAll(".change_value").forEach(element => {
-  element.addEventListener("click", changeValueEventHandler);
-});
-
-document.getElementById("geb_back").addEventListener("click", function() {
-  document.querySelectorAll(".change_value").forEach(element => {
-    element.removeEventListener("click", changeValueEventHandler);
-  });
-});
-
-
+                      document
+                        .getElementById("geb_back")
+                        .addEventListener("click", function () {
+                          document
+                            .querySelectorAll(".change_value")
+                            .forEach((element) => {
+                              element.removeEventListener(
+                                "click",
+                                changeValueEventHandler
+                              );
+                            });
+                        });
 
                       //add folder upload here
-                     
-                      const add_folder_bttn = document.getElementById("add_folder");
 
-                          function addFolderButtonClickHandler() {
-                            var folderName = prompt("Geben Sie einen Namen für den neuen Ordner ein:");
-                            if (folderName) {
-                              var folderPath =
-                                companyName +
-                                "/" +
-                                dataG.address +
-                                ", (" +
-                                dataG.zipcode +
-                                ")/" +
-                                folderName;
+                      const add_folder_bttn =
+                        document.getElementById("add_folder");
 
-                              const map_key = dataG.address + dataG.zipcode + folderName;
-                              if (geb_pdf_map.hasOwnProperty(map_key)) {
-                                alert("Ordnername existiert bereits! Wähle einen anderen Namen");
-                              } else {
-                                const emptyData = new Uint8Array(0); 
-                                const placeholderFileName = ".placeholder";
+                      function addFolderButtonClickHandler() {
+                        var folderName = prompt(
+                          "Geben Sie einen Namen für den neuen Ordner ein:"
+                        );
+                        if (folderName) {
+                          var folderPath =
+                            companyName +
+                            "/" +
+                            dataG.address +
+                            ", (" +
+                            dataG.zipcode +
+                            ")/" +
+                            folderName;
 
-                                const fileRef = ref(storage, folderPath + "/" + placeholderFileName); 
-                                uploadBytes(fileRef, emptyData)
-                                  .then(() => {
-                                    alert(`Ordner ${folderName} wurde erfolgreich erstellt.`);
+                          const map_key =
+                            dataG.address + dataG.zipcode + folderName;
+                          if (geb_pdf_map.hasOwnProperty(map_key)) {
+                            alert(
+                              "Ordnername existiert bereits! Wähle einen anderen Namen"
+                            );
+                          } else {
+                            const emptyData = new Uint8Array(0);
+                            const placeholderFileName = ".placeholder";
 
-                                    window.location.href = "/adminroom?tab=gebaude-tab";
-                                  })
-                                  .catch((error) => {});
-                              }
-                            }
+                            const fileRef = ref(
+                              storage,
+                              folderPath + "/" + placeholderFileName
+                            );
+                            uploadBytes(fileRef, emptyData)
+                              .then(() => {
+                                alert(
+                                  `Ordner ${folderName} wurde erfolgreich erstellt.`
+                                );
+
+                                window.location.href =
+                                  "/adminroom?tab=gebaude-tab";
+                              })
+                              .catch((error) => {});
                           }
+                        }
+                      }
 
-                          // Event-Listener hinzufügen
-                          add_folder_bttn.addEventListener("click", addFolderButtonClickHandler);
+                      // Event-Listener hinzufügen
+                      add_folder_bttn.addEventListener(
+                        "click",
+                        addFolderButtonClickHandler
+                      );
 
-                          // Event-Listener entfernen
-                          const gebBackElement = document.getElementById("geb_back");
-                          gebBackElement.addEventListener("click", function () {
-                            // Entfernen des Event-Listeners
-                            add_folder_bttn.removeEventListener("click", addFolderButtonClickHandler);
-                          });
-
+                      // Event-Listener entfernen
+                      const gebBackElement =
+                        document.getElementById("geb_back");
+                      gebBackElement.addEventListener("click", function () {
+                        // Entfernen des Event-Listeners
+                        add_folder_bttn.removeEventListener(
+                          "click",
+                          addFolderButtonClickHandler
+                        );
+                      });
 
                       const myID = button.id;
 
@@ -1894,65 +1937,87 @@ document.getElementById("geb_back").addEventListener("click", function() {
 
                           //event listener on trash icon buttons
 
-                           function createTrashIconEventHandler(icon) {
-                            return function() {
-                              const fileDiv = icon.closest('.div-block-39');
+                          function createTrashIconEventHandler(icon) {
+                            return function () {
+                              const fileDiv = icon.closest(".div-block-39");
                               if (fileDiv) {
-                                const confirmation = confirm("Möchtest du die Datei wirklich löschen?");
+                                const confirmation = confirm(
+                                  "Möchtest du die Datei wirklich löschen?"
+                                );
                                 if (!confirmation) {
-                                  return; 
+                                  return;
                                 }
-                                fileDiv.classList.add('invisible');
+                                fileDiv.classList.add("invisible");
                               }
-                              const filenameElement = fileDiv.querySelector('.text-block-19-pdf'); 
+                              const filenameElement =
+                                fileDiv.querySelector(".text-block-19-pdf");
                               if (filenameElement) {
                                 const filename = filenameElement.innerText;
-                                const filePath = companyName + "/" + dataG.address + ", (" + dataG.zipcode + ")/" + originalFolderName + "/" + filename;
+                                const filePath =
+                                  companyName +
+                                  "/" +
+                                  dataG.address +
+                                  ", (" +
+                                  dataG.zipcode +
+                                  ")/" +
+                                  originalFolderName +
+                                  "/" +
+                                  filename;
                                 const storageRef = ref(storage, filePath);
-      deleteObject(storageRef)
-        .then(() => {
-        })
-        .catch((error) => {
-          console.error("Fehler beim Löschen der Datei:", error);
-        });
+                                deleteObject(storageRef)
+                                  .then(() => {})
+                                  .catch((error) => {
+                                    console.error(
+                                      "Fehler beim Löschen der Datei:",
+                                      error
+                                    );
+                                  });
                                 // deleteFile(filename); // Funktion zum Löschen der Datei in Firestore aufrufen
                               }
                             };
                           }
-                          
-                          
 
-                              // Hinzufügen des Event-Listeners für jede Trash-Icon-Datei
-                              const trashIcons = document.querySelectorAll('.trash-icon-files');
-                              trashIcons.forEach(icon => {
-                                const trashIconEventHandler = createTrashIconEventHandler(icon);
-                                icon.addEventListener('click', trashIconEventHandler);
+                          // Hinzufügen des Event-Listeners für jede Trash-Icon-Datei
+                          const trashIcons =
+                            document.querySelectorAll(".trash-icon-files");
+                          trashIcons.forEach((icon) => {
+                            const trashIconEventHandler =
+                              createTrashIconEventHandler(icon);
+                            icon.addEventListener(
+                              "click",
+                              trashIconEventHandler
+                            );
+                          });
+
+                          // Event-Handler für das Drücken des "folder_back"-Buttons
+                          document
+                            .getElementById("folder_back")
+                            .addEventListener("click", function () {
+                              // Entfernen aller Event-Listener für die Trash-Icon-Dateien
+                              trashIcons.forEach((icon) => {
+                                const trashIconEventHandler =
+                                  createTrashIconEventHandler(icon);
+                                icon.removeEventListener(
+                                  "click",
+                                  trashIconEventHandler
+                                );
                               });
+                            });
 
-                              // Event-Handler für das Drücken des "folder_back"-Buttons
-                              document.getElementById("folder_back").addEventListener("click", function () {
-                                // Entfernen aller Event-Listener für die Trash-Icon-Dateien
-                                trashIcons.forEach(icon => {
-                                  const trashIconEventHandler = createTrashIconEventHandler(icon);
-                                  icon.removeEventListener('click', trashIconEventHandler);
-                                });
+                          // Event-Handler für das Drücken des "folder_back"-Buttons
+                          document
+                            .getElementById("folder_back")
+                            .addEventListener("click", function () {
+                              // Entfernen aller Event-Listener für die Trash-Icon-Dateien
+                              trashIcons.forEach((icon) => {
+                                const trashIconEventHandler =
+                                  createTrashIconEventHandler(icon);
+                                icon.removeEventListener(
+                                  "click",
+                                  trashIconEventHandler
+                                );
                               });
-
-                            
-                              
-                              
-                              // Event-Handler für das Drücken des "folder_back"-Buttons
-                              document.getElementById("folder_back").addEventListener("click", function () {
-                                // Entfernen aller Event-Listener für die Trash-Icon-Dateien
-                                trashIcons.forEach(icon => {
-                                  const trashIconEventHandler = createTrashIconEventHandler(icon);
-                                  icon.removeEventListener('click', trashIconEventHandler);
-                                });
-                              });
-                              
-
-
-
+                            });
 
                           var clickHandlerFDel = function () {
                             const confirmation = confirm(
@@ -1972,42 +2037,54 @@ document.getElementById("geb_back").addEventListener("click", function() {
                               //   "/";
 
                               // const folderRef = ref(storage, del_path);
-                              const directoryName= dataG.address +
-                              ", (" +
-                              dataG.zipcode +
-                              ")/" +
-                              originalFolderName
-
-                              
+                              const directoryName =
+                                dataG.address +
+                                ", (" +
+                                dataG.zipcode +
+                                ")/" +
+                                originalFolderName;
 
                               const requestBody = {
                                 directory: directoryName,
                                 company: companyName,
                                 email: admin_mail,
 
-                              ////
+                                ////
                               };
 
-                              console.log(admin_mail, companyName, directoryName);
-                            
-                              fetch("https://haushelper-bot-4584298bee33.herokuapp.com/delete_directory", {
-                                method: "POST",
-                                headers: {
-                                  "Content-Type": "application/json",
-                                },
-                                body: JSON.stringify(requestBody),
-                              })
+                              console.log(
+                                admin_mail,
+                                companyName,
+                                directoryName
+                              );
+
+                              fetch(
+                                "https://haushelper-bot-4584298bee33.herokuapp.com/delete_directory",
+                                {
+                                  method: "POST",
+                                  headers: {
+                                    "Content-Type": "application/json",
+                                  },
+                                  body: JSON.stringify(requestBody),
+                                }
+                              )
                                 .then((response) => {
                                   if (response.ok) {
-                                        alert(`Ordner erfolgreich gelöscht!`);
-                                        window.location.href = "/adminroom?tab=gebaude-tab";
-                            
+                                    alert(`Ordner erfolgreich gelöscht!`);
+                                    window.location.href =
+                                      "/adminroom?tab=gebaude-tab";
                                   } else {
-                                    console.error("Fehler beim Registrieren:", response.statusText);
+                                    console.error(
+                                      "Fehler beim Registrieren:",
+                                      response.statusText
+                                    );
                                   }
                                 })
                                 .catch((error) => {
-                                  console.error("Fehler beim Registrieren:", error);
+                                  console.error(
+                                    "Fehler beim Registrieren:",
+                                    error
+                                  );
                                 });
 
                               // Löschen des Ordners
@@ -2257,7 +2334,6 @@ document.getElementById("geb_back").addEventListener("click", function() {
                           del_bttn.removeEventListener("click", clickHandler);
                         });
 
-                     
                       document.getElementById("kunde_tel").innerHTML =
                         "<a href='tel:" + telefon + "'>" + telefon + "</a>";
 
@@ -2711,143 +2787,158 @@ document.getElementById("geb_back").addEventListener("click", function() {
 
                           ///###
 
-                          
                           const requestBody = {
                             email: emailW,
                             company: companyName,
                           };
-                        
-                          fetch("https://haushelper-bot-4584298bee33.herokuapp.com/delete_user", {
-                            method: "POST",
-                            headers: {
-                              "Content-Type": "application/json",
-                            },
-                            body: JSON.stringify(requestBody),
-                          })
-                          .then((response) => {
-                            if (response.ok) {
+
+                          fetch(
+                            "https://haushelper-bot-4584298bee33.herokuapp.com/delete_user",
+                            {
+                              method: "POST",
+                              headers: {
+                                "Content-Type": "application/json",
+                              },
+                              body: JSON.stringify(requestBody),
+                            }
+                          )
+                            .then((response) => {
+                              if (response.ok) {
                                 console.log("Mitarbeiter gelöscht!");
                                 console.log(companyName);
-                                const companiesDocRef = doc(collection(db, "Companies"), companyName);
-                                const accessesRef = collection(companiesDocRef, "Accesses");
+                                const companiesDocRef = doc(
+                                  collection(db, "Companies"),
+                                  companyName
+                                );
+                                const accessesRef = collection(
+                                  companiesDocRef,
+                                  "Accesses"
+                                );
                                 console.log("here");
                                 getDocs(accessesRef).then((querySnapshot) => {
-                                    querySnapshot.forEach((doc) => {
-                                        console.log(doc.data().userAvailable);
-                                        let w_available = parseInt(doc.data().userAvailable);
-                                        console.log(w_available);
-                        
-                                        if (!isNaN(w_available)) {
-                                            w_available = w_available + 1;
-                                            console.log(w_available);
-                        
-                                            updateDoc(doc.ref, {
-                                                    userAvailable: w_available.toString(),
-                                                })
-                                                .then(() => {})
-                                                .catch((error) => {
-                                                    console.error("Fehler beim Aktualisieren der Anzahl verfügbarer Benutzer:", error);
-                                                });
-                                        }
-                                    });
-                                }).then(() => {
-                                    alert("Der/Die Mitarbeiter/in wurde erfolgreich gelöscht. Der Zugang wurde gesperrt.");
-                                    window.location.href = "/adminroom?tab=mitarbeiter-tab";
+                                  querySnapshot.forEach((doc) => {
+                                    console.log(doc.data().userAvailable);
+                                    let w_available = parseInt(
+                                      doc.data().userAvailable
+                                    );
+                                    console.log(w_available);
+
+                                    w_available = w_available + 1;
+                                    console.log(w_available, " +1 done");
+
+                                    updateDoc(doc.ref, {
+                                      userAvailable: w_available.toString(),
+                                    })
+                                      .then(() => {
+                                        alert(
+                                          "Der/Die Mitarbeiter/in wurde erfolgreich gelöscht. Der Zugang wurde gesperrt."
+                                        );
+                                        window.location.href =
+                                          "/adminroom?tab=mitarbeiter-tab";
+                                      })
+                                      .catch((error) => {
+                                        console.error(
+                                          "Fehler beim Aktualisieren der Anzahl verfügbarer Benutzer:",
+                                          error
+                                        );
+                                      });
+                                  });
                                 });
-                           
-                        
                               } else {
-                                console.error("Fehler beim Registrieren:", response.statusText);
+                                console.error(
+                                  "Fehler beim Registrieren:",
+                                  response.statusText
+                                );
                               }
                             })
                             .catch((error) => {
                               console.error("Fehler beim Registrieren:", error);
                             });
-                            ///###
+                          ///###
 
-                        //   deleteDoc(docRef)
-                        //     .then(() => {
-                        //       const userCollection = collection(db, "Users");
+                          //   deleteDoc(docRef)
+                          //     .then(() => {
+                          //       const userCollection = collection(db, "Users");
 
-                        //       const q = query(
-                        //         userCollection,
-                        //         where("email", "==", emailW)
-                        //       );
+                          //       const q = query(
+                          //         userCollection,
+                          //         where("email", "==", emailW)
+                          //       );
 
-                        //       getDocs(q)
-                        //         .then((querySnapshot) => {
-                        //           // Es wird erwartet, dass nur ein Dokument gefunden wird
-                        //           if (!querySnapshot.empty) {
-                        //             const doc = querySnapshot.docs[0];
-                        //             // Dokument gefunden, lösche es
-                        //             deleteDoc(doc.ref)
-                        //               .then(() => {
-                        //                 console.log(
-                        //                   "Dokument erfolgreich gelöscht:",
-                        //                   doc.id
-                        //                 );
-                        //               })
-                        //               .catch((error) => {
-                        //                 console.error(
-                        //                   "Fehler beim Löschen des Dokuments:",
-                        //                   error
-                        //                 );
-                        //               });
-                        //           } else {
-                        //             console.log(
-                        //               "Es wurde kein Dokument mit der angegebenen E-Mail-Adresse gefunden."
-                        //             );
-                        //           }
-                        //         })
-                        //         .catch((error) => {
-                        //           console.error(
-                        //             "Fehler beim Ausführen der Abfrage:",
-                        //             error
-                        //           );
-                        //         });
+                          //       getDocs(q)
+                          //         .then((querySnapshot) => {
+                          //           // Es wird erwartet, dass nur ein Dokument gefunden wird
+                          //           if (!querySnapshot.empty) {
+                          //             const doc = querySnapshot.docs[0];
+                          //             // Dokument gefunden, lösche es
+                          //             deleteDoc(doc.ref)
+                          //               .then(() => {
+                          //                 console.log(
+                          //                   "Dokument erfolgreich gelöscht:",
+                          //                   doc.id
+                          //                 );
+                          //               })
+                          //               .catch((error) => {
+                          //                 console.error(
+                          //                   "Fehler beim Löschen des Dokuments:",
+                          //                   error
+                          //                 );
+                          //               });
+                          //           } else {
+                          //             console.log(
+                          //               "Es wurde kein Dokument mit der angegebenen E-Mail-Adresse gefunden."
+                          //             );
+                          //           }
+                          //         })
+                          //         .catch((error) => {
+                          //           console.error(
+                          //             "Fehler beim Ausführen der Abfrage:",
+                          //             error
+                          //           );
+                          //         });
 
-                        //       const companiesDocRef = doc(
-                        //         collection(db, "Companies"),
-                        //         companyName
-                        //       );
-                        //       const accessesRef = collection(
-                        //         companiesDocRef,
-                        //         "Accesses"
-                        //       );
-                        //       getDocs(accessesRef).then((querySnapshot) => {
-                        //         querySnapshot.forEach((doc) => {
-                        //           let w_available = parseInt(
-                        //             doc.data().userAvailable
-                        //           );
+                          //       const companiesDocRef = doc(
+                          //         collection(db, "Companies"),
+                          //         companyName
+                          //       );
+                          //       const accessesRef = collection(
+                          //         companiesDocRef,
+                          //         "Accesses"
+                          //       );
+                          //       getDocs(accessesRef).then((querySnapshot) => {
+                          //         querySnapshot.forEach((doc) => {
+                          //           let w_available = parseInt(
+                          //             doc.data().userAvailable
+                          //           );
 
-                        //           if (!isNaN(w_available)) {
-                        //             w_available = w_available + 1;
+                          //           if (!isNaN(w_available)) {
+                          //             w_available = w_available + 1;
 
-                        //             updateDoc(doc.ref, {
-                        //               userAvailable: w_available.toString(),
-                        //             })
-                        //               .then(() => {})
-                        //               .catch((error) => {
-                        //                 console.error(
-                        //                   "Fehler beim Aktualisieren der Anzahl verfügbarer Benutzer:",
-                        //                   error
-                        //                 );
-                        //               });
-                        //           }
-                        //         });
-                        //       });
+                          //             updateDoc(doc.ref, {
+                          //               userAvailable: w_available.toString(),
+                          //             })
+                          //               .then(() => {})
+                          //               .catch((error) => {
+                          //                 console.error(
+                          //                   "Fehler beim Aktualisieren der Anzahl verfügbarer Benutzer:",
+                          //                   error
+                          //                 );
+                          //               });
+                          //           }
+                          //         });
+                          //       });
 
-                        //       alert(
-                        //         "Der/Die Mitarbeiter/in wurde erfolgreich gelöscht. Der Zugang wurde gesperrt."
-                        //       );
-                        //       window.location.reload();
-                        //     })
-                        //     .catch((error) => {
-                        //       alert(
-                        //         "Beim Löschen des Mitarbeiters ist ein Fehler aufgetreten: " +
-                        //           error.message
-                        //       );
-                        //     });
+                          //       alert(
+                          //         "Der/Die Mitarbeiter/in wurde erfolgreich gelöscht. Der Zugang wurde gesperrt."
+                          //       );
+                          //       window.location.reload();
+                          //     })
+                          //     .catch((error) => {
+                          //       alert(
+                          //         "Beim Löschen des Mitarbeiters ist ein Fehler aufgetreten: " +
+                          //           error.message
+                          //       );
+                          //     });
                         } else {
                           alert("Das Löschen wurde abgebrochen.");
                         }
@@ -3198,7 +3289,6 @@ function collapse_widget(expand_id, collapse_ids) {
   }
 }
 
-
 //bei datei hochladen += inner html dass kein reload nötig ist
 
 //delete button bei files
@@ -3206,4 +3296,3 @@ function collapse_widget(expand_id, collapse_ids) {
 //information rendern + ändern + löschen
 
 //informationen erstellen
-
