@@ -2740,9 +2740,12 @@ document.getElementById("geb_back").addEventListener("click", function() {
                                     let w_available = parseInt(
                                       doc.data().userAvailable
                                     );
+                                    console.log(w_available);
   
                                     if (!isNaN(w_available)) {
                                       w_available = w_available + 1;
+                                      console.log(w_available);
+
   
                                       updateDoc(doc.ref, {
                                         userAvailable: w_available.toString(),
