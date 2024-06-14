@@ -1771,7 +1771,7 @@ onAuthStateChanged(auth, (user) => {
     <div class="text-block-19-h">${key}</div><div class="div-block-38">
     <div class="text-block-19">${value}</div>
     <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/664c6725c4bb3456aa3a7ce4_Edit_fill.png" loading="lazy" alt="" class="image-13 change_value">
-    <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" loading="lazy" alt="" class="image-13">
+    <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" loading="lazy" alt="" class="image-13 delete_info">
     </div>
     </div>`;
 
@@ -1806,6 +1806,7 @@ onAuthStateChanged(auth, (user) => {
                         //   if (itemToRemove) {
                         //     infoDiv.removeChild(itemToRemove);
                         //   }
+                        alert("Info gelöscht!");
                         window.location.reload();
                         }
                       
@@ -1857,6 +1858,14 @@ onAuthStateChanged(auth, (user) => {
                             "click",
                             changeValueEventHandler
                           );
+                        });
+
+                        document
+                        .querySelectorAll(".delete_info")
+                        .forEach((element) => {
+                          element.addEventListener(
+                            "click",
+deleteInfoEventHandler                          );
                         });
 
                       document
