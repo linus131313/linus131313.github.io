@@ -1786,6 +1786,7 @@ onAuthStateChanged(auth, (user) => {
                         // Daten aus der Datenbank aktualisieren
                         const updatedInformation = JSON.parse(dataG.information);
                         const index = updatedInformation.findIndex(item => item[0] === key);
+                        console.log(index);
                       
                         if (index !== -1) {
                           updatedInformation.splice(index, 1); // Schlüssel-Wert-Paar aus der Liste entfernen
@@ -1795,9 +1796,13 @@ onAuthStateChanged(auth, (user) => {
                           ...dataG,
                           information: JSON.stringify(updatedInformation),
                         };
+                        console.log(updatedData);
                       
                         // Datenbank aktualisieren
-                        updateDoc(doc(facilityCollections, button.id), updatedData);
+                        updateDoc(doc(facilityCollections, button.id), updatedData) .then(() => {
+                          alert("Info gelöscht!");
+                          window.location.reload();
+                        });
                       
                         // Optional: Das entsprechende DOM-Element entfernen
                         // const infoDiv = element.closest("#info_div");
@@ -1806,8 +1811,7 @@ onAuthStateChanged(auth, (user) => {
                         //   if (itemToRemove) {
                         //     infoDiv.removeChild(itemToRemove);
                         //   }
-                        alert("Info gelöscht!");
-                        window.location.reload();
+                        
                         }
                       
                       
@@ -1866,6 +1870,19 @@ onAuthStateChanged(auth, (user) => {
                           element.addEventListener(
                             "click",
 deleteInfoEventHandler                          );
+                        });
+
+                        document
+                        .getElementById("geb_back")
+                        .addEventListener("click", function () {
+                          document
+                            .querySelectorAll(".delete_info")
+                            .forEach((element) => {
+                              element.removeEventListener(
+                                "click",
+                                deleteInfoEventHandler
+                              );
+                            });
                         });
 
                       document
