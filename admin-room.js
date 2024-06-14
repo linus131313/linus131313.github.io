@@ -1718,7 +1718,7 @@ onAuthStateChanged(auth, (user) => {
                                 <div class="text-block-19-h">${bezeichnung}</div><div class="div-block-38">
                                 <div class="text-block-19">-</div>
                                 <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/664c6725c4bb3456aa3a7ce4_Edit_fill.png" loading="lazy" alt="" class="image-13 change_value">
-                                <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" loading="lazy" alt="" class="image-13">
+                                <img src="https://assets-global.website-files.com/63ef532ba90a07a5daf4a694/651da4e791f4e10b7dac637d_Trash%20(1).png" loading="lazy" alt="" class="image-13 delete_info">
                                 </div>
                                 </div>`;
 
@@ -1728,6 +1728,15 @@ onAuthStateChanged(auth, (user) => {
                                 element.addEventListener(
                                   "click",
                                   changeValueEventHandler
+                                );
+                              });
+
+                              document
+                              .querySelectorAll(".delete_info")
+                              .forEach((element) => {
+                                element.addEventListener(
+                                  "click",
+                                  deleteInfoEventHandler
                                 );
                               });
                           })
@@ -1769,6 +1778,38 @@ onAuthStateChanged(auth, (user) => {
                           info_div.innerHTML += info_html;
                         }
                       }
+
+                      function deleteInfoEventHandler(event) {
+                        const element = event.target;
+                        const key = element.closest(".div-block-34").querySelector(".text-block-19-h").innerText.trim();
+                      
+                        // Daten aus der Datenbank aktualisieren
+                        const updatedInformation = JSON.parse(dataG.information);
+                        const index = updatedInformation.findIndex(item => item[0] === key);
+                      
+                        if (index !== -1) {
+                          updatedInformation.splice(index, 1); // Schlüssel-Wert-Paar aus der Liste entfernen
+                        }
+                      
+                        const updatedData = {
+                          ...dataG,
+                          information: JSON.stringify(updatedInformation),
+                        };
+                      
+                        // Datenbank aktualisieren
+                        updateDoc(doc(facilityCollections, button.id), updatedData);
+                      
+                        // Optional: Das entsprechende DOM-Element entfernen
+                        // const infoDiv = element.closest("#info_div");
+                        // if (infoDiv) {
+                        //   const itemToRemove = element.closest(".div-block-34");
+                        //   if (itemToRemove) {
+                        //     infoDiv.removeChild(itemToRemove);
+                        //   }
+                        window.location.reload();
+                        }
+                      
+                      
 
                       function changeValueEventHandler(event) {
                         const element = event.target;
